@@ -12,10 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 
 import BioForm from "./BioForm";
-
-import validationSchema from "./form-model/validationSchema";
 import employeeFormModel from "./form-model/employeeFormModel";
-import formInitialValues from "./form-model/formIntialValues";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const { formId, formField } = employeeFormModel;
-
 function getSteps() {
   return ["Biographical Info", "Contact Info", "Skills", "Review"];
 }
@@ -46,7 +41,6 @@ export default function EmployeeForm() {
   const [formData, setFormData] = useState({
     employeeFormModel,
   });
-  const currentValidationSchema = validationSchema[activeStep];
   const steps = getSteps();
 
   const handleNext = () => {
