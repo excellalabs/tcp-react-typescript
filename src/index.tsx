@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import EmployeeForm from "./employee-form/EmployeeForm";
+import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <EmployeeForm />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

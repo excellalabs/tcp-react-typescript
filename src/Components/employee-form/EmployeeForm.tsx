@@ -74,11 +74,7 @@ export default function CheckoutPage() {
 
   return (
     <div className={classes.root}>
-      <Stepper
-        activeStep={activeStep}
-        orientation="vertical"
-        // className={classes.stepper}
-      >
+      <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -93,16 +89,13 @@ export default function CheckoutPage() {
                     {getNextStep(activeStep)}
                     <div>
                       {activeStep !== 0 && (
-                        <Button onClick={handleBack} className={classes.button}>
-                          Back
-                        </Button>
+                        <Button onClick={handleBack}>Back</Button>
                       )}
                       <Button
                         disabled={isSubmitting}
                         type="submit"
                         variant="contained"
                         color="primary"
-                        className={classes.button}
                       >
                         {isLastStep ? "Submit" : "Next"}
                       </Button>
