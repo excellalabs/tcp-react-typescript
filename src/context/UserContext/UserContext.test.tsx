@@ -7,7 +7,10 @@ const UserContextExample: React.FC<{}> = () => {
   const callUserAction = useUserDispatch();
 
   const login = () => {
-    callUserAction({ type: "login" });
+    callUserAction({
+      type: "login",
+      payload: { username: "user", password: "pass" },
+    });
   };
   const logout = () => {
     callUserAction({ type: "logout" });

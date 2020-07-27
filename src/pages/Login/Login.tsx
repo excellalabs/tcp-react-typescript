@@ -57,10 +57,15 @@ const Login: React.FC<{}> = () => {
             />
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={() => login()}>
+            <Button
+              data-testid="submit-button"
+              variant="contained"
+              color="primary"
+              onClick={() => login()}
+            >
               Submit
             </Button>
-            {error && <p>{error}</p>}
+            {error && <p data-testid="login-error">{error}</p>}
           </Grid>
         </Grid>
       </form>
