@@ -1,6 +1,40 @@
-import EmployeeFormModelInterface from "./employeeFormModelInterface";
+export type EmployeeFormModelInterface = {
+  formField: {
+    firstName: {
+      name: string;
+      label: string;
+      requiredErrorMsg: string;
+    };
+    middleInitial: {
+      name: string;
+      label: string;
+    };
+    lastName: {
+      name: string;
+      label: string;
+      requiredErrorMsg: string;
+    };
+    dob: {
+      name: string;
+      label: string;
+      requiredErrorMsg: string;
+    };
+    gender: {
+      name: string;
+    };
+    ethnicity: {
+      name: string;
+      label: string;
+      requiredErrorMsg: string;
+    };
+    isCitizen: {
+      name: string;
+      label: string;
+    };
+  };
+};
 
-const employeeFormModel: EmployeeFormModelInterface = {
+export const EmployeeFormModel: EmployeeFormModelInterface = {
   formField: {
     firstName: {
       name: "firstName",
@@ -35,5 +69,3 @@ const employeeFormModel: EmployeeFormModelInterface = {
     },
   },
 };
-
-export default employeeFormModel;

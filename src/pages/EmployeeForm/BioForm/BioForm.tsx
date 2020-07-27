@@ -1,9 +1,9 @@
 import React from "react";
 import { Grid, Card } from "@material-ui/core";
-import InputField from "./form-fields/InputField";
-import employeeFormModelInterface from "./form-model/employeeFormModelInterface";
+import InputField from "../Components/InputField";
+import { EmployeeFormModelInterface } from "../EmployeeFormModel";
 
-const BioForm: React.FC<employeeFormModelInterface> = ({ formField }) => {
+const BioForm: React.FC<EmployeeFormModelInterface> = ({ formField }) => {
   const {
     firstName,
     middleInitial,
@@ -35,7 +35,7 @@ const BioForm: React.FC<employeeFormModelInterface> = ({ formField }) => {
         </Grid>
         <Grid item xs={12} sm={6}>
           {/* Will be updated with correct field type */}
-          <InputField name={gender.name} fullWidth />
+          <InputField name={gender.name} label={"gender"} fullWidth />
         </Grid>
         <Grid item xs={12} sm={6}>
           {/* Will be updated with correct field type */}

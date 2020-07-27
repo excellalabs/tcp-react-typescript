@@ -1,4 +1,5 @@
-import employeeFormModel from "./employeeFormModel";
+import { EmployeeFormModel } from "./EmployeeFormModel";
+
 const {
   formField: {
     firstName,
@@ -9,7 +10,7 @@ const {
     ethnicity,
     isCitizen,
   },
-} = employeeFormModel;
+} = EmployeeFormModel;
 
 export default {
   [firstName.name]: "",

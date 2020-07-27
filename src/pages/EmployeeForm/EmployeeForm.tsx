@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { Stepper, Step, Button, StepButton } from "@material-ui/core";
 import { Formik, Form } from "formik";
-
 import { makeStyles } from "@material-ui/core/styles";
 import StepContent from "@material-ui/core/StepContent";
 
-import validationSchema from "./form-model/validationSchema";
-import employeeFormModel from "./form-model/employeeFormModel";
-import formInitialValues from "./form-model/formInitialValues";
-
-import BioForm from "./BioForm";
+import { EmployeeFormModel } from "./EmployeeFormModel";
+import formInitialValues from "./FormInitialValues";
+import BioForm from "./BioForm/BioForm";
+import BioFormSchema from "./BioForm/BioForm.schema";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
-const { formField } = employeeFormModel;
+const { formField } = EmployeeFormModel;
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -44,11 +42,23 @@ function getNextStep(step: number) {
   }
 }
 
-export default function CheckoutPage() {
+function getValidation(step: number) {
+  switch (step) {
+    case 0:
+      return BioFormSchema;
+    case 1:
+      return null; //placeholder
+    case 2:
+      return null; //placeholder
+    case 3:
+      return null;
+  }
+}
+
+const EmployeeForm: React.FC<any> = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState(formInitialValues);
-  const currentValidationSchema = validationSchema[activeStep];
   const isLastStep = activeStep === steps.length - 1;
 
   async function submitForm(values: any, actions: any) {
@@ -85,7 +95,7 @@ export default function CheckoutPage() {
             <StepContent>
               <Formik
                 initialValues={formValues}
-                validationSchema={currentValidationSchema}
+                validationSchema={getValidation(activeStep)}
                 onSubmit={handleNext}
               >
                 {({ isSubmitting }) => (
@@ -96,6 +106,7 @@ export default function CheckoutPage() {
                         <Button onClick={handleBack}>Back</Button>
                       )}
                       <Button
+                        aria-label={label + ` Button`}
                         disabled={isSubmitting}
                         type="submit"
                         variant="contained"
@@ -103,7 +114,6 @@ export default function CheckoutPage() {
                       >
                         {isLastStep ? "Submit" : "Next"}
                       </Button>
-                      {isSubmitting}
                     </div>
                   </Form>
                 )}
@@ -114,4 +124,6 @@ export default function CheckoutPage() {
       </Stepper>
     </div>
   );
-}
+};
+
+export default EmployeeForm;

@@ -3,7 +3,7 @@ import { at } from "lodash";
 import { useField } from "formik";
 import { TextField } from "@material-ui/core";
 
-function InputField(props: any) {
+const InputField: React.FC<any> = (props) => {
   const { errorText, ...rest } = props;
   const [field, meta] = useField(props);
 
@@ -16,6 +16,7 @@ function InputField(props: any) {
 
   return (
     <TextField
+      id={props.name}
       type="text"
       error={meta.touched && meta.error && true}
       helperText={renderHelperText()}
@@ -23,6 +24,6 @@ function InputField(props: any) {
       {...rest}
     />
   );
-}
+};
 
 export default InputField;
