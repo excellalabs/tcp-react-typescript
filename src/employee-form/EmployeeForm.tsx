@@ -1,21 +1,18 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Stepper, Step, StepLabel, Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
-import { makeStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
 
-import BioForm from "./BioForm";
+import { makeStyles } from "@material-ui/core/styles";
+import StepContent from "@material-ui/core/StepContent";
+
+import validationSchema from "./form-model/validationSchema";
 import employeeFormModel from "./form-model/employeeFormModel";
 import formInitialValues from "./form-model/formInitialValues";
-import validationSchema from "./form-model/validationSchema";
 
+import BioForm from "./BioForm";
+
+const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
+const { formField } = employeeFormModel;
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -32,101 +29,92 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getSteps() {
-  return ["Biographical Info", "Contact Info", "Skills", "Review"];
+function getNextStep(step: number) {
+  switch (step) {
+    case 0:
+      return <BioForm formField={formField} />;
+    case 1:
+      return "Contact info";
+    case 2:
+      return "Skills Info";
+    case 3:
+      return "Review";
+    default:
+      return <div>Not Found</div>;
+  }
 }
 
-const EmployeeForm: React.FC<{}> = () => {
+export default function CheckoutPage() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [isNotComplete, setIsNotComplete] = React.useState(true);
-  const [formData, setFormData] = useState({} as BioFormSchema);
-  const steps = getSteps();
+  const [activeStep, setActiveStep] = useState(0);
+  const [formValues, setFormValues] = useState(formInitialValues);
+  const currentValidationSchema = validationSchema[activeStep];
+  const isLastStep = activeStep === steps.length - 1;
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  async function submitForm(values: any, actions: any) {
+    alert("You have completed the form!");
+    actions.setSubmitting(false);
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+    setActiveStep(activeStep + 1);
+  }
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const handleSubmit = () => {
-    console.log("DONE!");
-  };
-
-  function getStepContent(step: number) {
-    switch (step) {
-      case 0:
-        return (
-          <BioForm
-            formData={formData}
-            setFormData={setFormData}
-            setIsNotComplete={setIsNotComplete}
-          />
-        );
-      case 1:
-        return "Contact form page";
-      case 2:
-        return "Skills info page";
-      case 3:
-        return "Review page";
-      default:
-        return "Unknown step";
+  function handleNext(values: any, actions: any) {
+    if (isLastStep) {
+      submitForm(values, actions);
+    } else {
+      setActiveStep(activeStep + 1);
+      setFormValues(values);
+      actions.setSubmitting(false);
     }
+  }
+
+  function handleBack() {
+    setActiveStep(activeStep - 1);
   }
 
   return (
     <div className={classes.root}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label, index) => (
+      <Stepper
+        activeStep={activeStep}
+        orientation="vertical"
+        // className={classes.stepper}
+      >
+        {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
-
             <StepContent>
-              <Card>
-                <Formik initialValues={formData} onSubmit={handleNext}>
-                  {getStepContent(index)}
-                </Formik>
-              </Card>
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onSubmit={handleNext}
-                    className={classes.button}
-                    disabled={isNotComplete}
-                  >
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                  </Button>
-                </div>
-              </div>
+              <Formik
+                initialValues={formValues}
+                validationSchema={currentValidationSchema}
+                onSubmit={handleNext}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                    {getNextStep(activeStep)}
+                    <div>
+                      {activeStep !== 0 && (
+                        <Button onClick={handleBack} className={classes.button}>
+                          Back
+                        </Button>
+                      )}
+                      <Button
+                        disabled={isSubmitting}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                      >
+                        {isLastStep ? "Submit" : "Next"}
+                      </Button>
+                      {isSubmitting}
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </StepContent>
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button>
-        </Paper>
-      )}
     </div>
   );
-};
-
-export default EmployeeForm;
+}

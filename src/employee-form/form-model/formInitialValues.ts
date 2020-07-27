@@ -1,4 +1,4 @@
-import checkoutFormModel from "./checkoutFormModel";
+import employeeFormModel from "./employeeFormModel";
 const {
   formField: {
     firstName,
@@ -9,7 +9,7 @@ const {
     ethnicity,
     isCitizen,
   },
-} = checkoutFormModel;
+} = employeeFormModel;
 
 export default {
   [firstName.name]: "",

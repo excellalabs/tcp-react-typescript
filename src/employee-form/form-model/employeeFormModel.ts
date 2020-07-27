@@ -1,4 +1,6 @@
-export default {
+import EmployeeFormModelInterface from "./employeeFormModelInterface";
+
+const employeeFormModel: EmployeeFormModelInterface = {
   formField: {
     firstName: {
       name: "firstName",
@@ -33,3 +35,5 @@ export default {
     },
   },
 };
+
+export default employeeFormModel;
