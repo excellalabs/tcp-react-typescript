@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
 import { UserProvider } from "./context/UserContext/UserContext";
-import SignIn from "./Components/SignIn";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
     <div className="App">
       <UserProvider>
-        <SignIn />
+        <Login />
       </UserProvider>
     </div>
   );
