@@ -1,8 +1,9 @@
 import React from "react";
 
-type UserAction = { type: "login" } | { type: "logout" };
+export type LoginInfo = { username: string; password: string };
+type UserAction = { type: "login" | "logout"; payload?: LoginInfo };
 type UserDispatch = (action: UserAction) => void;
-type UserState = { loggedIn: boolean };
+type UserState = { loggedIn: boolean; error: string };
 type UserProviderProps = { children: React.ReactNode };
 
 const UserStateContext = React.createContext<UserState | undefined>(undefined);
@@ -13,10 +14,18 @@ const UserDispatchContext = React.createContext<UserDispatch | undefined>(
 function userReducer(state: UserState, action: UserAction) {
   switch (action.type) {
     case "login": {
-      return { loggedIn: true };
+      if (
+        action.payload?.username === "user" &&
+        action.payload?.password === "pass"
+      )
+        return {
+          loggedIn: true,
+          error: "",
+        };
+      return { loggedIn: false, error: "Failed to login" };
     }
     case "logout": {
-      return { loggedIn: false };
+      return { ...state, loggedIn: false };
     }
   }
 }
@@ -25,7 +34,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [state, dispatch]: [
     UserState,
     UserDispatch
-  ] = React.useReducer(userReducer, { loggedIn: false });
+  ] = React.useReducer(userReducer, { loggedIn: false, error: "" });
 
   return (
     <UserStateContext.Provider value={state}>
