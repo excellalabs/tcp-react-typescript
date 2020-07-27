@@ -14,5 +14,22 @@ export default {
       label: "Last name*",
       requiredErrorMsg: "Last name is required",
     },
+    dob: {
+      name: "dob",
+      label: "Date of Birth*",
+      requiredErrorMsg: "Date of Birth is required",
+    },
+    gender: {
+      name: "gender",
+    },
+    ethnicity: {
+      name: "ethnicity",
+      label: "Ethnicity*",
+      requiredErrorMsg: "Ethnicity is required",
+    },
+    isCitizen: {
+      name: "isCitizen",
+      label: "US Citizen",
+    },
   },
 };

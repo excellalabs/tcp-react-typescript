@@ -13,6 +13,8 @@ import Card from "@material-ui/core/Card";
 
 import BioForm from "./BioForm";
 import employeeFormModel from "./form-model/employeeFormModel";
+import formInitialValues from "./form-model/formInitialValues";
+import validationSchema from "./form-model/validationSchema";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,13 +36,11 @@ function getSteps() {
   return ["Biographical Info", "Contact Info", "Skills", "Review"];
 }
 
-export default function EmployeeForm() {
+const EmployeeForm: React.FC<{}> = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [isNotComplete, setIsNotComplete] = React.useState(true);
-  const [formData, setFormData] = useState({
-    employeeFormModel,
-  });
+  const [formData, setFormData] = useState({} as BioFormSchema);
   const steps = getSteps();
 
   const handleNext = () => {
@@ -66,7 +66,7 @@ export default function EmployeeForm() {
           <BioForm
             formData={formData}
             setFormData={setFormData}
-            isComplete={setIsNotComplete}
+            setIsNotComplete={setIsNotComplete}
           />
         );
       case 1:
@@ -88,7 +88,11 @@ export default function EmployeeForm() {
             <StepLabel>{label}</StepLabel>
 
             <StepContent>
-              <Card>{getStepContent(index)}</Card>
+              <Card>
+                <Formik initialValues={formData} onSubmit={handleNext}>
+                  {getStepContent(index)}
+                </Formik>
+              </Card>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
@@ -101,7 +105,7 @@ export default function EmployeeForm() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onSubmit={handleNext}
                     className={classes.button}
                     disabled={isNotComplete}
                   >
@@ -123,4 +127,6 @@ export default function EmployeeForm() {
       )}
     </div>
   );
-}
+};
+
+export default EmployeeForm;
