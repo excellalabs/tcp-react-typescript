@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stepper, Step, StepLabel, Button } from "@material-ui/core";
+import { Stepper, Step, Button, StepButton } from "@material-ui/core";
 import { Formik, Form } from "formik";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -62,8 +62,8 @@ export default function CheckoutPage() {
     if (isLastStep) {
       submitForm(values, actions);
     } else {
-      setActiveStep(activeStep + 1);
       setFormValues(values);
+      setActiveStep(activeStep + 1);
       actions.setSubmitting(false);
     }
   }
@@ -72,12 +72,16 @@ export default function CheckoutPage() {
     setActiveStep(activeStep - 1);
   }
 
+  function handleStep(step: number) {
+    setActiveStep(step);
+  }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label) => (
+        {steps.map((label: string, index: number) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+            <StepButton onClick={() => handleStep(index)}>{label}</StepButton>
             <StepContent>
               <Formik
                 initialValues={formValues}
