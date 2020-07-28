@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2"
   },
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.9.43",
+    "@types/react-router-dom": "^5.1.5",
     "cypress": "^4.11.0"
   }
 }
