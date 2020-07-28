@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Card, Grid } from "@material-ui/core";
 import CheckboxField from "../Components/CheckboxField";
+import DatePickerField from "../Components/DatePickerField";
 import InputField from "../Components/InputField";
 import RadioButtonField from "../Components/RadioButtonField";
 import SelectField from "../Components/SelectField";
@@ -48,11 +49,14 @@ export const BioForm: React.FC<{
               fullWidth
             />
           </Grid>
-          {/* Will be updated with correct field type */}
           <Grid item xs={12} sm={6}>
-            <InputField
+            <DatePickerField
               name={withFormGroup(birthDate.name)}
               label={birthDate.label}
+              placeholder="01/01/1990"
+              format="MM/dd/yyyy"
+              views={["year", "month", "date"]}
+              maxDate={new Date()}
               fullWidth
             />
           </Grid>
