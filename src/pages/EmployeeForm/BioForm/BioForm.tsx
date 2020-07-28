@@ -1,10 +1,11 @@
 import React from "react";
 import { Card, Grid } from "@material-ui/core";
-import SelectField from "../Components/SelectField";
 import InputField from "../Components/InputField";
+import RadioButtonField from "../Components/RadioButtonField";
+import SelectField from "../Components/SelectField";
 import { addFormGroup } from "../../../helpers/FormGroup";
 import { bioFormModel } from "./BioForm.schema";
-import { ETHNICITY } from "../../../models/Employee.interface";
+import { ETHNICITY, GENDER } from "../../../models/Employee.interface";
 
 export const BioForm: React.FC<{
   formGroup: string;
@@ -54,10 +55,9 @@ export const BioForm: React.FC<{
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          {/* Will be updated with correct field type */}
-          <InputField
+          <RadioButtonField
             name={withFormGroup(gender.name)}
-            label={"gender"}
+            data={GENDER}
             fullWidth
           />
         </Grid>
