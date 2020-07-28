@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Grid } from "@material-ui/core";
+import CheckboxField from "../Components/CheckboxField";
 import InputField from "../Components/InputField";
 import RadioButtonField from "../Components/RadioButtonField";
 import SelectField from "../Components/SelectField";
@@ -70,11 +71,9 @@ export const BioForm: React.FC<{
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          {/* Will be updated with correct field type */}
-          <InputField
-            name={withFormGroup(isCitizen.name)}
+          <CheckboxField
             label={isCitizen.label}
-            fullWidth
+            name={withFormGroup(isCitizen.name)}
           />
         </Grid>
       </Grid>

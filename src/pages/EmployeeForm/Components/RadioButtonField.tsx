@@ -12,7 +12,6 @@ import {
 function RadioButtonField(props: any) {
   const { label, data, ...rest } = props;
   const [field, meta] = useField(props);
-  const { value: selectedValue } = field;
   const [touched, error] = at(meta, "touched", "error");
   const isError = touched && error && true;
 
@@ -25,7 +24,7 @@ function RadioButtonField(props: any) {
   return (
     <FormControl {...rest} error={isError}>
       <RadioGroup row {...field}>
-        {props.data.map((item: string) => (
+        {props.data.map((item: string, index: number) => (
           <FormControlLabel value={item} label={item} control={<Radio />} />
         ))}
       </RadioGroup>
