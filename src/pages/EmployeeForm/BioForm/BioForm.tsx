@@ -1,9 +1,10 @@
-import { Card, Grid } from "@material-ui/core";
-
-import InputField from "../Components/InputField";
 import React from "react";
+import { Card, Grid } from "@material-ui/core";
+import SelectField from "../Components/SelectField";
+import InputField from "../Components/InputField";
 import { addFormGroup } from "../../../helpers/FormGroup";
 import { bioFormModel } from "./BioForm.schema";
+import { ETHNICITY } from "../../../models/Employee.interface";
 
 export const BioForm: React.FC<{
   formGroup: string;
@@ -61,10 +62,10 @@ export const BioForm: React.FC<{
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          {/* Will be updated with correct field type */}
-          <InputField
+          <SelectField
             name={withFormGroup(ethnicity.name)}
             label={ethnicity.label}
+            data={ETHNICITY}
             fullWidth
           />
         </Grid>
