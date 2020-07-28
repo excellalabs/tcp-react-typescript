@@ -91,7 +91,12 @@ const EmployeeForm: React.FC<any> = () => {
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label: string, index: number) => (
           <Step key={label}>
-            <StepButton onClick={() => handleStep(index)}>{label}</StepButton>
+            <StepButton
+              onClick={() => handleStep(index)}
+              data-testid={label + `-button`}
+            >
+              {label}
+            </StepButton>
             <StepContent>
               <Formik
                 initialValues={formValues}
@@ -99,14 +104,13 @@ const EmployeeForm: React.FC<any> = () => {
                 onSubmit={handleNext}
               >
                 {({ isSubmitting }) => (
-                  <Form>
+                  <Form data-testid={label + `-content`}>
                     {getNextStep(activeStep)}
                     <div>
                       {activeStep !== 0 && (
                         <Button onClick={handleBack}>Back</Button>
                       )}
                       <Button
-                        aria-label={label + ` Button`}
                         disabled={isSubmitting}
                         type="submit"
                         variant="contained"
