@@ -5,12 +5,14 @@ type AuthState = {
   status: string;
   error?: string;
   isLoading: boolean;
-  login: () => void;
+  login: (username: string, password: string) => void;
   logout: () => void;
 };
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
 const AuthProvider: React.FC<{}> = (props) => {
+  const [error, setError] = React.useState<string | undefined>(undefined);
+  const [status, setStatus] = React.useState("unauthenticated");
   const AxiosService = axios.create({
     baseURL: "http://localhost:8080/api",
     headers: {
@@ -24,14 +26,29 @@ const AuthProvider: React.FC<{}> = (props) => {
   const login = (username: string, password: string) => {
     AxiosService.post(
       `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`
-    ).then((res) => console.log(res));
+    )
+      .then((res) => localStorage.setItem("tcp-react", res.data.access_token))
+      .then(() => {
+        setError(undefined);
+        setStatus("authenticated");
+      })
+      .catch((error) => {
+        setError(error);
+        setStatus("unauthenticated");
+      });
   };
 
   const logout = () => {};
 
   return (
     <AuthContext.Provider
-      value={{ status: "unauthenticated", isLoading: false, login, logout }}
+      value={{
+        status: status,
+        isLoading: false,
+        error: error,
+        login,
+        logout,
+      }}
       {...props}
     />
   );
