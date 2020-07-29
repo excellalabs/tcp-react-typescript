@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import React from "react";
+
 import EmployeesPage from "./Employees";
+import React from "react";
 
 describe("Employees page", () => {
   beforeEach(() => {
@@ -9,7 +10,10 @@ describe("Employees page", () => {
     );
   });
 
-  it("renders the employees page", () => {
-    expect(screen.getByText(/Employees/)).toBeInTheDocument();
+  it("renders the employees table", () => {
+    // Look for Table Column Headers
+    expect(screen.getByText('Employee')).toBeInTheDocument();
+    expect(screen.getByText('Email')).toBeInTheDocument();
+    expect(screen.getByText('Skills')).toBeInTheDocument();
   });
 });
