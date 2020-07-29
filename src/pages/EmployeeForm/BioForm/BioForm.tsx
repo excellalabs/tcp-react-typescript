@@ -25,8 +25,8 @@ export const BioForm: React.FC<{
   const withFormGroup = addFormGroup(formGroup);
 
   return (
-    <Box p={3}>
-      <Card>
+    <Card>
+      <Box p={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={5}>
             <InputField
@@ -39,6 +39,7 @@ export const BioForm: React.FC<{
             <InputField
               name={withFormGroup(middleInitial.name)}
               label={middleInitial.label}
+              inputProps={{ maxLength: 1 }}
               fullWidth
             />
           </Grid>
@@ -82,8 +83,8 @@ export const BioForm: React.FC<{
             />
           </Grid>
         </Grid>
-      </Card>
-    </Box>
+      </Box>
+    </Card>
   );
 };
 

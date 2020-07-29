@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import moment from "moment";
 
 export const bioFormModel = {
   firstName: {
@@ -22,6 +23,7 @@ export const bioFormModel = {
     name: "birthDate",
     label: "Date of Birth*",
     requiredErrorMsg: "Date of Birth is required",
+    ageErrorMsg: "Employee must be 18 years old",
     default: new Date(),
   },
   gender: {
@@ -65,6 +67,9 @@ export const bioFormSchema = Yup.object({
     .default(birthDate.default),
   gender: Yup.string()
     .required(`${gender.requiredErrorMsg}`)
+    .test("birthDate", `${birthDate.ageErrorMsg}`, (value) => {
+      return moment().diff(moment(value), "years") >= 18;
+    })
     .default(gender.default),
   ethnicity: Yup.string()
     .required(`${ethnicity.requiredErrorMsg}`)
