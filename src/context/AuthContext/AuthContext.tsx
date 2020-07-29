@@ -21,10 +21,10 @@ const AuthProvider: React.FC<{}> = (props) => {
     },
   } as AxiosRequestConfig);
 
-  const login = () => {
-    AxiosService.post("/oauth/token?grant_type=client_credentials", {
-      scope: "read write",
-    }).then((res) => console.log(res));
+  const login = (username: string, password: string) => {
+    AxiosService.post(
+      `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`
+    ).then((res) => console.log(res));
   };
 
   const logout = () => {};

@@ -6,12 +6,10 @@ import { useAuth } from "./context/AuthContext/AuthContext";
 
 function App() {
   const { loggedIn } = useUserState();
-  const { login } = useAuth();
   return loggedIn ? (
     <h1>Logged In</h1>
   ) : (
     <>
-      <button onClick={() => login()}>login</button>
       <Login />
     </>
   );
