@@ -6,7 +6,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import moment from "moment";
 
 export default function DatePickerField(props: any) {
   const [field, meta, helper] = useField(props);

@@ -24,7 +24,11 @@ function SelectField(props: any) {
   return (
     <FormControl {...rest} error={isError}>
       <InputLabel>{label}</InputLabel>
-      <Select {...field} value={selectedValue ? selectedValue : ""}>
+      <Select
+        {...field}
+        aria-labelledby={props.name}
+        value={selectedValue ? selectedValue : ""}
+      >
         {data.map((item: string, index: number) => (
           <MenuItem key={index} value={item}>
             {item}
