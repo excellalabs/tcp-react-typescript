@@ -1,11 +1,5 @@
 import React from "react";
-import axios, {
-  AxiosRequestConfig,
-  AxiosError,
-  AxiosResponse,
-  AxiosInstance,
-} from "axios";
-import AxiosService from "../../services/AxiosService";
+import { AxiosError, AxiosResponse } from "axios";
 import ApiService from "../../services/interfaces/ApiService.interface";
 
 type AuthState = {
@@ -17,15 +11,12 @@ type AuthState = {
 };
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
-const AuthProvider: React.FC<{ apiService: ApiService }> = (
-  props,
-  { apiService }
-) => {
+const AuthProvider: React.FC<{ apiService: ApiService }> = (props) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [status, setStatus] = React.useState("unauthenticated");
 
   const login = (username: string, password: string) => {
-    apiService
+    props.apiService
       .login(username, password)
       .then((res: AxiosResponse) => {
         localStorage.setItem("tcp-react", res.data.access_token);
