@@ -44,7 +44,7 @@ export const model = {
     requiredErrorMsg: "Ethnicity is required",
   },
   usCitizen: {
-    name: "isCitizen",
+    name: "usCitizen",
     label: "US Citizen",
   },
 };
