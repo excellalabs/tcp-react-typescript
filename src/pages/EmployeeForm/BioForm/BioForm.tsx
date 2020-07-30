@@ -25,7 +25,7 @@ const BioForm: React.FC<BioFormProps> = ({
     birthDate,
     gender,
     ethnicity,
-    usCitizen,
+    isCitizen,
   } = model;
 
   const [isFormComplete, setIsFormComplete] = useState(false);
@@ -96,8 +96,8 @@ const BioForm: React.FC<BioFormProps> = ({
               <Grid item xs={12} sm={6}>
                 {/* Will be updated with correct field type */}
                 <InputField
-                  name={usCitizen.name}
-                  label={usCitizen.label}
+                  name={isCitizen.name}
+                  label={isCitizen.label}
                   fullWidth
                 />
               </Grid>

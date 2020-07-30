@@ -58,11 +58,11 @@ const EmployeeForm: React.FC<any> = () => {
           />
         );
       case 1:
-        return "Contact info";
+        return "Contact info"; //placeholder
       case 2:
-        return "Skills Info";
+        return "Skills Info"; //placeholder
       case 3:
-        return "Review";
+        return "Review"; //placeholder
       default:
         return <div>Not Found</div>;
     }

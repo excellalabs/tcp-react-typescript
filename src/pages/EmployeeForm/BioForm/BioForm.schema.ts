@@ -12,7 +12,7 @@ export const initialValues: IEmployeeBio = {
   birthDate: new Date(),
   gender: GENDER.OTHER,
   ethnicity: ETHNICITY.DECLINED,
-  usCitizen: false,
+  isCitizen: false,
 };
 
 export const model = {
@@ -43,17 +43,17 @@ export const model = {
     label: "Ethnicity*",
     requiredErrorMsg: "Ethnicity is required",
   },
-  usCitizen: {
-    name: "usCitizen",
+  isCitizen: {
+    name: "isCitizen",
     label: "US Citizen",
   },
 };
 
-const { firstName, lastName, ethnicity } = model;
+const { firstName, lastName, birthDate, ethnicity } = model;
 
 export const validation = Yup.object().shape({
   [firstName.name]: Yup.string().required(`${firstName.requiredErrorMsg}`),
   [lastName.name]: Yup.string().required(`${lastName.requiredErrorMsg}`),
-  // [birthDate.name]: Yup.string().required(`${birthDate.requiredErrorMsg}`),
+  [birthDate.name]: Yup.date().required(`${birthDate.requiredErrorMsg}`),
   [ethnicity.name]: Yup.string().required(`${ethnicity.requiredErrorMsg}`),
 });
