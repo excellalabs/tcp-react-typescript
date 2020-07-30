@@ -15,11 +15,12 @@ const AuthProvider: React.FC<{ apiService: ApiService }> = (props) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [status, setStatus] = React.useState("unauthenticated");
 
+  const api = props.apiService;
   const login = (username: string, password: string) => {
-    props.apiService
+    api
       .login(username, password)
       .then((res: AxiosResponse) => {
-        localStorage.setItem("tcp-react", res.data.access_token);
+        api.saveToken(res.data.access_token);
         setError(undefined);
         setStatus("authenticated");
       })

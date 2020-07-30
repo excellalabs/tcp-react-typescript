@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuth } from "../AuthContext/AuthContext";
 
 export type LoginInfo = { username: string; password: string };
 type UserAction = { type: "login" | "logout"; payload?: LoginInfo };
@@ -14,15 +15,10 @@ const UserDispatchContext = React.createContext<UserDispatch | undefined>(
 function userReducer(state: UserState, action: UserAction) {
   switch (action.type) {
     case "login": {
-      if (
-        action.payload?.username === "user" &&
-        action.payload?.password === "pass"
-      )
-        return {
-          loggedIn: true,
-          error: "",
-        };
-      return { loggedIn: false, error: "Failed to login" };
+      return {
+        loggedIn: true,
+        error: "",
+      };
     }
     case "logout": {
       return { ...state, loggedIn: false };
@@ -31,10 +27,21 @@ function userReducer(state: UserState, action: UserAction) {
 }
 
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const { status } = useAuth();
+
+  const defaultState = {
+    loggedIn: status === "authenticated",
+    error: "",
+  };
+
   const [state, dispatch]: [
     UserState,
     UserDispatch
-  ] = React.useReducer(userReducer, { loggedIn: false, error: "" });
+  ] = React.useReducer(userReducer, { ...defaultState });
+
+  React.useEffect(() => {
+    if (status === "authenticated") dispatch({ type: "login" });
+  }, [status]);
 
   return (
     <UserStateContext.Provider value={state}>
