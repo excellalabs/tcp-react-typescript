@@ -1,4 +1,4 @@
-import { Card, Grid } from "@material-ui/core";
+import { Box, Card, Grid } from "@material-ui/core";
 
 import InputField from "../Components/InputField";
 import React from "react";
@@ -14,15 +14,17 @@ export const ContactForm: React.FC<{
 
   return (
     <Card data-testid="contactform">
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={5}>
-          <InputField
-            name={withFormGroup(email.name)}
-            label={email.label}
-            fullWidth
-          />
+      <Box p={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={5}>
+            <InputField
+              name={withFormGroup(email.name)}
+              label={email.label}
+              fullWidth
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Card>
   );
 };
