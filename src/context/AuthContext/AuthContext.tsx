@@ -1,5 +1,12 @@
 import React from "react";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, {
+  AxiosRequestConfig,
+  AxiosError,
+  AxiosResponse,
+  AxiosInstance,
+} from "axios";
+import AxiosService from "../../services/AxiosService";
+import ApiService from "../../services/interfaces/ApiService.interface";
 
 type AuthState = {
   status: string;
@@ -10,35 +17,30 @@ type AuthState = {
 };
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
-const AuthProvider: React.FC<{}> = (props) => {
+const AuthProvider: React.FC<{ apiService: ApiService }> = (
+  props,
+  { apiService }
+) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [status, setStatus] = React.useState("unauthenticated");
-  const AxiosService = axios.create({
-    baseURL: "http://localhost:8080/api",
-    headers: {
-      Authorization: `Basic ${btoa(
-        "app:$2a$04$hqawBldLsWkFJ5CVsvtL7ed1z9yeoknfuszPOEHWzxfLBoViK6OVi"
-      )}`,
-      Accept: "*/*",
-    },
-  } as AxiosRequestConfig);
 
   const login = (username: string, password: string) => {
-    AxiosService.post(
-      `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`
-    )
-      .then((res) => localStorage.setItem("tcp-react", res.data.access_token))
-      .then(() => {
+    apiService
+      .login(username, password)
+      .then((res: AxiosResponse) => {
+        localStorage.setItem("tcp-react", res.data.access_token);
         setError(undefined);
         setStatus("authenticated");
       })
-      .catch((error) => {
-        setError(error);
+      .catch((error: AxiosError) => {
+        setError(error.message);
         setStatus("unauthenticated");
       });
   };
 
-  const logout = () => {};
+  const logout = () => {
+    localStorage.removeItem("tcp-react");
+  };
 
   return (
     <AuthContext.Provider

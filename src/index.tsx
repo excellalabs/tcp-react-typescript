@@ -5,10 +5,13 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./context/AuthContext/AuthContext";
 import { UserProvider } from "./context/UserContext/UserContext";
+import AxiosService from "./services/AxiosService";
+
+const axiosService = new AxiosService();
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
+    <AuthProvider apiService={axiosService}>
       <UserProvider>
         <App />
       </UserProvider>

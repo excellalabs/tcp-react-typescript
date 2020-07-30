@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  useUserState,
   useUserDispatch,
   LoginInfo,
 } from "../../context/UserContext/UserContext";
@@ -72,7 +71,7 @@ const Login: React.FC<{}> = () => {
             </Button>
             {authError && (
               <p data-testid="login-error" className={classes.error}>
-                Username or password are incorrect
+                {authError}
               </p>
             )}
           </Grid>
