@@ -1,9 +1,4 @@
 import * as Yup from "yup";
-import {
-  IEmployeeBio,
-  GENDER,
-  ETHNICITY,
-} from "../../../models/Employee.interface";
 
 export const bioFormModel = {
   firstName: {
@@ -57,7 +52,7 @@ const {
   isCitizen,
 } = bioFormModel;
 
-export const bioFormSchema = Yup.object().shape({
+export const bioFormSchema = Yup.object({
   firstName: Yup.string()
     .required(`${firstName.requiredErrorMsg}`)
     .default(firstName.default),

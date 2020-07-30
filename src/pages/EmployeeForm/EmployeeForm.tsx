@@ -1,13 +1,13 @@
+import { Button, Step, StepButton, Stepper } from "@material-ui/core";
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Stepper, Step, StepButton, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import StepContent from "@material-ui/core/StepContent";
+import { defaultValues, employeeFormSchema } from "./EmployeeForm.schema";
 
 import BioForm from "./BioForm/BioForm";
-import { defaultValues, employeeFormSchema } from "./EmployeeForm.schema";
 import { IEmployeeForm } from "./EmployeeForm.schema";
-import { Formik, Form } from "formik";
+import StepContent from "@material-ui/core/StepContent";
 import { bioFormSchema } from "./BioForm/BioForm.schema";
+import { makeStyles } from "@material-ui/core/styles";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,8 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
   const [activeStep, setActiveStep] = useState(0);
   const isLastStep = activeStep === steps.length - 1;
 
-  function handleNext() {
+  function handleNext(values: IEmployeeForm) {
+    console.log(values);
     if (isLastStep) {
       alert("submitted!"); //placeholder
     } else {
@@ -48,7 +49,7 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
   function getNextStep(step: number) {
     switch (step) {
       case 0:
-        return <BioForm />;
+        return <BioForm initialValues={defaultValues.bio} />;
       case 1:
         return "Contact info"; //placeholder
       case 2:
@@ -79,6 +80,8 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
     setActiveStep(step);
   }
 
+  console.log(defaultValues)
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -92,7 +95,7 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
             </StepButton>
             <StepContent>
               <Formik
-                initialValues={defaultValues}
+                initialValues = {defaultValues}
                 validationSchema={getValidation(activeStep)}
                 onSubmit={handleNext}
               >
