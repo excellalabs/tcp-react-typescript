@@ -1,5 +1,12 @@
 import React from "react";
-import { render, screen, fireEvent, act, wait } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  wait,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import EmployeeForm from "./EmployeeForm";
 
 describe("EmployeeForm", () => {
@@ -38,15 +45,18 @@ describe("EmployeeForm", () => {
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const submitButton = screen.getByText("Next") as HTMLInputElement;
 
-    await act(async () => {
-      fireEvent.change(firstName, { target: { value: "John" } });
-      fireEvent.change(lastName, { target: { value: "Smith" } });
-      fireEvent.click(submitButton);
-    });
+    // await act(async () => {
+    fireEvent.change(firstName, { target: { value: "John" } });
+    fireEvent.change(lastName, { target: { value: "Smith" } });
+    fireEvent.click(submitButton);
+    // });
 
-    wait(() => {
-      expect(screen.queryByLabelText(/First name*/)).not.toBeInTheDocument();
-    });
+    // wait(() => {
+    await waitForElementToBeRemoved<HTMLInputElement>(() => firstName);
+
+    expect(screen.getByLabelText(/First name*/)).not.toBeInTheDocument();
+
+    // });
   });
 
   it("navigates from contact info to bio section by clicking bio heading", async () => {

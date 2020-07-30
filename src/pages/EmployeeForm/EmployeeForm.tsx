@@ -4,8 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import StepContent from "@material-ui/core/StepContent";
 
 import BioForm from "./BioForm/BioForm";
-import { initialValues } from "./BioForm/BioForm.schema";
+import { initialValues } from "./EmployeeForm.schema";
 import { IEmployeeBio } from "../../models/Employee.interface";
+import { IEmployeeForm } from "./EmployeeForm.schema";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -24,14 +25,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmployeeForm: React.FC<any> = () => {
+const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
+  EmployeeData
+) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const isLastStep = activeStep === steps.length - 1;
-  const [bioFormValues, setBioFormValues] = useState(initialValues);
+  const [formValues, setFormValues] = useState(initialValues); //will be replaced by EmployeeData
 
-  function handleBioFormChange(bioForm: IEmployeeBio) {
-    setBioFormValues(bioForm);
+  function handleFormChange(newFormValues: IEmployeeForm) {
+    setFormValues(newFormValues);
   }
 
   function handleNext() {
@@ -49,10 +52,11 @@ const EmployeeForm: React.FC<any> = () => {
   function getNextStep(step: number) {
     switch (step) {
       case 0:
+        console.log(formValues);
         return (
           <BioForm
-            formValues={bioFormValues}
-            handleFormChange={handleBioFormChange}
+            formValues={formValues}
+            handleFormChange={handleFormChange}
             handleNext={handleNext}
             handleBack={handleBack}
           />

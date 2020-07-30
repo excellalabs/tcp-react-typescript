@@ -3,11 +3,16 @@ import { Grid, Card, Button } from "@material-ui/core";
 import InputField from "../Components/InputField";
 import { Formik, Form } from "formik";
 import { IEmployeeBio } from "../../../models/Employee.interface";
-import { validation, initialValues, model } from "./BioForm.schema";
+import {
+  bioFormSchema,
+  bioFormInitialValues,
+  bioFormModel,
+} from "./BioForm.schema";
+import { IEmployeeForm, employeeFormSchema } from "../EmployeeForm.schema";
 
 type BioFormProps = {
-  formValues: IEmployeeBio;
-  handleFormChange: (values: IEmployeeBio) => void;
+  formValues: IEmployeeForm;
+  handleFormChange: (values: IEmployeeForm) => void;
   handleNext: () => void;
   handleBack: () => void;
 };
@@ -26,16 +31,16 @@ const BioForm: React.FC<BioFormProps> = ({
     gender,
     ethnicity,
     isCitizen,
-  } = model;
+  } = bioFormModel;
 
   const [isFormComplete, setIsFormComplete] = useState(false);
 
-  function checkCompletion(errors: any) {
-    if (formValues === initialValues || errors !== null) {
-      setIsFormComplete(false);
-    }
-    setIsFormComplete(true);
-  }
+  // function checkCompletion(errors: any) {
+  //   if (formValues === bioFormInitialValues || errors !== null) {
+  //     setIsFormComplete(false);
+  //   }
+  //   setIsFormComplete(true);
+  // }
 
   function handleSubmit(values: any, actions: any) {
     handleFormChange(values);
@@ -43,13 +48,15 @@ const BioForm: React.FC<BioFormProps> = ({
   }
 
   return (
+    // {console.log(formValues)}
     <Formik
       initialValues={formValues}
-      validationSchema={validation}
+      validationSchema={employeeFormSchema}
       onSubmit={handleSubmit}
     >
       {({ errors, touched, validateField, validateForm }) => (
-        <Form onChange={() => checkCompletion(errors)}>
+        <Form>
+          {/* // <Form onChange={() => checkCompletion(errors)}> */}
           <Card>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={5}>
