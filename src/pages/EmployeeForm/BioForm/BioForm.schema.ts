@@ -31,7 +31,7 @@ export const model = {
     requiredErrorMsg: "Last name is required",
   },
   birthDate: {
-    name: "dob",
+    name: "birthDate",
     label: "Date of Birth*",
     requiredErrorMsg: "Date of Birth is required",
   },

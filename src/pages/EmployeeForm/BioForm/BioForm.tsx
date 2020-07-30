@@ -38,7 +38,6 @@ const BioForm: React.FC<BioFormProps> = ({
   }
 
   function handleSubmit(values: any, actions: any) {
-    console.log(values);
     handleFormChange(values);
     handleNext();
   }
