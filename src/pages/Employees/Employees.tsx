@@ -2,6 +2,7 @@ import { ICategory, IEmployeeSkill, ISkill, PROFICIENCY } from "../../models/Ski
 import { IEmployee, IEmployeeBio, IEmployeeContact } from "../../models/Employee.interface";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles } from "@material-ui/core";
 
+import { ChipList } from "../../components/ChipList/ChipList";
 import React from "react";
 
 /*  BEGIN TEMPORARY CODE THAT WILL BE REMOVED LATER   */
@@ -48,27 +49,29 @@ const EmployeesPage: React.FC<{}> = () => {
 
   return (
     <TableContainer component={Paper}>
-    <Table className={classes.table} aria-label="simple table">
-      <TableHead>
-        <TableRow>
-          <TableCell>Employee</TableCell>
-          <TableCell>Email</TableCell>
-          <TableCell>Skills</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {employees.map((e: IEmployee) => (
-          <TableRow key={`${e.bio.firstName}${e.bio.lastName}`}>
-            <TableCell component="th" scope="row">
-              {`${e.bio.firstName} ${e.bio.lastName}`}
-            </TableCell>
-            <TableCell>{e.contact.email}</TableCell>
-            <TableCell>{e.skills.map(s => s.skill.name).join(', ')}</TableCell>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Employee</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Skills</TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
+        </TableHead>
+        <TableBody>
+          {employees.map((e: IEmployee) => (
+            <TableRow key={`${e.bio.firstName}${e.bio.lastName}`}>
+              <TableCell component="th" scope="row">
+                {`${e.bio.firstName} ${e.bio.lastName}`}
+              </TableCell>
+              <TableCell>{e.contact.email}</TableCell>
+              <TableCell>
+                <ChipList skills={e.skills}></ChipList>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
