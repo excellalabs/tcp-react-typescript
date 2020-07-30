@@ -7,4 +7,4 @@ export const employeeFormSchema = Yup.object().shape({
 
 export type IEmployeeForm = Yup.InferType<typeof employeeFormSchema>;
 
-export const initialValues: IEmployeeForm = employeeFormSchema.cast();
+export const defaultValues: IEmployeeForm = employeeFormSchema.cast();

@@ -61,20 +61,20 @@ export const bioFormSchema = Yup.object().shape({
   firstName: Yup.string()
     .required(`${firstName.requiredErrorMsg}`)
     .default(firstName.default),
-  middleInitial: Yup.string().default(middleInitial.default),
+  middleInitial: Yup.string().required().default(middleInitial.default),
   lastName: Yup.string()
     .required(`${lastName.requiredErrorMsg}`)
     .default(lastName.default),
   birthDate: Yup.date()
     .required(`${birthDate.requiredErrorMsg}`)
     .default(birthDate.default),
-  gender: Yup.date()
+  gender: Yup.string()
     .required(`${gender.requiredErrorMsg}`)
     .default(gender.default),
   ethnicity: Yup.string()
     .required(`${ethnicity.requiredErrorMsg}`)
     .default(ethnicity.default),
-  isCitizen: Yup.date().default(isCitizen.default),
+  isCitizen: Yup.boolean().required().default(isCitizen.default),
 });
 
 export type IEmployeeBioForm = Yup.InferType<typeof bioFormSchema>;

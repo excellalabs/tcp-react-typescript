@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Stepper, Step, StepButton } from "@material-ui/core";
+import { Stepper, Step, StepButton, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import StepContent from "@material-ui/core/StepContent";
 
 import BioForm from "./BioForm/BioForm";
-import { initialValues } from "./EmployeeForm.schema";
-import { IEmployeeBio } from "../../models/Employee.interface";
+import { defaultValues, employeeFormSchema } from "./EmployeeForm.schema";
 import { IEmployeeForm } from "./EmployeeForm.schema";
+import { Formik, Form } from "formik";
+import { bioFormSchema } from "./BioForm/BioForm.schema";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -31,11 +32,6 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const isLastStep = activeStep === steps.length - 1;
-  const [formValues, setFormValues] = useState(initialValues); //will be replaced by EmployeeData
-
-  function handleFormChange(newFormValues: IEmployeeForm) {
-    setFormValues(newFormValues);
-  }
 
   function handleNext() {
     if (isLastStep) {
@@ -52,15 +48,7 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
   function getNextStep(step: number) {
     switch (step) {
       case 0:
-        console.log(formValues);
-        return (
-          <BioForm
-            formValues={formValues}
-            handleFormChange={handleFormChange}
-            handleNext={handleNext}
-            handleBack={handleBack}
-          />
-        );
+        return <BioForm />;
       case 1:
         return "Contact info"; //placeholder
       case 2:
@@ -69,6 +57,21 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
         return "Review"; //placeholder
       default:
         return <div>Not Found</div>;
+    }
+  }
+
+  function getValidation(step: number) {
+    switch (step) {
+      case 0:
+        return bioFormSchema;
+      default:
+        return employeeFormSchema;
+      // case 1:
+      //   return null; //placeholder
+      // case 2:
+      //   return null; //placeholder
+      // case 3:
+      //   return null;
     }
   }
 
@@ -87,7 +90,32 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
             >
               {label}
             </StepButton>
-            <StepContent>{getNextStep(activeStep)}</StepContent>
+            <StepContent>
+              <Formik
+                initialValues={defaultValues}
+                validationSchema={getValidation(activeStep)}
+                onSubmit={handleNext}
+              >
+                {({ isSubmitting }) => (
+                  <Form data-testid={label + `-content`}>
+                    {getNextStep(activeStep)}
+                    <div>
+                      {activeStep !== 0 && (
+                        <Button onClick={handleBack}>Back</Button>
+                      )}
+                      <Button
+                        disabled={isSubmitting}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                      >
+                        {isLastStep ? "Submit" : "Next"}
+                      </Button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </StepContent>
           </Step>
         ))}
       </Stepper>
