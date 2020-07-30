@@ -24,10 +24,10 @@ function RadioButtonField(props: any) {
   return (
     <FormControl {...rest} error={isError}>
       <RadioGroup row {...field}>
-        {props.data.map((item: string, index: number) => (
+        {Object.keys(data).map((item, index) => (
           <FormControlLabel
-            value={item}
-            label={item}
+            value={data[item]}
+            label={data[item]}
             key={index}
             control={<Radio />}
           />

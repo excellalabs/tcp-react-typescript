@@ -29,9 +29,9 @@ function SelectField(props: any) {
         aria-labelledby={props.name}
         value={selectedValue ? selectedValue : ""}
       >
-        {data.map((item: string, index: number) => (
-          <MenuItem key={index} value={item}>
-            {item}
+        {Object.keys(data).map((item, index) => (
+          <MenuItem key={index} value={data[item]}>
+            {data[item]}
           </MenuItem>
         ))}
       </Select>
