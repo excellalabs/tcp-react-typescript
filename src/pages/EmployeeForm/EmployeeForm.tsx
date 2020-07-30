@@ -1,12 +1,14 @@
 import { Button, Step, StepButton, Stepper } from "@material-ui/core";
 import { Form, Formik } from "formik";
+import {
+  IEmployeeForm,
+  defaultValues,
+  employeeFormSchema,
+} from "./EmployeeForm.schema";
 import React, { useState } from "react";
-import { defaultValues, employeeFormSchema } from "./EmployeeForm.schema";
 
-import BioForm from "./BioForm/BioForm";
-import { IEmployeeForm } from "./EmployeeForm.schema";
+import { BioForm } from "./BioForm/BioForm";
 import StepContent from "@material-ui/core/StepContent";
-import { bioFormSchema } from "./BioForm/BioForm.schema";
 import { makeStyles } from "@material-ui/core/styles";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
@@ -26,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
-  EmployeeData
-) => {
+const EmployeeForm: React.FC<{}> = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const isLastStep = activeStep === steps.length - 1;
@@ -49,7 +49,7 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
   function getNextStep(step: number) {
     switch (step) {
       case 0:
-        return <BioForm initialValues={defaultValues.bio} />;
+        return <BioForm formGroup="bio" />;
       case 1:
         return "Contact info"; //placeholder
       case 2:
@@ -61,26 +61,9 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
     }
   }
 
-  function getValidation(step: number) {
-    switch (step) {
-      case 0:
-        return bioFormSchema;
-      default:
-        return employeeFormSchema;
-      // case 1:
-      //   return null; //placeholder
-      // case 2:
-      //   return null; //placeholder
-      // case 3:
-      //   return null;
-    }
-  }
-
   function handleStep(step: number) {
     setActiveStep(step);
   }
-
-  console.log(defaultValues)
 
   return (
     <div className={classes.root}>
@@ -95,28 +78,21 @@ const EmployeeForm: React.FC<{ EmployeeData: IEmployeeForm }> = (
             </StepButton>
             <StepContent>
               <Formik
-                initialValues = {defaultValues}
-                validationSchema={getValidation(activeStep)}
+                initialValues={defaultValues}
+                validationSchema={employeeFormSchema}
                 onSubmit={handleNext}
               >
-                {({ isSubmitting }) => (
-                  <Form data-testid={label + `-content`}>
-                    {getNextStep(activeStep)}
-                    <div>
-                      {activeStep !== 0 && (
-                        <Button onClick={handleBack}>Back</Button>
-                      )}
-                      <Button
-                        disabled={isSubmitting}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
-                        {isLastStep ? "Submit" : "Next"}
-                      </Button>
-                    </div>
-                  </Form>
-                )}
+                <Form data-testid={label + `-content`}>
+                  {getNextStep(activeStep)}
+                  <div>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack}>Back</Button>
+                    )}
+                    <Button type="submit" variant="contained" color="primary">
+                      {isLastStep ? "Submit" : "Next"}
+                    </Button>
+                  </div>
+                </Form>
               </Formik>
             </StepContent>
           </Step>

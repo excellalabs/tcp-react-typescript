@@ -70,7 +70,7 @@ export const bioFormSchema = Yup.object({
     .required(`${ethnicity.requiredErrorMsg}`)
     .default(ethnicity.default),
   isCitizen: Yup.boolean().required().default(isCitizen.default),
-});
+}).required();
 
 export type IEmployeeBioForm = Yup.InferType<typeof bioFormSchema>;
 

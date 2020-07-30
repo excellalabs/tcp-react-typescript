@@ -1,13 +1,14 @@
-import React from "react";
 import {
+  act,
+  fireEvent,
   render,
   screen,
-  fireEvent,
-  act,
   wait,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
+
 import EmployeeForm from "./EmployeeForm";
+import React from "react";
 
 describe("EmployeeForm", () => {
   beforeEach(() => {
@@ -40,6 +41,9 @@ describe("EmployeeForm", () => {
     });
   });
 
+  //    #############################################################
+  // GENDER and RACE are missing for REQUIRED fields that will progress the form forward
+  //    #############################################################
   it("progresses if required fields in bio form are complete", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
