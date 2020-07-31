@@ -8,7 +8,7 @@ import AxiosService from "../../services/AxiosService";
 describe("Login page", () => {
   beforeEach(() => {
     render(
-      <AuthProvider apiService={new AxiosService()}>
+      <AuthProvider>
         <UserProvider>
           <Login />
         </UserProvider>
