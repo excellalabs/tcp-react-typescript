@@ -104,6 +104,24 @@ const EmployeesPage: React.FC<{}> = () => {
       javaSkill,
       [reactSkill]
     ),
+    createEmployee(
+      "Abraham",
+      "Lincoln",
+      "honest-abe@presidents.gov",
+      reactSkill,
+      [scrumMasterSkill, javaSkill]
+    ),
+    createEmployee("Theodore", "Rosevelt", "teddy@presidents.gov", reactSkill, [
+      javaSkill,
+      scrumMasterSkill,
+    ]),
+    createEmployee(
+      "George",
+      "Washington",
+      "No1@presidents.gov",
+      scrumMasterSkill,
+      [reactSkill, javaSkill]
+    ),
   ];
 
   return (
