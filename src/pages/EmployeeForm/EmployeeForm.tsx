@@ -1,16 +1,18 @@
+import { Button, Step, StepButton, Stepper } from "@material-ui/core";
+import { Form, Formik } from "formik";
+import {
+  IEmployeeForm,
+  defaultValues,
+  employeeFormSchema,
+} from "./EmployeeForm.schema";
 import React, { useState } from "react";
-import { Stepper, Step, Button, StepButton } from "@material-ui/core";
-import { Formik, Form } from "formik";
-import { makeStyles } from "@material-ui/core/styles";
-import StepContent from "@material-ui/core/StepContent";
 
-import { EmployeeFormModel } from "./EmployeeFormModel";
-import formInitialValues from "./FormInitialValues";
-import BioForm from "./BioForm/BioForm";
-import BioFormSchema from "./BioForm/BioForm.schema";
+import { BioForm } from "./BioForm/BioForm";
+import StepContent from "@material-ui/core/StepContent";
+import { makeStyles } from "@material-ui/core/styles";
+import ContactForm from "./ContactForm/ContactForm";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
-const { formField } = EmployeeFormModel;
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -27,59 +29,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getNextStep(step: number) {
-  switch (step) {
-    case 0:
-      return <BioForm formField={formField} />;
-    case 1:
-      return "Contact info";
-    case 2:
-      return "Skills Info";
-    case 3:
-      return "Review";
-    default:
-      return <div>Not Found</div>;
-  }
-}
-
-function getValidation(step: number) {
-  switch (step) {
-    case 0:
-      return BioFormSchema;
-    case 1:
-      return null; //placeholder
-    case 2:
-      return null; //placeholder
-    case 3:
-      return null;
-  }
-}
-
-const EmployeeForm: React.FC<any> = () => {
+const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
+  employeeFormData = defaultValues,
+}) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-  const [formValues, setFormValues] = useState(formInitialValues);
   const isLastStep = activeStep === steps.length - 1;
+  const [snapshot, setSnapshot] = useState(employeeFormData);
 
-  async function submitForm(values: any, actions: any) {
-    alert("You have completed the form!");
-    actions.setSubmitting(false);
-
-    setActiveStep(activeStep + 1);
-  }
-
-  function handleNext(values: any, actions: any) {
+  function handleNext(values: IEmployeeForm) {
     if (isLastStep) {
-      submitForm(values, actions);
+      alert("submitted!"); //placeholder
     } else {
-      setFormValues(values);
+      setSnapshot(values);
       setActiveStep(activeStep + 1);
-      actions.setSubmitting(false);
     }
   }
 
-  function handleBack() {
+  function handleBack(values: IEmployeeForm) {
+    setSnapshot(values);
     setActiveStep(activeStep - 1);
+  }
+
+  function getNextStep(step: number) {
+    switch (step) {
+      case 0:
+        return <BioForm formGroup="bio" />;
+      case 1:
+        return <ContactForm formGroup="contact" />;
+      case 2:
+        return "Skills Info"; //placeholder
+      case 3:
+        return "Review"; //placeholder
+      default:
+        return <div>Not Found</div>;
+    }
   }
 
   function handleStep(step: number) {
@@ -99,23 +83,20 @@ const EmployeeForm: React.FC<any> = () => {
             </StepButton>
             <StepContent>
               <Formik
-                initialValues={formValues}
-                validationSchema={getValidation(activeStep)}
+                initialValues={snapshot}
+                validationSchema={employeeFormSchema}
                 onSubmit={handleNext}
               >
-                {({ isSubmitting }) => (
-                  <Form data-testid={label + `-content`}>
+                {(formik) => (
+                  <Form data-testid="form">
                     {getNextStep(activeStep)}
                     <div>
                       {activeStep !== 0 && (
-                        <Button onClick={handleBack}>Back</Button>
+                        <Button onClick={() => handleBack(formik.values)}>
+                          Back
+                        </Button>
                       )}
-                      <Button
-                        disabled={isSubmitting}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
+                      <Button type="submit" variant="contained" color="primary">
                         {isLastStep ? "Submit" : "Next"}
                       </Button>
                     </div>
