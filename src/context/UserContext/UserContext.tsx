@@ -23,7 +23,7 @@ function userReducer(state: UserState, action: UserAction) {
       };
     }
     case "logout": {
-      return { ...state, loggedIn: false };
+      return { ...state, loggedIn: false, email: "" };
     }
   }
 }

@@ -10,6 +10,7 @@ type AuthState = {
   login: (username: string, password: string) => void;
   logout: () => void;
   token: DecodedJWT | string | null;
+  loadUser: () => void;
 };
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
@@ -35,12 +36,23 @@ const AuthProvider: React.FC<{}> = (props) => {
   };
 
   const logout = () => {
+    setStatus("unauthenticated");
+    setToken("");
     api.logout();
   };
 
-  React.useEffect(() => {
-    setToken(AxiosService.retrieveToken());
-  }, [localStorage.getItem(AxiosService.key)]);
+  const loadUser = () => {
+    const token = AxiosService.retrieveToken();
+    if (!token) {
+      return;
+    }
+
+    setToken(token);
+    if (AxiosService.tokenHasLifeLeft()) {
+      setStatus("authenticated");
+      setError("");
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -51,6 +63,7 @@ const AuthProvider: React.FC<{}> = (props) => {
         login,
         logout,
         token: token,
+        loadUser: loadUser,
       }}
       {...props}
     />
