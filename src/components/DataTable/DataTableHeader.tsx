@@ -1,61 +1,64 @@
-import { TableCell, TableHead, TableRow, TableSortLabel, Theme, createStyles, makeStyles } from '@material-ui/core';
+import React, { ReactNode } from "react";
+import {
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@material-ui/core";
 
-import { DataColumn } from './DataColumn.model';
-import React from 'react';
+import { DataColumn } from "./DataTable";
+import { IBaseItem } from "../../models/BaseItem.interface";
+import { Order } from "./SortHelpers";
+import { useStyles } from "./DataTable.styles";
 
-type Order = 'asc' | 'desc';
-
-const useStyles = makeStyles((theme: Theme) => {
-    createStyles({
-      visuallyHidden: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1,
-      }
-    })
-})
-
-export const DataTableHeader: React.FC<{
-  columns: DataColumn<any>[],
+type DataTableHeaderProps<T> = {
+  columns: DataColumn<any>[];
   classes: ReturnType<typeof useStyles>;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
   order: Order;
-  orderBy: string;
-}> = (columns, classes, onRequestSort, order, orderBy) => {
+  orderBy: keyof T;
+};
 
-    return (
-      <TableHead>
-        <TableRow>
-          {columns.map((column: DataColumn<any>) => (
-            <TableCell
-              key={column.id}
-              align={column.numeric ? 'right' : 'left'}
-              padding={column.disablePadding ? 'none' : 'default'}
-              sortDirection={orderBy === column.id ? order : false}
+export function DataTableHeader<T extends IBaseItem>(
+  props: DataTableHeaderProps<T> & { children?: ReactNode }
+) {
+  const { columns, classes, onRequestSort, order, orderBy } = props;
+
+  const createSortHandler = (property: keyof T) => (
+    event: React.MouseEvent<unknown>
+  ) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {columns.map((column: DataColumn<T>) => (
+          <TableCell
+            key={column.propertyName as string}
+            align={column.isNumeric ? "right" : "left"}
+            // padding={column.disablePadding ? "none" : "default"}
+            sortDirection={orderBy === column.propertyName ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === column.propertyName}
+              direction={
+                orderBy === column.propertyName ? order : Order.ASCENDING
+              }
+              onClick={createSortHandler(column.propertyName as keyof T)}
             >
-              <TableSortLabel
-                active={orderBy === column.id}
-                direction={orderBy === column.id ? order : 'asc'}
-                onClick={createSortHandler(column.id)}
-                >
-                  {column.label}
-                  {orderBy === column.id ? (
-                    <span className={classes.visuallyHidden}>
-                      {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                    </span>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
+              {column.headerLabel}
+              {orderBy === column.propertyName ? (
+                <span className={classes.visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
 }
 
 export default DataTableHeader;
