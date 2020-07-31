@@ -89,14 +89,12 @@ export const DataTable = <T extends IBaseItem>(
                           component="th"
                           id={`table-row-${row.id}`}
                           scope="row"
-                          padding="none"
+                          align="left"
                         >
                           {column.renderer(row)}
                         </TableCell>
                       ) : (
-                        <TableCell
-                          align={column.isNumeric ? "right" : "center"}
-                        >
+                        <TableCell align={column.isNumeric ? "right" : "left"}>
                           {column.renderer(row)}
                         </TableCell>
                       )
