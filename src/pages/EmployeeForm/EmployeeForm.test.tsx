@@ -1,18 +1,12 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  wait,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import EmployeeForm from "./EmployeeForm";
 import React from "react";
+import { defaultValues } from "./EmployeeForm.schema";
 
 describe("EmployeeForm", () => {
   beforeEach(() => {
-    render(<EmployeeForm />);
+    render(<EmployeeForm employeeFormData={defaultValues} />);
   });
 
   it("renders four steps", () => {
@@ -24,61 +18,60 @@ describe("EmployeeForm", () => {
 
   it("does not progress if bio form is not complete", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
-    const middleInitial = screen.getByLabelText(
-      /Middle Initial/
-    ) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const submitButton = screen.getByText("Next") as HTMLInputElement;
+    const gender = screen.getByLabelText(/gender/) as HTMLInputElement;
+    const ethnicity = screen.getByLabelText(/Ethnicity*/) as HTMLElement;
 
-    await act(async () => {
+    act(() => {
       fireEvent.change(firstName, { target: { value: "John" } });
-      fireEvent.change(middleInitial, { target: { value: "L" } });
-      fireEvent.click(submitButton);
+      fireEvent.change(lastName, { target: { value: "Smith" } });
+      fireEvent.change(gender, { target: { value: "Male" } });
+      fireEvent.change(ethnicity, { target: { value: "Caucasian" } });
     });
 
-    wait(() => {
-      expect(screen.getByLabelText(/First name*/)).toBeInTheDocument();
-    });
+    fireEvent.submit(screen.getByTestId("form"));
+
+    expect(firstName).toBeInTheDocument();
   });
 
-  //    #############################################################
-  // GENDER and RACE are missing for REQUIRED fields that will progress the form forward
-  //    #############################################################
   it("progresses if required fields in bio form are complete", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const submitButton = screen.getByText("Next") as HTMLInputElement;
+    const gender = screen.getByLabelText(/gender/) as HTMLInputElement;
+    const ethnicity = screen.getByLabelText(/Ethnicity*/) as HTMLElement;
 
-    // await act(async () => {
-    fireEvent.change(firstName, { target: { value: "John" } });
-    fireEvent.change(lastName, { target: { value: "Smith" } });
-    fireEvent.click(submitButton);
-    // });
+    act(() => {
+      fireEvent.change(firstName, { target: { value: "John" } });
+      fireEvent.change(lastName, { target: { value: "Smith" } });
+      fireEvent.change(gender, { target: { value: "Male" } });
+      fireEvent.change(ethnicity, { target: { value: "Caucasian" } });
+    });
 
-    // wait(() => {
-    await waitForElementToBeRemoved<HTMLInputElement>(() => firstName);
+    fireEvent.submit(screen.getByTestId("form"));
 
-    expect(screen.getByLabelText(/First name*/)).not.toBeInTheDocument();
-
-    // });
+    const email = await screen.findByLabelText(/Email*/);
+    expect(email).toBeInTheDocument();
   });
 
   it("navigates from contact info to bio section by clicking bio heading", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const submitButton = screen.getByText("Next") as HTMLInputElement;
+    const gender = screen.getByLabelText(/gender/) as HTMLInputElement;
+    const ethnicity = screen.getByLabelText(/Ethnicity*/) as HTMLElement;
 
-    await act(async () => {
+    act(() => {
       fireEvent.change(firstName, { target: { value: "John" } });
       fireEvent.change(lastName, { target: { value: "Smith" } });
-      fireEvent.click(submitButton);
-      fireEvent.click(
-        screen.getByRole("button", { name: "Biological Information" })
-      );
+      fireEvent.change(gender, { target: { value: "Male" } });
+      fireEvent.change(ethnicity, { target: { value: "Caucasian" } });
     });
 
-    wait(() => {
-      expect(screen.getByLabelText(/First name*/)).toBeInTheDocument();
-    });
+    fireEvent.submit(screen.getByTestId("form"));
+    await screen.findByLabelText(/Email*/);
+    fireEvent.click(
+      screen.getByRole("button", { name: "Biological Information" })
+    );
+
+    expect(screen.getByLabelText(/First name*/)).toBeInTheDocument();
   });
 });
