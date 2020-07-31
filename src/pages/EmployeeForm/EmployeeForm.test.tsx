@@ -19,14 +19,14 @@ describe("EmployeeForm", () => {
   it("does not progress if bio form is not complete", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const gender = screen.getByLabelText(/gender/) as HTMLInputElement;
-    const ethnicity = screen.getByLabelText(/Ethnicity*/) as HTMLElement;
+    const gender = screen.getByRole("radio", {
+      name: "FEMALE",
+    }) as HTMLElement;
 
     act(() => {
-      fireEvent.change(firstName, { target: { value: "John" } });
-      fireEvent.change(lastName, { target: { value: "Smith" } });
-      fireEvent.change(gender, { target: { value: "Male" } });
-      fireEvent.change(ethnicity, { target: { value: "Caucasian" } });
+      fireEvent.change(firstName, { target: { value: "Jane" } });
+      fireEvent.change(lastName, { target: { value: "Doe" } });
+      fireEvent.click(gender);
     });
 
     fireEvent.submit(screen.getByTestId("form"));
@@ -37,14 +37,20 @@ describe("EmployeeForm", () => {
   it("progresses if required fields in bio form are complete", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const gender = screen.getByLabelText(/gender/) as HTMLInputElement;
-    const ethnicity = screen.getByLabelText(/Ethnicity*/) as HTMLElement;
+    const birthDate = screen.getByRole("textbox", {
+      name: "",
+    }) as HTMLInputElement;
+    const gender = screen.getByRole("radio", {
+      name: "FEMALE",
+    }) as HTMLInputElement;
+    const ethnicity = screen.getByTestId("bio.ethnicity");
 
     act(() => {
-      fireEvent.change(firstName, { target: { value: "John" } });
-      fireEvent.change(lastName, { target: { value: "Smith" } });
-      fireEvent.change(gender, { target: { value: "Male" } });
-      fireEvent.change(ethnicity, { target: { value: "Caucasian" } });
+      fireEvent.change(firstName, { target: { value: "Jane" } });
+      fireEvent.change(lastName, { target: { value: "Doe" } });
+      fireEvent.change(birthDate, { target: { value: "01/01/1990" } });
+      fireEvent.click(gender);
+      fireEvent.change(ethnicity., { target: { value: "CAUCASIAN" } });
     });
 
     fireEvent.submit(screen.getByTestId("form"));
@@ -56,14 +62,22 @@ describe("EmployeeForm", () => {
   it("navigates from contact info to bio section by clicking bio heading", async () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const gender = screen.getByLabelText(/gender/) as HTMLInputElement;
-    const ethnicity = screen.getByLabelText(/Ethnicity*/) as HTMLElement;
+    const birthDate = screen.getByRole("textbox", {
+      name: "",
+    }) as HTMLInputElement;
+    const gender = screen.getByRole("radio", {
+      name: "FEMALE",
+    }) as HTMLInputElement;
+    const ethnicity = screen.getByRole("button", {
+      name: "",
+    }) as HTMLElement;
 
     act(() => {
-      fireEvent.change(firstName, { target: { value: "John" } });
-      fireEvent.change(lastName, { target: { value: "Smith" } });
-      fireEvent.change(gender, { target: { value: "Male" } });
-      fireEvent.change(ethnicity, { target: { value: "Caucasian" } });
+      fireEvent.change(firstName, { target: { value: "Jane" } });
+      fireEvent.change(lastName, { target: { value: "Doe" } });
+      fireEvent.change(birthDate, { target: { value: "01/01/1990" } });
+      fireEvent.click(gender);
+      fireEvent.change(ethnicity, { target: { value: "BLACK" } });
     });
 
     fireEvent.submit(screen.getByTestId("form"));

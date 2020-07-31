@@ -26,7 +26,8 @@ function SelectField(props: any) {
       <InputLabel>{label}</InputLabel>
       <Select
         {...field}
-        aria-labelledby={props.name}
+        // aria-labelledby={props.name}
+        data-testid={props.name}
         value={selectedValue ? selectedValue : ""}
       >
         {Object.keys(data).map((item, index) => (

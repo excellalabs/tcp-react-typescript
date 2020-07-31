@@ -24,7 +24,7 @@ export const bioFormModel = {
     label: "Date of Birth*",
     requiredErrorMsg: "Date of Birth is required",
     ageErrorMsg: "Employee must be 18 years old",
-    default: new Date(),
+    default: "",
   },
   gender: {
     name: "gender",
@@ -63,13 +63,14 @@ export const bioFormSchema = Yup.object({
     .required(`${lastName.requiredErrorMsg}`)
     .default(lastName.default),
   birthDate: Yup.date()
+    .nullable()
     .required(`${birthDate.requiredErrorMsg}`)
-    .default(birthDate.default),
-  gender: Yup.string()
-    .required(`${gender.requiredErrorMsg}`)
     .test("birthDate", `${birthDate.ageErrorMsg}`, (value) => {
       return moment().diff(moment(value), "years") >= 18;
     })
+    .default(birthDate.default),
+  gender: Yup.string()
+    .required(`${gender.requiredErrorMsg}`)
     .default(gender.default),
   ethnicity: Yup.string()
     .required(`${ethnicity.requiredErrorMsg}`)
