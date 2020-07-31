@@ -1,7 +1,7 @@
 import React from "react";
+import { TextField } from "@material-ui/core";
 import { at } from "lodash";
 import { useField } from "formik";
-import { TextField } from "@material-ui/core";
 
 const InputField: React.FC<any> = (props) => {
   const { errorText, ...rest } = props;
