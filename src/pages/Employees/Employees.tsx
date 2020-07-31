@@ -1,63 +1,9 @@
 import { DataColumn, DataTable } from "../../components/DataTable/DataTable";
-import {
-  Employee,
-  IEmployee,
-  IEmployeeBio,
-  IEmployeeContact,
-} from "../../models/Employee.interface";
-import {
-  ICategory,
-  IEmployeeSkill,
-  ISkill,
-  PROFICIENCY,
-} from "../../models/Skill.interface";
 
 import { ChipList } from "../../components/ChipList/ChipList";
+import { Employee } from "../../models/Employee.interface";
 import React from "react";
-
-/*  BEGIN TEMPORARY CODE THAT WILL BE REMOVED LATER   */
-
-const agileSkillCategory: ICategory = { id: 0, name: "Agile" };
-const techSkillCategory: ICategory = { id: 1, name: "Technology" };
-const scrumMasterSkill: ISkill = {
-  id: 0,
-  name: "Scrum Master",
-  category: agileSkillCategory,
-};
-const reactSkill: ISkill = {
-  id: 1,
-  name: "React",
-  category: techSkillCategory,
-};
-const javaSkill: ISkill = { id: 2, name: "Java", category: techSkillCategory };
-
-function createEmployee(
-  firstName: string,
-  lastName: string,
-  email: string,
-  primarySkill: ISkill,
-  otherSkills: ISkill[]
-): Employee {
-  return new Employee({
-    bio: {
-      firstName,
-      lastName,
-    } as IEmployeeBio,
-    contact: {
-      email,
-    } as IEmployeeContact,
-    skills: [
-      { skill: primarySkill, proficiency: PROFICIENCY.HIGH, primary: true },
-      ...otherSkills.map((s) => ({
-        skill: s,
-        proficiency: PROFICIENCY.MID,
-        primary: false,
-      })),
-    ] as IEmployeeSkill[],
-  } as IEmployee);
-}
-
-/*  END TEMPORARY CODE THAT WILL BE REMOVED LATER   */
+import { employees } from "./employee.mock";
 
 const columns: DataColumn<Employee>[] = [
   {
@@ -78,51 +24,22 @@ const columns: DataColumn<Employee>[] = [
     isNumeric: false,
     renderer: (data: Employee) => <ChipList skills={data.skills}></ChipList>,
   },
+  // Include/exclude this column based on User Role
+  {
+    propertyName: "id",
+    headerLabel: "Actions",
+    isNumeric: false,
+    renderer: (data: Employee) => (
+      <a href={`/employee/edit/${data.id}`}>Edit</a>
+    ),
+  },
 ];
 
 const EmployeesPage: React.FC<{}> = () => {
-  /*  Later, this will be retrieved from the API  */
-  const employees: Employee[] = [
-    createEmployee(
-      "John",
-      "Winchester",
-      "john@the-winchesters.org",
-      scrumMasterSkill,
-      [reactSkill, javaSkill]
-    ),
-    createEmployee(
-      "Dean",
-      "Winchester",
-      "dean@the-winchesters.org",
-      reactSkill,
-      [javaSkill]
-    ),
-    createEmployee(
-      "Sam",
-      "Winchester",
-      "sammy@the-winchesters.org",
-      javaSkill,
-      [reactSkill]
-    ),
-    createEmployee(
-      "Abraham",
-      "Lincoln",
-      "honest-abe@presidents.gov",
-      reactSkill,
-      [scrumMasterSkill, javaSkill]
-    ),
-    createEmployee("Theodore", "Rosevelt", "teddy@presidents.gov", reactSkill, [
-      javaSkill,
-      scrumMasterSkill,
-    ]),
-    createEmployee(
-      "George",
-      "Washington",
-      "No1@presidents.gov",
-      scrumMasterSkill,
-      [reactSkill, javaSkill]
-    ),
-  ];
+  // Employees should come from the API, instead of dummy data
+  // We also likely want pagination to be done on the back-end??  Would be a heavy lift on this code to do
+
+  // Columns should be modified to include/exclude the edit column based on User Role
 
   return (
     <DataTable<Employee>
