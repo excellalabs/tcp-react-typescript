@@ -58,6 +58,27 @@ export class Employee extends BaseItem {
       this.middleInitial ?? ""
     } ${this.lastName}`;
   }
+
+  toJSON(): IEmployee {
+    return {
+      id: this.id,
+      bio: {
+        firstName: this.firstName,
+        middleInitial: this.middleInitial,
+        lastName: this.lastName,
+        birthDate: this.birthDate,
+        gender: this.gender,
+        ethnicity: this.ethnicity,
+        usCitizen: this.usCitizen,
+      },
+      contact: {
+        email: this.email,
+        phoneNumber: this.phoneNumber,
+        address: this.address,
+      },
+      skills: this.skills,
+    };
+  }
 }
 
 export interface IEmployee extends IBaseItem {
