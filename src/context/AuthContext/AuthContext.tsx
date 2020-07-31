@@ -1,6 +1,7 @@
 import React from "react";
 import { AxiosError, AxiosResponse } from "axios";
-import ApiService from "../../services/interfaces/ApiService.interface";
+import { DecodedJWT } from "../../services/interfaces/ApiService.interface";
+import AxiosService from "../../services/AxiosService";
 
 type AuthState = {
   status: string;
@@ -8,19 +9,22 @@ type AuthState = {
   isLoading: boolean;
   login: (username: string, password: string) => void;
   logout: () => void;
+  token: DecodedJWT | string | null;
 };
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
-const AuthProvider: React.FC<{ apiService: ApiService }> = (props) => {
+const AuthProvider: React.FC<{}> = (props) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [status, setStatus] = React.useState("unauthenticated");
+  const [token, setToken] = React.useState(AxiosService.retrieveToken());
 
-  const api = props.apiService;
+  const api = new AxiosService();
   const login = (username: string, password: string) => {
     api
       .login(username, password)
       .then((res: AxiosResponse) => {
         api.saveToken(res.data.access_token);
+        // setToken(res.data.access_token);
         setError(undefined);
         setStatus("authenticated");
       })
@@ -31,8 +35,12 @@ const AuthProvider: React.FC<{ apiService: ApiService }> = (props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("tcp-react");
+    api.logout();
   };
+
+  React.useEffect(() => {
+    setToken(AxiosService.retrieveToken());
+  }, [localStorage.getItem(AxiosService.key)]);
 
   return (
     <AuthContext.Provider
@@ -42,6 +50,7 @@ const AuthProvider: React.FC<{ apiService: ApiService }> = (props) => {
         error: error,
         login,
         logout,
+        token: token,
       }}
       {...props}
     />

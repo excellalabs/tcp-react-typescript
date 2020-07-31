@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosInstance } from "axios";
-import ApiService from "./interfaces/ApiService.interface";
-import { jwt_decode } from "jwt-decode";
+import ApiService, { DecodedJWT } from "./interfaces/ApiService.interface";
+
+const jwtDecode = require("jwt-decode");
 
 export default class AxiosService implements ApiService {
   static key = "tcp-react";
@@ -27,25 +28,28 @@ export default class AxiosService implements ApiService {
     );
   }
 
+  logout(): void {
+    localStorage.removeItem(AxiosService.key);
+  }
+
   saveToken(token: string) {
     localStorage.setItem(AxiosService.key, token);
   }
 
-  retrieveToken(decoded: boolean = false) {
+  static retrieveToken(): string | null {
     const token = localStorage.getItem(AxiosService.key);
-    try {
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000;
-        if (tokenLifeLeft < 0) {
-          // this.logout()
-          return null;
-        }
-      }
+    return token;
+  }
 
-      return decoded ? jwt_decode(token) : token;
-    } catch (err) {
-      // this.logout()
-    }
+  static decodedToken(): DecodedJWT | null {
+    const token = this.retrieveToken();
+    return token === null ? null : jwtDecode(token);
+  }
+
+  static tokenHasLifeLeft() {
+    const token = localStorage.getItem(AxiosService.key);
+    const decodedToken = jwtDecode(token);
+    const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000;
+    return tokenLifeLeft > 0;
   }
 }

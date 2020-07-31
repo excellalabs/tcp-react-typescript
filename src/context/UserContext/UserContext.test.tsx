@@ -1,6 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { UserProvider, useUserState, useUserDispatch } from "./UserContext";
+import { AuthProvider } from "../AuthContext/AuthContext";
+import AxiosService from "../../services/AxiosService";
 
 const UserContextExample: React.FC<{}> = () => {
   const { loggedIn } = useUserState();
@@ -32,9 +34,11 @@ const UserContextExample: React.FC<{}> = () => {
 describe("UserContext", () => {
   beforeEach(() => {
     render(
-      <UserProvider>
-        <UserContextExample />
-      </UserProvider>
+      <AuthProvider apiService={new AxiosService()}>
+        <UserProvider>
+          <UserContextExample />
+        </UserProvider>
+      </AuthProvider>
     );
   });
 

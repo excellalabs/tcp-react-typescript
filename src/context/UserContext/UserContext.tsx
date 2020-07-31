@@ -1,10 +1,11 @@
 import React from "react";
 import { useAuth } from "../AuthContext/AuthContext";
+import AxiosService from "../../services/AxiosService";
 
 export type LoginInfo = { username: string; password: string };
 type UserAction = { type: "login" | "logout"; payload?: LoginInfo };
 type UserDispatch = (action: UserAction) => void;
-type UserState = { loggedIn: boolean; error: string };
+type UserState = { loggedIn: boolean; error: string; email?: string };
 type UserProviderProps = { children: React.ReactNode };
 
 const UserStateContext = React.createContext<UserState | undefined>(undefined);
@@ -18,6 +19,7 @@ function userReducer(state: UserState, action: UserAction) {
       return {
         loggedIn: true,
         error: "",
+        email: AxiosService.decodedToken()?.email,
       };
     }
     case "logout": {
@@ -32,6 +34,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const defaultState = {
     loggedIn: status === "authenticated",
     error: "",
+    email: "",
   };
 
   const [state, dispatch]: [
@@ -41,6 +44,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   React.useEffect(() => {
     if (status === "authenticated") dispatch({ type: "login" });
+    if (status === "unauthenticated") dispatch({ type: "logout" });
   }, [status]);
 
   return (
