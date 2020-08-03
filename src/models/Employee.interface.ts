@@ -12,7 +12,7 @@ export interface IEmployeeBio {
   firstName: string;
   middleInitial?: string; // optional
   lastName: string;
-  birthDate: Date | null; // date mask, should be over 18?
+  birthDate: Date; // date mask, should be over 18?
   gender: GENDER; // radio buttons
   ethnicity: ETHNICITY; // drop-down
   isCitizen: boolean; // check-box
