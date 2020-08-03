@@ -1,7 +1,7 @@
 import React from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { DecodedJWT } from "../../services/interfaces/ApiService.interface";
-import AxiosService from "../../services/AxiosService";
+import AxiosService from "../../services/Axios/AxiosService";
 
 type AuthState = {
   status: string;
@@ -25,8 +25,7 @@ const AuthProvider: React.FC<{}> = (props) => {
       .login(username, password)
       .then((res: AxiosResponse) => {
         api.saveToken(res.data.access_token);
-        // setToken(res.data.access_token);
-        setError(undefined);
+        setError("");
         setStatus("authenticated");
       })
       .catch((error: AxiosError) => {

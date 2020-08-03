@@ -3,7 +3,7 @@ import React from "react";
 import { UserProvider } from "../../context/UserContext/UserContext";
 import Login from "./Login";
 import { AuthProvider } from "../../context/AuthContext/AuthContext";
-import AxiosService from "../../services/AxiosService";
+import AxiosService from "../../services/Axios/AxiosService";
 
 describe("Login page", () => {
   beforeEach(() => {

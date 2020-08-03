@@ -20,8 +20,7 @@ const useStyles = makeStyles(() => {
 });
 
 const Login: React.FC<{}> = () => {
-  const { login, error: authError, logout } = useAuth();
-  const { loggedIn } = useUserState();
+  const { login, error: authError } = useAuth();
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",
@@ -65,7 +64,6 @@ const Login: React.FC<{}> = () => {
             >
               Submit
             </Button>
-            {loggedIn && <Button onClick={() => logout()}>Logout</Button>}
             {authError && (
               <p data-testid="login-error" className={classes.error}>
                 {authError}

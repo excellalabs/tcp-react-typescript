@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosInstance } from "axios";
-import ApiService, { DecodedJWT } from "./interfaces/ApiService.interface";
+import ApiService, { DecodedJWT } from "../interfaces/ApiService.interface";
 
 const jwtDecode = require("jwt-decode");
 
@@ -48,7 +48,7 @@ export default class AxiosService implements ApiService {
 
   static tokenHasLifeLeft() {
     const token = localStorage.getItem(AxiosService.key);
-    const decodedToken = jwtDecode(token);
+    const decodedToken = jwtDecode(token) as DecodedJWT;
     const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000;
     return tokenLifeLeft > 0;
   }

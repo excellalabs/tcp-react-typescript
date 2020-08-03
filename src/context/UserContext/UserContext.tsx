@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "../AuthContext/AuthContext";
-import AxiosService from "../../services/AxiosService";
+import AxiosService from "../../services/Axios/AxiosService";
 
 export type LoginInfo = { username: string; password: string };
 type UserAction = { type: "login" | "logout"; payload?: LoginInfo };
