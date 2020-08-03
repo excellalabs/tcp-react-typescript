@@ -5,11 +5,8 @@ import React from "react";
 import { defaultValues } from "./EmployeeForm.schema";
 
 describe("EmployeeForm", () => {
-  beforeEach(() => {
-    render(<EmployeeForm employeeFormData={defaultValues} />);
-  });
-
   it("renders four steps", () => {
+    render(<EmployeeForm employeeFormData={defaultValues} />);
     expect(screen.getByText("Biological Information")).toBeInTheDocument();
     expect(screen.getByText("Contact Info")).toBeInTheDocument();
     expect(screen.getByText("Skills")).toBeInTheDocument();
@@ -17,6 +14,7 @@ describe("EmployeeForm", () => {
   });
 
   it("does not progress if bio form is not complete", async () => {
+    render(<EmployeeForm employeeFormData={defaultValues} />);
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const gender = screen.getByRole("radio", {
@@ -35,6 +33,9 @@ describe("EmployeeForm", () => {
   });
 
   it("progresses if required fields in bio form are complete", async () => {
+    const { container } = render(
+      <EmployeeForm employeeFormData={defaultValues} />
+    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {
@@ -43,14 +44,16 @@ describe("EmployeeForm", () => {
     const gender = screen.getByRole("radio", {
       name: "FEMALE",
     }) as HTMLInputElement;
-    const ethnicity = screen.getByTestId("bio.ethnicity");
+    const ethnicity = container.querySelector(
+      '[class="MuiSelect-nativeInput"]'
+    ) as HTMLInputElement;
 
     act(() => {
       fireEvent.change(firstName, { target: { value: "Jane" } });
       fireEvent.change(lastName, { target: { value: "Doe" } });
       fireEvent.change(birthDate, { target: { value: "01/01/1990" } });
       fireEvent.click(gender);
-      fireEvent.change(ethnicity., { target: { value: "CAUCASIAN" } });
+      fireEvent.change(ethnicity, { target: { value: "CAUCASIAN" } });
     });
 
     fireEvent.submit(screen.getByTestId("form"));
@@ -60,6 +63,9 @@ describe("EmployeeForm", () => {
   });
 
   it("navigates from contact info to bio section by clicking bio heading", async () => {
+    const { container } = render(
+      <EmployeeForm employeeFormData={defaultValues} />
+    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {
@@ -68,9 +74,9 @@ describe("EmployeeForm", () => {
     const gender = screen.getByRole("radio", {
       name: "FEMALE",
     }) as HTMLInputElement;
-    const ethnicity = screen.getByRole("button", {
-      name: "",
-    }) as HTMLElement;
+    const ethnicity = container.querySelector(
+      '[class="MuiSelect-nativeInput"]'
+    ) as HTMLInputElement;
 
     act(() => {
       fireEvent.change(firstName, { target: { value: "Jane" } });
