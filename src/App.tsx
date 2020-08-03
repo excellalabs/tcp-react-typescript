@@ -6,7 +6,6 @@ import { useUserState } from "./context/UserContext/UserContext";
 
 function App() {
   const { loadUser } = useAuth();
-  const { email } = useUserState();
   useEffect(() => {
     loadUser();
   });
