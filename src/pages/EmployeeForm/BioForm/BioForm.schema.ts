@@ -22,9 +22,9 @@ export const bioFormModel = {
   birthDate: {
     name: "birthDate",
     label: "Date of Birth*",
-    requiredErrorMsg: "Date of Birth is required",
+    requiredErrorMsg: "Date of birth is required",
     ageErrorMsg: "Employee must be 18 years old",
-    default: "",
+    default: null,
   },
   gender: {
     name: "gender",

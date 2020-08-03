@@ -42,23 +42,6 @@ describe("BioForm", () => {
     expect(screen.getByLabelText("US Citizen")).toBeInTheDocument();
   });
 
-  // it("requires firstname", async () => {
-  //   const invalidData = {
-  //     firstName: "",
-  //     middleInitial: "",
-  //     lastName: "Brown",
-  //     birthDate: new Date("12/12/1977"),
-  //     gender: "MALE",
-  //     ethnicicty: "BLACK",
-  //     isCitizen: false,
-  //   };
-  //   await expect(bioFormSchema.validate(validBioValues).
-  //   await expect(bioFormSchema.validateAt("firstName", invalidData)).rejects.toBeFalsy();
-  //   await expect(
-  //     bioFormSchema.validateAt("person.name", { firstName: "Thomas" })
-  //   ).resolves.toBeTruthy();
-  // });
-
   it("validates bio object with required fields", async () => {
     const testInfo = {
       firstName: "John",
@@ -104,21 +87,37 @@ describe("BioForm", () => {
     );
   });
 
-  // it("throws validation error when birthDate is missing", async () => {
-  //   const testInfo = {
-  //     firstName: "John",
-  //     lastName: "Doe",
-  //     birthDate: "",
-  //     gender: "MALE",
-  //     ethnicity: "ASIAN",
-  //     isCitizen: true,
-  //   };
+  it("throws validation error when birthDate is missing", async () => {
+    const testInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      birthDate: null,
+      gender: "MALE",
+      ethnicity: "ASIAN",
+      isCitizen: true,
+    };
 
-  //   expect.assertions(1);
-  //   await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
-  //     new ValidationError("Date of birthis required", "", "")
-  //   );
-  // });
+    expect.assertions(1);
+    await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+      new ValidationError("Date of birth is required", "", "")
+    );
+  });
+
+  it("throws validation error when birthDate is within 18 years ago", async () => {
+    const testInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      birthDate: "02/14/2020",
+      gender: "MALE",
+      ethnicity: "ASIAN",
+      isCitizen: true,
+    };
+
+    expect.assertions(1);
+    await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+      new ValidationError("Employee must be 18 years old", "", "")
+    );
+  });
 
   it("throws validation error when gender is missing", async () => {
     const testInfo = {
