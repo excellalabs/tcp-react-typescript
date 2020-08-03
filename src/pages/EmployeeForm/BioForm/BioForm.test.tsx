@@ -7,29 +7,30 @@ import {
   bioFormInitialValues,
   IEmployeeBioForm,
 } from "./BioForm.schema";
+import { ValidationError } from "yup";
 
 describe("BioForm", () => {
   function mockSubmit(values: IEmployeeBioForm) {
-    console.log("MADE IT");
     jest.fn;
   }
 
-  const bioForm = (
-    <Formik
-      initialValues={bioFormInitialValues}
-      validationSchema={bioFormSchema}
-      onSubmit={mockSubmit}
-    >
-      {(formik) => (
-        <form data-testid="form">
-          <BioForm formGroup="bio" />;
-        </form>
-      )}
-    </Formik>
-  );
+  beforeEach(() => {
+    render(
+      <Formik
+        initialValues={bioFormInitialValues}
+        validationSchema={bioFormSchema}
+        onSubmit={mockSubmit}
+      >
+        {(formik) => (
+          <form data-testid="form">
+            <BioForm formGroup="bio" />;
+          </form>
+        )}
+      </Formik>
+    );
+  });
 
   it("renders bio form fields", () => {
-    render(bioForm);
     expect(screen.getByLabelText("First name*")).toBeInTheDocument();
     expect(screen.getByLabelText("Middle Initial")).toBeInTheDocument();
     expect(screen.getByLabelText("Last name*")).toBeInTheDocument();
@@ -41,20 +42,113 @@ describe("BioForm", () => {
     expect(screen.getByLabelText("US Citizen")).toBeInTheDocument();
   });
 
-  it("has validation error for first name not being present", async () => {
-    const { container } = render(bioForm);
-    const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
-    const gender = screen.getByRole("radio", {
-      name: "FEMALE",
-    }) as HTMLElement;
+  // it("requires firstname", async () => {
+  //   const invalidData = {
+  //     firstName: "",
+  //     middleInitial: "",
+  //     lastName: "Brown",
+  //     birthDate: new Date("12/12/1977"),
+  //     gender: "MALE",
+  //     ethnicicty: "BLACK",
+  //     isCitizen: false,
+  //   };
+  //   await expect(bioFormSchema.validate(validBioValues).
+  //   await expect(bioFormSchema.validateAt("firstName", invalidData)).rejects.toBeFalsy();
+  //   await expect(
+  //     bioFormSchema.validateAt("person.name", { firstName: "Thomas" })
+  //   ).resolves.toBeTruthy();
+  // });
 
-    act(() => {
-      fireEvent.click(lastName);
-      fireEvent.change(lastName, { target: { value: "Doe" } });
-    });
+  it("validates bio object with required fields", async () => {
+    const testInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      birthDate: "03/17/1980",
+      gender: "MALE",
+      ethnicity: "ASIAN",
+      isCitizen: true,
+    };
 
-    fireEvent.submit(screen.getByTestId("form"));
+    await expect(bioFormSchema.validate(testInfo)).resolves;
+  });
 
-    expect(screen.getByText("required")).toBeInTheDocument();
+  it("throws validation error when first name is missing", async () => {
+    const testInfo = {
+      firstName: "",
+      lastName: "Doe",
+      birthDate: "03/17/1980",
+      gender: "MALE",
+      ethnicity: "ASIAN",
+      isCitizen: true,
+    };
+
+    expect.assertions(1);
+    await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+      new ValidationError("First name is required", "", "")
+    );
+  });
+
+  it("throws validation error when last name is missing", async () => {
+    const testInfo = {
+      firstName: "John",
+      lastName: "",
+      birthDate: "03/17/1980",
+      gender: "MALE",
+      ethnicity: "ASIAN",
+      isCitizen: true,
+    };
+
+    expect.assertions(1);
+    await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+      new ValidationError("Last name is required", "", "")
+    );
+  });
+
+  // it("throws validation error when birthDate is missing", async () => {
+  //   const testInfo = {
+  //     firstName: "John",
+  //     lastName: "Doe",
+  //     birthDate: "",
+  //     gender: "MALE",
+  //     ethnicity: "ASIAN",
+  //     isCitizen: true,
+  //   };
+
+  //   expect.assertions(1);
+  //   await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+  //     new ValidationError("Date of birthis required", "", "")
+  //   );
+  // });
+
+  it("throws validation error when gender is missing", async () => {
+    const testInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      birthDate: "03/17/1980",
+      gender: "",
+      ethnicity: "ASIAN",
+      isCitizen: true,
+    };
+
+    expect.assertions(1);
+    await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+      new ValidationError("Gender is required", "", "")
+    );
+  });
+
+  it("throws validation error when ethnicity is missing", async () => {
+    const testInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      birthDate: "03/17/1980",
+      gender: "MALE",
+      ethnicity: "",
+      isCitizen: true,
+    };
+
+    expect.assertions(1);
+    await expect(bioFormSchema.validate(testInfo)).rejects.toEqual(
+      new ValidationError("Ethnicity is required", "", "")
+    );
   });
 });
