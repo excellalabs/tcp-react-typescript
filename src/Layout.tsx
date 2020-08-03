@@ -71,7 +71,7 @@ function Layout(props: any) {
             >
               {/* <MenuIcon /> */}
             </IconButton>
-            <Typography variant="h6" noWrap>
+            <Typography variant="h6" noWrap id="header-text">
               Employee Listing
             </Typography>
           </Toolbar>
