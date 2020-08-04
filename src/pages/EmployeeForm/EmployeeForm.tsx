@@ -60,9 +60,9 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
       case 1:
         return <ContactForm formGroup="contact" />;
       case 2:
-        return "Skills Info"; //placeholder
+        return "Skills Info Here"; //placeholder
       case 3:
-        return "Review"; //placeholder
+        return "Review Here"; //placeholder
       default:
         return <div>Not Found</div>;
     }
@@ -105,7 +105,7 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
                 onSubmit={handleNext}
               >
                 {(formik) => (
-                  <Form data-testid="form">
+                  <Form data-testid={activeStep + `-form`}>
                     {getNextStep(activeStep)}
                     <div>
                       {activeStep !== 0 && (

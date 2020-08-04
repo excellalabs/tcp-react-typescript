@@ -74,7 +74,7 @@ export const contactFormSchema = Yup.object({
     .required(`${address.zipCode.requiredErrorMsg}`)
     .matches(/^[0-9]{5}$/, address.zipCode.lengthErrorMsg)
     .default(address.zipCode.default),
-});
+}).required();
 
 export type IEmployeeContactForm = Yup.InferType<typeof contactFormSchema>;
 
