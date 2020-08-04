@@ -18,7 +18,7 @@ describe("EmployeeForm", () => {
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const gender = screen.getByRole("radio", {
-      name: "FEMALE",
+      name: "Female",
     }) as HTMLElement;
 
     act(() => {
@@ -42,7 +42,7 @@ describe("EmployeeForm", () => {
       name: "",
     }) as HTMLInputElement;
     const gender = screen.getByRole("radio", {
-      name: "FEMALE",
+      name: "Female",
     }) as HTMLInputElement;
     const ethnicity = container.querySelector(
       '[class="MuiSelect-nativeInput"]'
@@ -72,7 +72,7 @@ describe("EmployeeForm", () => {
       name: "",
     }) as HTMLInputElement;
     const gender = screen.getByRole("radio", {
-      name: "FEMALE",
+      name: "Female",
     }) as HTMLInputElement;
     const ethnicity = container.querySelector(
       '[class="MuiSelect-nativeInput"]'

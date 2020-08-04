@@ -26,7 +26,7 @@ function RadioButtonField(props: any) {
       <RadioGroup row {...field}>
         {Object.keys(data).map((item, index) => (
           <FormControlLabel
-            value={data[item]}
+            value={item}
             label={data[item]}
             key={index}
             control={<Radio />}

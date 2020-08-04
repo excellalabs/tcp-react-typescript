@@ -35,9 +35,9 @@ describe("BioForm", () => {
     expect(screen.getByLabelText("Middle Initial")).toBeInTheDocument();
     expect(screen.getByLabelText("Last name*")).toBeInTheDocument();
     expect(screen.getByText("Date of Birth*")).toBeInTheDocument();
-    expect(screen.getByLabelText("FEMALE")).toBeInTheDocument();
-    expect(screen.getByLabelText("MALE")).toBeInTheDocument();
-    expect(screen.getByLabelText("OTHER")).toBeInTheDocument();
+    expect(screen.getByLabelText("Female")).toBeInTheDocument();
+    expect(screen.getByLabelText("Male")).toBeInTheDocument();
+    expect(screen.getByLabelText("Other")).toBeInTheDocument();
     expect(screen.getByText("Ethnicity*")).toBeInTheDocument();
     expect(screen.getByLabelText("US Citizen")).toBeInTheDocument();
   });
