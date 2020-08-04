@@ -30,7 +30,7 @@ function SelectField(props: any) {
         value={selectedValue ? selectedValue : ""}
       >
         {Object.keys(data).map((item, index) => (
-          <MenuItem key={index} value={data[item]}>
+          <MenuItem key={index} value={item}>
             {data[item]}
           </MenuItem>
         ))}
