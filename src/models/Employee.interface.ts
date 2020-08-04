@@ -4,19 +4,19 @@ import { IEmployeeSkill } from "./Skill.interface";
 import { IUSAddress } from "./Address.interface";
 
 export enum GENDER {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-  OTHER = "OTHER",
+  MALE = "Male",
+  FEMALE = "Female",
+  OTHER = "Other",
 }
 
 export enum ETHNICITY {
-  CAUCASIAN = "CAUCASIAN", // or Eurpoean
-  HISPANIC = "HISPANIC", // or Latino
-  AMERICAN_INDIAN = "AMERICAN_INDIAN", // or Native Alaskan
-  ASIAN = "ASIAN", // or Pacific Islander
-  BLACK = "BLACK", // or African American
-  DECLINED = "DECLINED", // Prefer not to say
-  OTHER = "OTHER", // Requires specifying in text box?
+  CAUCASIAN = "Caucasian", // or Eurpoean
+  HISPANIC = "Hispanic", // or Latino
+  AMERICAN_INDIAN = "American Indian", // or Native Alaskan
+  ASIAN = "Asian", // or Pacific Islander
+  BLACK = "Black", // or African American
+  DECLINED = "Declined", // Prefer not to say
+  OTHER = "Other", // Requires specifying in text box?
 }
 
 export class Employee extends BaseItem {

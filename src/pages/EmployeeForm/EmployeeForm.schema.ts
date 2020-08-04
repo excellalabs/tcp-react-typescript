@@ -8,6 +8,14 @@ export const employeeFormSchema = Yup.object({
   contact: contactFormSchema.required().default(contactFormSchema.cast()),
 }).required();
 
+export const bioEmployeeSchema = Yup.object({
+  bio: bioFormSchema.required().default(bioFormSchema.cast()),
+});
+
+export const contactEmployeeSchema = Yup.object({
+  contact: contactFormSchema.required().default(contactFormSchema.cast()),
+});
+
 export type IEmployeeForm = Yup.InferType<typeof employeeFormSchema>;
 
 export const defaultValues: IEmployeeForm = employeeFormSchema.cast();
