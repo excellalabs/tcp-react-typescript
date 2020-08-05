@@ -8,10 +8,10 @@ export default class AxiosService implements ApiService {
   tokenEndpoint = "/oauth/token";
   authorizationEndpoint = "/oauth/authorization";
 
-  axiosClient: AxiosInstance;
+  config: AxiosRequestConfig;
 
   constructor() {
-    this.axiosClient = axios.create({
+    this.config = {
       baseURL: "http://localhost:8080/api",
       headers: {
         Authorization: `Basic ${btoa(
@@ -19,12 +19,14 @@ export default class AxiosService implements ApiService {
         )}`,
         Accept: "*/*",
       },
-    } as AxiosRequestConfig);
+    };
   }
 
   login(username: string, password: string): Promise<AxiosResponse> {
-    return this.axiosClient.post(
-      `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`
+    return axios.post(
+      `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`,
+      {},
+      this.config
     );
   }
 
