@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
-import { AxiosError, AxiosResponse } from "axios";
 import AxiosService from "../../services/Axios/AxiosService";
-import { act } from "@testing-library/react";
 
 type LoginInfo = { username: string; password: string };
 type AuthAction = {
@@ -99,13 +97,13 @@ const AuthProvider: React.FC<{}> = (props) => {
     loginResponse.status === 200
       ? dispatch({ type: "loginSuccess" })
       : dispatch({ type: "loginFailure" });
-  }, [state.payload, API]);
+  }, [state.payload]);
 
   React.useEffect(() => {
     if (state.status === "loading") {
       loginNeeded();
     }
-  }, [state.status]);
+  }, [state.status, loginNeeded]);
 
   return (
     <AuthContext.Provider value={state}>
