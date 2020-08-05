@@ -27,7 +27,12 @@ const API = new AxiosService();
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
     case "loginSuccess": {
-      return { ...state, status: "authenticated", error: "" };
+      return {
+        ...state,
+        status: "authenticated",
+        error: "",
+        payload: undefined,
+      };
     }
     case "loginFailure": {
       return {
@@ -37,21 +42,17 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
       };
     }
     case "login": {
-      if (
-        action.payload?.username === undefined ||
+      return action.payload?.username === undefined ||
         action.payload.password === undefined
-      ) {
-        return state;
-      }
-
-      return {
-        ...state,
-        status: "loading",
-        payload: {
-          username: action.payload.username,
-          password: action.payload.password,
-        },
-      };
+        ? state
+        : {
+            ...state,
+            status: "loading",
+            payload: {
+              username: action.payload.username,
+              password: action.payload.password,
+            },
+          };
     }
     case "logout": {
       API.logout();
