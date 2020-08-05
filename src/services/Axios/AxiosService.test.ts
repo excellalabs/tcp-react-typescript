@@ -16,6 +16,9 @@ beforeEach(() => {
     return expectedToken;
   });
 });
+afterEach(() => {
+  jest.clearAllMocks();
+});
 describe("AxiosService", () => {
   describe("token functions", () => {
     it("can decode token and get values", async () => {

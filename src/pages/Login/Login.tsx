@@ -5,7 +5,10 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { useAuth } from "../../context/AuthContext/AuthContext";
+import {
+  useAuthState,
+  useAuthDispatch,
+} from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles(() => {
   return {
@@ -20,7 +23,8 @@ const useStyles = makeStyles(() => {
 });
 
 const Login: React.FC<{}> = () => {
-  const { login, error: authError } = useAuth();
+  const { error: authError } = useAuthState();
+  const authActions = useAuthDispatch();
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",
@@ -28,7 +32,10 @@ const Login: React.FC<{}> = () => {
   } as LoginInfo);
 
   const handleLogin = () => {
-    login(loginInfo.username, loginInfo.password);
+    authActions({
+      type: "login",
+      payload: { ...loginInfo },
+    });
   };
 
   const classes = useStyles();

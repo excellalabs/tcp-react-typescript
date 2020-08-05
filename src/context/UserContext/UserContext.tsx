@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../AuthContext/AuthContext";
+import { useAuthState } from "../AuthContext/AuthContext";
 import AxiosService from "../../services/Axios/AxiosService";
 
 export type LoginInfo = { username: string; password: string };
@@ -29,7 +29,7 @@ function userReducer(state: UserState, action: UserAction) {
 }
 
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const { status } = useAuth();
+  const { status } = useAuthState();
 
   const defaultState = {
     loggedIn: status === "authenticated",

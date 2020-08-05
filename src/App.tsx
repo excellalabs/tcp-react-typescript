@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import Layout from "./Layout";
-import { useAuth } from "./context/AuthContext/AuthContext";
+import { useAuthDispatch } from "./context/AuthContext/AuthContext";
 
 function App() {
-  const { loadUser } = useAuth();
+  const authAction = useAuthDispatch();
   useEffect(() => {
-    loadUser();
+    authAction({ type: "loadUser" });
   });
   return (
     <div className="App">

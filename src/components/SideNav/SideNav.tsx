@@ -5,7 +5,10 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
-import { useAuth } from "../../context/AuthContext/AuthContext";
+import {
+  useAuthState,
+  useAuthDispatch,
+} from "../../context/AuthContext/AuthContext";
 import { useUserState } from "../../context/UserContext/UserContext";
 
 function ListItemLink(props: any) {
@@ -13,10 +16,11 @@ function ListItemLink(props: any) {
 }
 
 const LoginLogoutLink = () => {
-  const { status, logout } = useAuth();
+  const { status } = useAuthState();
+  const authActions = useAuthDispatch();
   const { email } = useUserState();
   return status === "authenticated" ? (
-    <ListItemLink onClick={() => logout()} to={"/login"}>
+    <ListItemLink onClick={() => authActions({ type: "logout" })} to={"/login"}>
       <ListItemText primary={`Logout: ${email}`} />
     </ListItemLink>
   ) : (
