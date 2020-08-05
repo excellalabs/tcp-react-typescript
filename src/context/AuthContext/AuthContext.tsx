@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { AxiosError, AxiosResponse } from "axios";
-import { DecodedJWT } from "../../services/interfaces/ApiService.interface";
 import AxiosService from "../../services/Axios/AxiosService";
-
-type AuthState = {
-  status: "authenticated" | "unauthenticated";
-  error: string;
-  token: string;
-};
+import { act } from "@testing-library/react";
 
 type LoginInfo = { username: string; password: string };
 type AuthAction = {
-  type: "login" | "logout" | "loadUser";
+  type: "loginSuccess" | "login" | "loginFailure" | "logout" | "loadUser";
   payload?: LoginInfo;
 };
 
+type AuthState = {
+  status: "authenticated" | "unauthenticated" | "loading";
+  error: string;
+  token: string;
+  payload?: LoginInfo;
+};
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
 type AuthDispatch = (action: AuthAction) => void;
@@ -26,29 +26,32 @@ const API = new AxiosService();
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
+    case "loginSuccess": {
+      return { ...state, status: "authenticated", error: "" };
+    }
+    case "loginFailure": {
+      return {
+        ...state,
+        status: "unauthenticated",
+        error: "Login information not found",
+      };
+    }
     case "login": {
-      const username = action.payload?.username;
-      const password = action.payload?.password;
-      if (username === undefined || password === undefined) {
+      if (
+        action.payload?.username === undefined ||
+        action.payload.password === undefined
+      ) {
         return state;
       }
-      const response = API.login(username, password);
-      response
-        .then((res: AxiosResponse) => {
-          API.saveToken(res.data?.access_token);
-          return {
-            ...state,
-            status: "authenticated",
-            error: "",
-          };
-        })
-        .catch((error: AxiosError) => {
-          return {
-            ...state,
-            status: "unauthenticated",
-            error: error.message,
-          };
-        });
+
+      return {
+        ...state,
+        status: "loading",
+        payload: {
+          username: action.payload.username,
+          password: action.payload.password,
+        },
+      };
     }
     case "logout": {
       API.logout();
@@ -75,9 +78,6 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
 }
 
 const AuthProvider: React.FC<{}> = (props) => {
-  // const [error, setError] = React.useState<string | undefined>(undefined);
-  // const [status, setStatus] = React.useState("unauthenticated");
-  // const [token, setToken] = React.useState(AxiosService.retrieveToken());
   const defaultState: AuthState = {
     status: "unauthenticated",
     error: "",
@@ -89,39 +89,23 @@ const AuthProvider: React.FC<{}> = (props) => {
     defaultState
   );
 
-  // const api = new AxiosService();
-  // const login = (username: string, password: string) => {
-  //   api
-  //     .login(username, password)
-  //     .then((res: AxiosResponse) => {
-  //       api.saveToken(res.data.access_token);
-  //       setError("");
-  //       setStatus("authenticated");
-  //     })
-  //     .catch((error: AxiosError) => {
-  //       setError(error.message);
-  //       setStatus("unauthenticated");
-  //     });
-  // };
+  const loginNeeded = useCallback(async () => {
+    if (state.payload === undefined) return;
+    const loginResponse = await API.login(
+      state.payload?.username,
+      state.payload?.password
+    );
 
-  // const logout = () => {
-  //   setStatus("unauthenticated");
-  //   setToken("");
-  //   api.logout();
-  // };
+    loginResponse.status === 200
+      ? dispatch({ type: "loginSuccess" })
+      : dispatch({ type: "loginFailure" });
+  }, [state.payload, API]);
 
-  // const loadUser = () => {
-  //   const token = AxiosService.retrieveToken();
-  //   if (!token) {
-  //     return;
-  //   }
-
-  //   setToken(token);
-  //   if (AxiosService.tokenHasLifeLeft()) {
-  //     setStatus("authenticated");
-  //     setError("");
-  //   }
-  // };
+  React.useEffect(() => {
+    if (state.status === "loading") {
+      loginNeeded();
+    }
+  }, [state.status]);
 
   return (
     <AuthContext.Provider value={state}>

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig, AxiosInstance } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import ApiService, { DecodedJWT } from "../interfaces/ApiService.interface";
 
 const jwtDecode = require("jwt-decode");
@@ -35,6 +35,7 @@ export default class AxiosService implements ApiService {
   }
 
   saveToken(token: string) {
+    console.log(token);
     localStorage.setItem(AxiosService.key, token);
   }
 
