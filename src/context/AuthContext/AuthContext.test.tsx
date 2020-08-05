@@ -1,8 +1,8 @@
 import { AuthProvider, useAuthState, useAuthDispatch } from "./AuthContext";
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
-jest.mock("../../__mocks__/axios");
+const mockAxios = jest.mock("../../__mocks__/axios");
 
 const TestComponent = () => {
   const { status, error } = useAuthState();
@@ -19,6 +19,19 @@ const TestComponent = () => {
             payload: { username: "user", password: "pass" },
           })
         }
+      ></button>
+      <button
+        data-testid="login-failure"
+        onClick={() =>
+          authActions({
+            type: "login",
+            payload: { username: "user", password: "wrong-pass" },
+          })
+        }
+      ></button>
+      <button
+        data-testid="logout"
+        onClick={() => authActions({ type: "logout" })}
       ></button>
     </>
   );
@@ -48,12 +61,26 @@ describe("AuthContext", () => {
     expect(statusDiv.firstChild?.nodeValue).toBe(defaultStatus);
     expect(errorDiv.firstChild?.nodeValue).toBe(defaultError);
   });
-  it("logs in successfully", () => {
-    // const loginButton = screen.getByTestId("login");
-    // console.log();
-    // fireEvent.click(loginButton);
-    // const expectedStatus = "authenticated";
-    // const statusDiv = screen.getByTestId("status");
-    // expect(statusDiv.firstChild?.nodeValue).toBe(expectedStatus);
+
+  it("login function works", async () => {
+    const loginButton = screen.getByTestId("login");
+    fireEvent.click(loginButton);
+    const expectedStatus = "loading";
+    let statusDiv = screen.getByTestId("status");
+    expect(statusDiv.firstChild?.nodeValue).toBe(expectedStatus);
+    await waitFor(() => {
+      let statusDiv = screen.getByTestId("status");
+      expect(statusDiv.firstChild?.nodeValue).toBe("authenticated");
+    });
+  });
+
+  it("returns unauthenticated when login credentials are wrong", async () => {
+    const loginButton = screen.getByTestId("login-failure");
+    fireEvent.click(loginButton);
+    const expectedStatus = "unauthenticated";
+    await waitFor(() => {
+      let statusDiv = screen.getByTestId("status");
+      expect(statusDiv.firstChild?.nodeValue).toBe(expectedStatus);
+    });
   });
 });

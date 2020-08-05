@@ -96,7 +96,6 @@ const AuthProvider: React.FC<{}> = (props) => {
       state.payload?.username,
       state.payload?.password
     );
-
     loginResponse.status === 200
       ? dispatch({ type: "loginSuccess" })
       : dispatch({ type: "loginFailure" });
