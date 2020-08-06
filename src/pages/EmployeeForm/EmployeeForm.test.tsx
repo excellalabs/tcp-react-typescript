@@ -191,8 +191,8 @@ describe("EmployeeForm", () => {
 
     fireEvent.submit(screen.getByTestId("1-form"));
 
-    const skillsText = await screen.findByText("Skills Info Here");
-    expect(skillsText).toBeInTheDocument();
+    const skillsText = await screen.findAllByText("Skill*");
+    expect(skillsText[0]).toBeInTheDocument();
   });
 
   it("navigates from skills info to contact section by clicking contact heading", async () => {
@@ -244,7 +244,7 @@ describe("EmployeeForm", () => {
 
     fireEvent.submit(screen.getByTestId("1-form"));
 
-    await screen.findByText("Skills Info Here");
+    await screen.findAllByText("Skill*");
     fireEvent.click(screen.getByRole("button", { name: "Contact Info" }));
 
     expect(screen.getByLabelText(/Email*/)).toBeInTheDocument();
