@@ -1,9 +1,11 @@
 import React from "react";
+import { useAuthState } from "../AuthContext/AuthContext";
+import AxiosService from "../../services/Axios/AxiosService";
 
 export type LoginInfo = { username: string; password: string };
 type UserAction = { type: "login" | "logout"; payload?: LoginInfo };
 type UserDispatch = (action: UserAction) => void;
-type UserState = { loggedIn: boolean; error: string };
+type UserState = { loggedIn: boolean; error: string; email?: string };
 type UserProviderProps = { children: React.ReactNode };
 
 const UserStateContext = React.createContext<UserState | undefined>(undefined);
@@ -14,27 +16,36 @@ const UserDispatchContext = React.createContext<UserDispatch | undefined>(
 function userReducer(state: UserState, action: UserAction) {
   switch (action.type) {
     case "login": {
-      if (
-        action.payload?.username === "user" &&
-        action.payload?.password === "pass"
-      )
-        return {
-          loggedIn: true,
-          error: "",
-        };
-      return { loggedIn: false, error: "Failed to login" };
+      return {
+        loggedIn: true,
+        error: "",
+        email: AxiosService.decodedToken()?.email,
+      };
     }
     case "logout": {
-      return { ...state, loggedIn: false };
+      return { ...state, loggedIn: false, email: "" };
     }
   }
 }
 
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const { status } = useAuthState();
+
+  const defaultState = {
+    loggedIn: status === "authenticated",
+    error: "",
+    email: "",
+  };
+
   const [state, dispatch]: [
     UserState,
     UserDispatch
-  ] = React.useReducer(userReducer, { loggedIn: false, error: "" });
+  ] = React.useReducer(userReducer, { ...defaultState });
+
+  React.useEffect(() => {
+    if (status === "authenticated") dispatch({ type: "login" });
+    if (status === "unauthenticated") dispatch({ type: "logout" });
+  }, [status]);
 
   return (
     <UserStateContext.Provider value={state}>
