@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { UserProvider, useUserState, useUserDispatch } from "./UserContext";
+import { AuthProvider } from "../AuthContext/AuthContext";
 
 const UserContextExample: React.FC<{}> = () => {
   const { loggedIn } = useUserState();
@@ -32,9 +33,11 @@ const UserContextExample: React.FC<{}> = () => {
 describe("UserContext", () => {
   beforeEach(() => {
     render(
-      <UserProvider>
-        <UserContextExample />
-      </UserProvider>
+      <AuthProvider>
+        <UserProvider>
+          <UserContextExample />
+        </UserProvider>
+      </AuthProvider>
     );
   });
 

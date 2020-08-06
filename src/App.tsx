@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
-import { UserProvider } from "./context/UserContext/UserContext";
 import Layout from "./Layout";
+import { useAuthDispatch } from "./context/AuthContext/AuthContext";
 
 function App() {
+  const authAction = useAuthDispatch();
+  useEffect(() => {
+    authAction({ type: "loadUser" });
+  });
   return (
     <div className="App">
-      <UserProvider>
-        <Layout></Layout>
-      </UserProvider>
+      <Layout></Layout>
     </div>
   );
 }

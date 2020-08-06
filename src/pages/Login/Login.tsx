@@ -1,14 +1,14 @@
 import React from "react";
-import {
-  useUserState,
-  useUserDispatch,
-  LoginInfo,
-} from "../../context/UserContext/UserContext";
+import { LoginInfo } from "../../context/UserContext/UserContext";
 import Card from "@material-ui/core/Card";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import {
+  useAuthState,
+  useAuthDispatch,
+} from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles(() => {
   return {
@@ -16,20 +16,26 @@ const useStyles = makeStyles(() => {
       textAlign: "left",
       padding: "16px",
     },
+    error: {
+      color: "red",
+    },
   };
 });
 
 const Login: React.FC<{}> = () => {
-  const { error } = useUserState();
-  const callUserAction = useUserDispatch();
+  const { error: authError } = useAuthState();
+  const authActions = useAuthDispatch();
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",
     password: "",
   } as LoginInfo);
 
-  const login = () => {
-    callUserAction({ type: "login", payload: loginInfo });
+  const handleLogin = () => {
+    authActions({
+      type: "login",
+      payload: { ...loginInfo },
+    });
   };
 
   const classes = useStyles();
@@ -61,11 +67,15 @@ const Login: React.FC<{}> = () => {
               data-testid="submit-button"
               variant="contained"
               color="primary"
-              onClick={() => login()}
+              onClick={() => handleLogin()}
             >
               Submit
             </Button>
-            {error && <p data-testid="login-error">{error}</p>}
+            {authError && (
+              <p data-testid="login-error" className={classes.error}>
+                {authError}
+              </p>
+            )}
           </Grid>
         </Grid>
       </form>

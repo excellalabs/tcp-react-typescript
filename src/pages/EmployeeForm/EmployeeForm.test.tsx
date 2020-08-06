@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 
 import EmployeeForm from "./EmployeeForm";
 import React from "react";
@@ -58,8 +64,9 @@ describe("EmployeeForm", () => {
 
     fireEvent.submit(screen.getByTestId("0-form"));
 
-    const email = await screen.findByLabelText(/Email*/);
-    expect(email).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Address/)).toBeInTheDocument();
+    });
   });
 
   it("navigates from contact info to bio section by clicking bio heading", async () => {

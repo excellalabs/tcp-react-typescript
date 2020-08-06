@@ -1,64 +1,63 @@
-import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { Routes } from './Routes'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import { SideNav } from './components/SideNav/SideNav'
-
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "./Routes";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import { SideNav } from "./components/SideNav/SideNav";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex'
+    display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   appBar: {
     marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    }
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    }
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
-  }
-}))
+    padding: theme.spacing(3),
+  },
+}));
 
 function Layout(props: any) {
-  const { container } = props
-  const classes = useStyles()
-  const theme = useTheme()
-  const [mobileOpen, setMobileOpen] = React.useState(false)
+  const { container } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen)
+    setMobileOpen(!mobileOpen);
   }
-  
+
   return (
     <div className={classes.root}>
-        <BrowserRouter>
+      <BrowserRouter>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
@@ -81,7 +80,7 @@ function Layout(props: any) {
             <Drawer
               container={container}
               variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              anchor={theme.direction === "rtl" ? "right" : "left"}
               open={mobileOpen}
               onClose={handleDrawerToggle}
               classes={{
@@ -110,8 +109,8 @@ function Layout(props: any) {
           <div className={classes.toolbar} />
           <Routes />
         </main>
-        </BrowserRouter>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
-export default Layout
+export default Layout;
