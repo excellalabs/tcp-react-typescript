@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import AxiosService from "../../services/Axios/AxiosService";
+import AuthService from "../../services/Auth/AuthService";
 
 type LoginInfo = { username: string; password: string };
 type AuthAction = {
@@ -20,8 +20,12 @@ const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
   undefined
 );
 
-const API = new AxiosService();
-
+const API = new AuthService();
+const defaultState: AuthState = {
+  status: "unauthenticated",
+  error: "",
+  token: "",
+};
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
     case "loginSuccess": {
@@ -29,13 +33,13 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
         ...state,
         status: "authenticated",
         error: "",
+        token: AuthService.retrieveToken(),
         payload: undefined,
       };
     }
     case "loginFailure": {
       return {
-        ...state,
-        status: "unauthenticated",
+        ...defaultState,
         error: "Login information not found",
       };
     }
@@ -60,11 +64,11 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
       };
     }
     case "loadUser": {
-      const token = AxiosService.retrieveToken();
+      const token = AuthService.retrieveToken();
       if (!token) {
         return { ...state };
       }
-      if (AxiosService.tokenHasLifeLeft()) {
+      if (AuthService.tokenHasLifeLeft()) {
         return {
           ...state,
           status: "authenticated",
@@ -77,12 +81,6 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
 }
 
 const AuthProvider: React.FC<{}> = (props) => {
-  const defaultState: AuthState = {
-    status: "unauthenticated",
-    error: "",
-    token: "",
-  };
-
   const [state, dispatch]: [AuthState, AuthDispatch] = React.useReducer(
     authReducer,
     defaultState
@@ -90,13 +88,16 @@ const AuthProvider: React.FC<{}> = (props) => {
 
   const loginNeeded = useCallback(async () => {
     if (state.payload === undefined) return;
-    const loginResponse = await API.login(
-      state.payload?.username,
-      state.payload?.password
-    );
-    loginResponse.status === 200
-      ? dispatch({ type: "loginSuccess" })
-      : dispatch({ type: "loginFailure" });
+    API.login(state.payload?.username, state.payload?.password)
+      .then((res) => {
+        API.saveToken(res.data?.access_token ?? "");
+        res.status === 200
+          ? dispatch({ type: "loginSuccess" })
+          : dispatch({ type: "loginFailure" });
+      })
+      .catch(() => {
+        dispatch({ type: "loginFailure" });
+      });
   }, [state.payload]);
 
   React.useEffect(() => {

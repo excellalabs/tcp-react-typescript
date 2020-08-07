@@ -1,4 +1,4 @@
-import AxiosService from "./AxiosService";
+import AuthService from "./AuthService";
 import mockAxios from "../../__mocks__/axios";
 
 jest.mock("../../__mocks__/axios");
@@ -19,16 +19,16 @@ beforeEach(() => {
 afterEach(() => {
   jest.clearAllMocks();
 });
-describe("AxiosService", () => {
+describe("AuthService", () => {
   describe("token functions", () => {
     it("can decode token and get values", async () => {
-      const decodedToken = AxiosService.decodedToken();
+      const decodedToken = AuthService.decodedToken();
       expect(decodedToken?.email).toBe("john@winchester.com");
 
-      expect(AxiosService.tokenHasLifeLeft()).toBeFalsy();
+      expect(AuthService.tokenHasLifeLeft()).toBeFalsy();
     });
     it("returns a token on retrieveToken", () => {
-      const token = AxiosService.retrieveToken();
+      const token = AuthService.retrieveToken();
       expect(token).toBe(
         "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJ1c2VyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTU5NjIxNTkyNywiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IjlhOGIwZjVhLTNjYTQtNGEzNC05MjFkLWYxYTM3M2EzM2U1MiIsImVtYWlsIjoiam9obkB3aW5jaGVzdGVyLmNvbSIsImNsaWVudF9pZCI6ImFwcCJ9.a9iNntI4eSrfbu_wR8E5d-Z9f46U-NLVpT7q3efqCwEpdm8UmBjLHXm25jFXTtfi2i1-crKBiW6qIfza-ATsjqZ_kzS3nofaX4cLyE9tr2Jw5u0m6dnzj0jn_iccbr5RYW-Jf9tvP8UaBf56PMfk2l0X__GkxrL2-mTHJDDZ2fY2GvRLLmDmyeb0YWzIFLEdujk7wUOv0-F64gmG7MtoiYZ0MNA6_exzYqc6CoMARWFiAZHeHUb4kYqIi_M1yhyBb8aoLTewezT1y08GNWBJSygH7zMBEZAMh4ar_7HhUyoxD2Msfbo6yExBaYUipZCsWWt9j02RFgd6vRawWBzeOQ"
       );
@@ -37,12 +37,12 @@ describe("AxiosService", () => {
 
   describe("login", () => {
     it("posts to login", async () => {
-      const service = new AxiosService();
+      const service = new AuthService();
       const expectedParams = [
         "/oauth/token?grant_type=password&username=user&password=pass&scope=read%20write",
         {},
         {
-          baseURL: "http://localhost:8080/api",
+          baseURL: process.env.REACT_APP_API,
           headers: {
             Accept: "*/*",
             Authorization:
@@ -58,7 +58,7 @@ describe("AxiosService", () => {
   });
   describe("logout", () => {
     it("removes local storage on logout", () => {
-      const service = new AxiosService();
+      const service = new AuthService();
       service.logout();
       expect(localStorage.removeItem).toHaveBeenCalled();
     });

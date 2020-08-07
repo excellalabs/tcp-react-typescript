@@ -9,7 +9,6 @@ import {
   useAuthState,
   useAuthDispatch,
 } from "../../context/AuthContext/AuthContext";
-import { useUserState } from "../../context/UserContext/UserContext";
 
 function ListItemLink(props: any) {
   return <ListItem button component="a" {...props} />;
@@ -18,10 +17,9 @@ function ListItemLink(props: any) {
 const LoginLogoutLink = () => {
   const { status } = useAuthState();
   const authActions = useAuthDispatch();
-  const { email } = useUserState();
   return status === "authenticated" ? (
     <ListItemLink onClick={() => authActions({ type: "logout" })} to={"/login"}>
-      <ListItemText primary={`Logout: ${email}`} />
+      <ListItemText primary={`Logout`} />
     </ListItemLink>
   ) : (
     <ListItemLink component={Link} to={"/login"}>
