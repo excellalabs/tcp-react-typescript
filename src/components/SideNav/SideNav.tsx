@@ -21,11 +21,11 @@ const LoginLogoutLink = () => {
   const { email } = useUserState();
   return status === "authenticated" ? (
     <ListItemLink onClick={() => authActions({ type: "logout" })} to={"/login"}>
-      <ListItemText primary={`Logout: ${email}`} />
+      <ListItemText data-testid='logout-sidenav' primary={`Logout: ${email}`} />
     </ListItemLink>
   ) : (
     <ListItemLink component={Link} to={"/login"}>
-      <ListItemText primary={"Login"} />
+      <ListItemText data-testid='login-sidenav' primary={"Login"} />
     </ListItemLink>
   );
 };

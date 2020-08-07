@@ -48,6 +48,7 @@ const Login: React.FC<{}> = () => {
           <Grid item>
             <Input
               placeholder="Username"
+              data-testid="login-username"
               onChange={(e) =>
                 setLoginInfo({ ...loginInfo, username: e.target.value })
               }
@@ -57,6 +58,7 @@ const Login: React.FC<{}> = () => {
             <Input
               type="password"
               placeholder="Password"
+              data-testid="login-password"
               onChange={(e) =>
                 setLoginInfo({ ...loginInfo, password: e.target.value })
               }
