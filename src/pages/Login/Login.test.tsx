@@ -1,9 +1,8 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { UserProvider } from "../../context/UserContext/UserContext";
 import Login from "./Login";
 import { AuthProvider } from "../../context/AuthContext/AuthContext";
-import AxiosService from "../../services/Axios/AxiosService";
 
 describe("Login page", () => {
   beforeEach(() => {

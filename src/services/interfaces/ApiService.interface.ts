@@ -13,4 +13,8 @@ export default interface ApiService {
   login: (username: string, password: string) => Promise<AxiosResponse>;
   logout: () => void;
   saveToken: (token: string) => void;
+  getEmail: () => string;
+  getRoles: () => Array<String>;
+  isLoggedIn: () => boolean;
+  isAdmin: () => boolean;
 }
