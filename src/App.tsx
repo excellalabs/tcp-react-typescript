@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import Layout from "./Layout";
 import { useAuthDispatch } from "./context/AuthContext/AuthContext";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary"
 
 function App() {
   const authAction = useAuthDispatch();
@@ -10,7 +11,9 @@ function App() {
   });
   return (
     <div className="App">
-      <Layout></Layout>
+      <ErrorBoundary>
+        <Layout></Layout>
+      </ErrorBoundary>
     </div>
   );
 }
