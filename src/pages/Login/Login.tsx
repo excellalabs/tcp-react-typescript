@@ -9,6 +9,7 @@ import {
   useAuthState,
   useAuthDispatch,
 } from "../../context/AuthContext/AuthContext";
+import { useEmployeeDispatch } from "../../context/EmployeeContext/EmployeeContext";
 
 const useStyles = makeStyles(() => {
   return {
@@ -25,6 +26,7 @@ const useStyles = makeStyles(() => {
 const Login: React.FC<{}> = () => {
   const { error: authError } = useAuthState();
   const authActions = useAuthDispatch();
+  const employeeActions = useEmployeeDispatch();
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",

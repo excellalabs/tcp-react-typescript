@@ -5,12 +5,15 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./context/AuthContext/AuthContext";
 import { UserProvider } from "./context/UserContext/UserContext";
+import { EmployeeProvider } from "./context/EmployeeContext/EmployeeContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
       <UserProvider>
-        <App />
+        <EmployeeProvider>
+          <App />
+        </EmployeeProvider>
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>,
