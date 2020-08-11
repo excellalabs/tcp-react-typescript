@@ -30,4 +30,4 @@ class ErrorBoundary extends React.Component<{},any> {
   }
 }
 
-export default ErrorBoundary
+export default ErrorBoundary;
