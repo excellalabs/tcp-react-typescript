@@ -1,9 +1,21 @@
 import { DataColumn, DataTable } from "../../components/DataTable/DataTable";
+import {
+  FilterOption,
+  SearchAndFilter,
+} from "../../components/SearchAndFilter/SearchAndFilter";
 
 import { ChipList } from "../../components/ChipList/ChipList";
 import { Employee } from "../../models/Employee.interface";
 import React from "react";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
+
+const skills: FilterOption[] = [
+  { name: "JavaScript", value: "JavaScript" },
+  { name: "Java", value: "Java" },
+  { name: "Scrum Master", value: "Scrum Master" },
+  { name: "React", value: "React" },
+  { name: "Data Analysis", value: "Data Analysis" },
+];
 
 const columns: DataColumn<Employee>[] = [
   {
@@ -44,11 +56,20 @@ const EmployeesPage: React.FC<{}> = () => {
   const { employees } = useEmployee();
 
   return (
-    <DataTable<Employee>
-      columns={columns}
-      rows={employees}
-      initialSortProperty="fullName"
-    />
+    <>
+      <SearchAndFilter
+        searchBy="Employee Name"
+        filterBy="Skill"
+        filterOptions={skills}
+        handleSearch={(searchText: string) => console.log(searchText)}
+        handleFilter={(filterOpts: FilterOption[]) => console.log(filterOpts)}
+      ></SearchAndFilter>
+      <DataTable<Employee>
+        columns={columns}
+        rows={employees}
+        initialSortProperty="fullName"
+      />
+    </>
   );
 };
 
