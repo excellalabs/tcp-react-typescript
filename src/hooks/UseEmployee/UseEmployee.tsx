@@ -4,7 +4,7 @@ import { useAuthState } from "../../context/AuthContext/AuthContext";
 import EmployeeService from "../../services/Employee/EmployeeService";
 
 const useEmployee = () => {
-  const { token } = useAuthState();
+  const { status, token } = useAuthState();
 
   const [employees, setEmployees] = useState([] as Employee[]);
 
@@ -27,8 +27,10 @@ const useEmployee = () => {
   }, [token]);
 
   useEffect(() => {
-    fetchEmployees();
-  }, [fetchEmployees]);
+    if (status === "authenticated") {
+      fetchEmployees();
+    }
+  }, [fetchEmployees, status]);
 
   return { employees };
 };
