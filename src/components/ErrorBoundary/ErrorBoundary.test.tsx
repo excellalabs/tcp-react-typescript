@@ -4,12 +4,26 @@ import ErrorBoundary from "./ErrorBoundary";
 
 describe("UserContext", () => {
   function throwError() {
-      errorThrower()
+      <div />
+  }
+
+  class ErrorComponent extends React.Component {
+    render() {
+        throw new Error("error")
+    }
   }
 
   class Button extends React.Component {
+    state = {renderError: false}
+    handleButtonClick = () => this.setState({renderError: true})
     render() {
-      return <button data-testid="testButton" onClick={() => { errorThrower() }} />
+        return (
+            this.state.renderError ? (
+            <ErrorComponent />
+            ) : (
+            <button data-testid="testButton" onClick={this.handleButtonClick} />
+            )
+        )
     }
   }
 
@@ -30,6 +44,6 @@ describe("UserContext", () => {
     console.log(screen.debug())
     fireEvent.click(testButton);
     console.log(screen.debug())
-    expect(screen.getByText("Something")).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
   });
 });
