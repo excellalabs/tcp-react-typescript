@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import SkillsPage  from './pages/Skills/Skills'
 import LoginComponent from './pages/Login/Login'
@@ -16,10 +16,14 @@ export const Routes = () => (
     <Route exact path="/login" component={LoginComponent} />
     <Route exact path="/employee/add" component={EmployeeForm} />
     <Route exact path="/employee/list" component={EmployeesPage} />
-    <Route exact path="/employee/self" render={({ match }) => <div>Manage Current User Skills</div>} />
+    <Route
+      exact
+      path="/employee/self"
+      render={({ match }) => <div>Manage Current User Skills</div>}
+    />
     <Route exact path="/employee/:id" component={EmployeeForm} />
     <Route exact path="/admin/categories" component={CategoriesPage} />
     <Route exact path="/admin/skills" component={SkillsPage} />
     <Route component={NotFound} />
   </Switch>
-)
+);
