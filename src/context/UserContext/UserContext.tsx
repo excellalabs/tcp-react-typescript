@@ -73,7 +73,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 function useUserState(): UserState {
   const context = React.useContext(UserStateContext);
   if (context === undefined) {
-    throw new Error("useUserState must be used within a CountProvider");
+    throw new Error("useUserState must be used within a UserProvider");
   }
 
   return context;
@@ -82,7 +82,7 @@ function useUserState(): UserState {
 function useUserDispatch(): UserDispatch {
   const context = React.useContext(UserDispatchContext);
   if (context === undefined) {
-    throw new Error("useUserDispatch must be used within a CountProvider");
+    throw new Error("useUserDispatch must be used within a UserProvider");
   }
 
   return context;

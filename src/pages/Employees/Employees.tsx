@@ -3,7 +3,7 @@ import { DataColumn, DataTable } from "../../components/DataTable/DataTable";
 import { ChipList } from "../../components/ChipList/ChipList";
 import { Employee } from "../../models/Employee.interface";
 import React from "react";
-import { employees } from "./employee.mock";
+import useEmployee from "../../hooks/UseEmployee/UseEmployee";
 
 const columns: DataColumn<Employee>[] = [
   {
@@ -40,6 +40,8 @@ const EmployeesPage: React.FC<{}> = () => {
   // We also likely want pagination to be done on the back-end??  Would be a heavy lift on this code to do
 
   // Columns should be modified to include/exclude the edit column based on User Role
+
+  const { employees } = useEmployee();
 
   return (
     <DataTable<Employee>
