@@ -19,7 +19,7 @@ const useEmployee = () => {
                 return new Employee(item);
               })
             )
-          : console.log("error");
+          : setEmployees([]);
       })
       .catch((error) => {
         console.log(error);

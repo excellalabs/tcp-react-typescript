@@ -1,4 +1,5 @@
 const mockAxios = jest.genMockFromModule("axios");
+import fakeEmployee from "./data/employee";
 
 export const fakeAxiosData = [
   {
@@ -30,6 +31,9 @@ const getId = (params) => {
 
 export default {
   get: jest.fn((params = "") => {
+    if (params.includes("/employee/")) {
+      return Promise.resolve({ status: 200, data: [fakeEmployee] });
+    }
     const id = getId(params);
 
     const data = id === null ? fakeAxiosData : fakeAxiosData[id];

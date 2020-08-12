@@ -1,6 +1,5 @@
 import { BaseCrudService, IBaseCrudService } from "./BaseCrudService";
 import { IBaseItem } from "../../models/BaseItem.interface";
-import { waitFor } from "@testing-library/react";
 import { fakeAxiosData } from "../../__mocks__/axios";
 
 interface ITestItem extends IBaseItem {

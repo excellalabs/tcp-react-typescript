@@ -2,10 +2,15 @@ import { render, screen } from "@testing-library/react";
 
 import EmployeesPage from "./Employees";
 import React from "react";
+import { AuthProvider } from "../../context/AuthContext/AuthContext";
 
 describe("Employees page", () => {
   beforeEach(() => {
-    render(<EmployeesPage />);
+    render(
+      <AuthProvider>
+        <EmployeesPage />
+      </AuthProvider>
+    );
   });
 
   it("renders the employees table", () => {
