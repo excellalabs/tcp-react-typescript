@@ -13,7 +13,7 @@ type EmployeeState = {
   employees: Array<IEmployee> | undefined;
 };
 type EmployeeAction = {
-  type: "getEmployees" | "getEmployeeSuccess";
+  type: "loadEmployees";
   payload?: Array<IEmployee>;
 };
 type EmployeeDispatch = (action: EmployeeAction) => void;
@@ -27,14 +27,7 @@ const EmployeeDispatchContext = createContext<EmployeeDispatch | undefined>(
 
 function employeeReducer(state: EmployeeState, action: EmployeeAction) {
   switch (action.type) {
-    case "getEmployees": {
-      console.log("getting employees");
-      return {
-        ...state,
-        loading: true,
-      };
-    }
-    case "getEmployeeSuccess": {
+    case "loadEmployees": {
       console.log(action.payload);
       return {
         ...state,
@@ -46,7 +39,7 @@ function employeeReducer(state: EmployeeState, action: EmployeeAction) {
 }
 
 const defaultState: EmployeeState = {
-  loading: false,
+  loading: true,
   employees: undefined,
 };
 
@@ -65,7 +58,7 @@ const EmployeeProvider: React.FC<{}> = ({ children }) => {
       .then((res) => {
         console.log(res);
         res.status === 200
-          ? dispatch({ type: "getEmployeeSuccess", payload: res.data })
+          ? dispatch({ type: "loadEmployees", payload: res.data })
           : console.log("error");
       })
       .catch((error) => {
@@ -73,9 +66,10 @@ const EmployeeProvider: React.FC<{}> = ({ children }) => {
       });
   }, [token]);
 
+  // Fetches employees on reloads
+  // @TODO should this info be cached in some other way so as to not require more fetches?
   React.useEffect(() => {
     if (state.loading === true) {
-      console.log("loading is true");
       fetchEmployees();
     }
   }, [state.loading, fetchEmployees]);
@@ -98,15 +92,16 @@ function useEmployeeState(): EmployeeState {
   return context;
 }
 
-function useEmployeeDispatch(): EmployeeDispatch {
-  const context = useContext(EmployeeDispatchContext);
-  if (context === undefined) {
-    throw new Error(
-      "useEmployeeDispatch must be used within an EmployeeProvider"
-    );
-  }
+// Uncomment and export this to allow outside files to use reducer actions
+// function useEmployeeDispatch(): EmployeeDispatch {
+//   const context = useContext(EmployeeDispatchContext);
+//   if (context === undefined) {
+//     throw new Error(
+//       "useEmployeeDispatch must be used within an EmployeeProvider"
+//     );
+//   }
 
-  return context;
-}
+//   return context;
+// }
 
-export { EmployeeProvider, useEmployeeState, useEmployeeDispatch };
+export { EmployeeProvider, useEmployeeState };
