@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 
+import { AuthProvider } from "../../context/AuthContext/AuthContext";
 import EmployeesPage from "./Employees";
 import React from "react";
-import { AuthProvider } from "../../context/AuthContext/AuthContext";
 
 describe("Employees page", () => {
   beforeEach(() => {
