@@ -3,12 +3,13 @@ import {
   FilterOption,
   SearchAndFilter,
 } from "../../components/SearchAndFilter/SearchAndFilter";
+import React, { useEffect, useState } from "react";
 
 import { ChipList } from "../../components/ChipList/ChipList";
 import { Employee } from "../../models/Employee.interface";
-import React from "react";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
 
+// REPLACE THESE WITH REAL DATA FROM API
 const skills: FilterOption[] = [
   { name: "JavaScript", value: "JavaScript" },
   { name: "Java", value: "Java" },
@@ -47,26 +48,87 @@ const columns: DataColumn<Employee>[] = [
   },
 ];
 
+export function doSearchAndFilter(
+  employees: Employee[],
+  searchText: string,
+  desiredSkills: string[]
+): Employee[] {
+  // Apply skill filters, if there are any
+  const lowercaseDesiredSkills = desiredSkills.map((dS) => dS.toLowerCase());
+  const filteredEmployees = desiredSkills.length
+    ? employees.filter((e) =>
+        lowercaseDesiredSkills.every((lDS) =>
+          e.skills.some((s) => s.skill.name.toLowerCase() === lDS)
+        )
+      )
+    : employees;
+  // Do search by filtering by case-insensitive match to name, if the search text is not empty
+  const cleanedSearchText = searchText.trim();
+  return cleanedSearchText.length
+    ? filteredEmployees.filter((e) =>
+        e.fullName.toLowerCase().includes(searchText.toLowerCase())
+      )
+    : filteredEmployees;
+}
+
 const EmployeesPage: React.FC<{}> = () => {
   // Employees should come from the API, instead of dummy data
   // We also likely want pagination to be done on the back-end??  Would be a heavy lift on this code to do
 
   // Columns should be modified to include/exclude the edit column based on User Role
 
+  // Fetch emplolyees from API
   const { employees } = useEmployee();
+
+  const [employeeList, setEmployeeList] = useState<Employee[]>([]);
+
+  // Update the list when the API data updates
+  useEffect(() => {
+    setEmployeeList(employees);
+  }, [employees]);
+
+  // Manage search/filter settings
+  const [searchText, setSearchText] = useState<string>("");
+  const [filters, setFilters] = useState<FilterOption[]>([]);
+
+  const handleSearch = (newSearchText: string) => {
+    // Store the new search string for use by handleFilter later
+    setSearchText(newSearchText);
+
+    // Perform the search and update the displayed list
+    const newEmployeeList = doSearchAndFilter(
+      employees,
+      newSearchText,
+      filters.map((f) => f.name)
+    );
+    setEmployeeList(newEmployeeList);
+  };
+
+  const handleFilter = (newFilters: FilterOption[]) => {
+    // Store the new filters for use by handleSearch later
+    setFilters(newFilters);
+
+    // Perform the filter and update the displayed list
+    const filteredEmployees = doSearchAndFilter(
+      employees,
+      searchText,
+      newFilters.map((f) => f.name)
+    );
+    setEmployeeList(filteredEmployees);
+  };
 
   return (
     <>
       <SearchAndFilter
         searchBy="Employee Name"
         filterBy="Skill"
-        filterOptions={skills}
-        handleSearch={(searchText: string) => console.log(searchText)}
-        handleFilter={(filterOpts: FilterOption[]) => console.log(filterOpts)}
+        filterOptions={skills} // REPLACE WITH SKILLS FROM API
+        handleSearch={handleSearch}
+        handleFilter={handleFilter}
       ></SearchAndFilter>
       <DataTable<Employee>
         columns={columns}
-        rows={employees}
+        rows={employeeList}
         initialSortProperty="fullName"
       />
     </>

@@ -10,7 +10,7 @@ import {
   createStyles,
   makeStyles,
 } from "@material-ui/core";
-import React, { ChangeEvent, ReactNode, useEffect, useState } from "react";
+import React, { ChangeEvent, ReactNode, useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,22 +50,20 @@ export const SearchAndFilter = (
 
   const [filters, setFilters] = useState<string[]>([]);
 
-  //Broadcast Filters chosen when the filter is changed
-  useEffect(() => {
-    handleFilter(filterOptions.filter((opt) => filters.includes(opt.name)));
-  }, [filters, filterOptions, handleFilter]);
-
   const doSearch = (
     changeEvent: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("search:", changeEvent.target.value);
-    // DEBOUNCE THIS
+    // DEBOUNCE THIS ??
     handleSearch(changeEvent.target.value);
   };
 
   const doFilter = (changeEvent: React.ChangeEvent<{ value: unknown }>) => {
-    console.log("filters:", changeEvent.target.value);
-    setFilters(changeEvent.target.value as string[]);
+    // Extract filters from UI
+    const newFilters = changeEvent.target.value as string[];
+    // Update state to this renders correctly
+    setFilters(newFilters);
+    // Broadcast FilterOptions objects to parent
+    handleFilter(filterOptions.filter((opt) => newFilters.includes(opt.name)));
   };
 
   return (
