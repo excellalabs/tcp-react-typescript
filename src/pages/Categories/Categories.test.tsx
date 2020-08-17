@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import React from "react";
-import { UserProvider } from "../../context/UserContext/UserContext";
+
 import CategoriesPage from "./Categories";
+import React from "react";
 
 describe("Categories page", () => {
   beforeEach(() => {
