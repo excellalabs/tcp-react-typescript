@@ -17,7 +17,7 @@ import { useStyles } from "./DataTable.styles";
 export interface DataColumn<T extends IBaseItem> {
   propertyName: keyof T; // must be the key on the data object
   headerLabel: string;
-  isNumeric: false; // uses right justification for data
+  isNumeric: boolean; // uses right justification for data when true
   renderer: (data: T) => string | number | JSX.Element | ReactNode;
 }
 
