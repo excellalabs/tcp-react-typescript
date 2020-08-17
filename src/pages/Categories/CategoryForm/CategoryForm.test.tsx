@@ -10,7 +10,15 @@ describe("CategoryForm page", () => {
     render(<CategoryForm submitCategory={mockSubmitHandler} />);
   });
 
-  it("renders the CategoryForm page", () => {
-    expect(screen.getByText(/CategoryForm/)).toBeInTheDocument();
+  it("renders the Category Form input Label", () => {
+    expect(screen.getByText(/Category Name/)).toBeInTheDocument();
+  });
+
+  it("renders the Category Form input", () => {
+    expect(screen.getByLabelText(/Category Name/)).toBeInTheDocument();
+  });
+
+  it("renders the Category Form submit button", () => {
+    expect(screen.getByText(/Add Category/)).toBeInTheDocument();
   });
 });
