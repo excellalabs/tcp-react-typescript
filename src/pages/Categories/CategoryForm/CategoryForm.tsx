@@ -11,8 +11,8 @@ import React, { useEffect, useState } from "react";
 import { ICategory } from "../../../models/Skill.interface";
 
 export type CategoryFormProps = {
-  categoryToEdit?: ICategory | undefined;
-  submitCategory: (category: ICategory) => void;
+  categoryToEdit?: ICategory | undefined; // Input
+  submitCategory: (category: ICategory) => void; // Output
 };
 
 const CategoryForm: React.FC<CategoryFormProps> = ({
@@ -45,7 +45,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           <TextField
             id="category-name"
             type="text"
-            label="Category"
+            label="Category Name"
             value={category?.name}
             onChange={handleChange}
           ></TextField>
@@ -56,7 +56,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             color="primary"
             onClick={() => submitCategory(category)}
           >
-            Submit
+            {category?.id ? "Update" : "Add"} Category
           </Button>
         </CardActions>
       </Card>
