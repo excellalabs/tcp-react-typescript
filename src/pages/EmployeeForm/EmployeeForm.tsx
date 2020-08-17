@@ -15,6 +15,7 @@ import StepContent from "@material-ui/core/StepContent";
 import { makeStyles } from "@material-ui/core/styles";
 import ContactForm from "./ContactForm/ContactForm";
 import SkillsForm from "./SkillsForm/SkillsForm";
+import Review from "./Review/Review";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +65,7 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
       case 2:
         return <SkillsForm formGroup="skills" />; //placeholder
       case 3:
-        return "Review Here"; //placeholder
+        return <Review />;
       default:
         return <div>Not Found</div>;
     }
