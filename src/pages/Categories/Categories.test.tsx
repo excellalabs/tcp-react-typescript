@@ -1,16 +1,18 @@
 import { render, screen } from "@testing-library/react";
-import React from "react";
-import { UserProvider } from "../../context/UserContext/UserContext";
+
 import CategoriesPage from "./Categories";
+import React from "react";
 
 describe("Categories page", () => {
   beforeEach(() => {
-    render(
-        <CategoriesPage />
-    );
+    render(<CategoriesPage />);
   });
 
-  it("renders the categories page", () => {
-    expect(screen.getByText(/Categories/)).toBeInTheDocument();
+  it("renders the Category Form page", () => {
+    expect(screen.getByLabelText(/Category Name/)).toBeInTheDocument();
+  });
+
+  it("renders the Category Table page", () => {
+    expect(screen.getByText(/# of Skills/)).toBeInTheDocument();
   });
 });
