@@ -3,17 +3,17 @@ import { agileSkillCategory, techSkillCategory } from "./category";
 import { ISkill } from "../../models/Skill.interface";
 
 export const scrumMasterSkill: ISkill = {
-  id: 0,
+  id: 1,
   name: "Scrum Master",
   category: agileSkillCategory,
 };
 export const reactSkill: ISkill = {
-  id: 1,
+  id: 2,
   name: "React",
   category: techSkillCategory,
 };
 export const javaSkill: ISkill = {
-  id: 2,
+  id: 3,
   name: "Java",
   category: techSkillCategory,
 };
