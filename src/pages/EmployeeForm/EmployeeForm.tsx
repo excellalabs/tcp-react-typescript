@@ -15,6 +15,7 @@ import StepContent from "@material-ui/core/StepContent";
 import { makeStyles } from "@material-ui/core/styles";
 import ContactForm from "./ContactForm/ContactForm";
 import SkillsForm from "./SkillsForm/SkillsForm";
+import Review from "./Review/Review";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +45,9 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
   function handleNext(values: IEmployeeForm) {
     if (isLastStep) {
       alert("submitted!"); //placeholder
+      // TODO: Form must properly build Skills to be able to send to backend service. Currently only saves string for skill name, needs other details.
+      // const employeeService = new EmployeeService(AuthService.retrieveToken());
+      // employeeService.create((values as unknown) as IEmployee);
     } else {
       setSnapshot(values);
       setActiveStep(activeStep + 1);
@@ -64,7 +68,7 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
       case 2:
         return <SkillsForm formGroup="skills" />; //placeholder
       case 3:
-        return "Review Here"; //placeholder
+        return <Review />;
       default:
         return <div>Not Found</div>;
     }
