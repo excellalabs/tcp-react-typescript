@@ -53,7 +53,7 @@ const Review: React.FC<{}> = () => {
           <Field
             name="Date of Birth"
             value={
-              (formData.bio.birthDate as Date).toLocaleDateString() ??
+              (formData.bio.birthDate as Date)?.toLocaleDateString() ??
               "--/--/----"
             }
           />

@@ -16,6 +16,6 @@ describe("Review Page", () => {
   });
 
   it("renders the review page", () => {
-    expect(screen.getByText(/Biographical Information/)).toBeInTheDocument();
+    expect(screen.getByText("Biographical Information")).toBeInTheDocument();
   });
 });
