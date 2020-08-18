@@ -45,6 +45,9 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
   function handleNext(values: IEmployeeForm) {
     if (isLastStep) {
       alert("submitted!"); //placeholder
+      // TODO: Form must properly build Skills to be able to send to backend service. Currently only saves string for skill name, needs other details.
+      // const employeeService = new EmployeeService(AuthService.retrieveToken());
+      // employeeService.create((values as unknown) as IEmployee);
     } else {
       setSnapshot(values);
       setActiveStep(activeStep + 1);
