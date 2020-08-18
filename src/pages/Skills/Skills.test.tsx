@@ -2,14 +2,16 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import SkillsPage from "./Skills";
 
-describe("Employees page", () => {
+describe("Skills page", () => {
   beforeEach(() => {
-    render(
-        <SkillsPage />
-    );
+    render(<SkillsPage />);
   });
 
-  it("renders the skills page", () => {
-    expect(screen.getByText(/Skills/)).toBeInTheDocument();
+  it("renders the Skills Form page", () => {
+    expect(screen.getByLabelText(/Skill Name/)).toBeInTheDocument();
+  });
+
+  it("renders the Skill Table page", () => {
+    expect(screen.getByText(/Skill Category/)).toBeInTheDocument();
   });
 });
