@@ -52,7 +52,10 @@ const Review: React.FC<{}> = () => {
           <Field name="Last Name" value={formData.bio.lastName} />
           <Field
             name="Date of Birth"
-            value={formData.bio.birthDate?.toDateString ?? "--/--/----"}
+            value={
+              (formData.bio.birthDate as Date).toLocaleDateString() ??
+              "--/--/----"
+            }
           />
           <Field name="Gender" value={formData.bio.gender} />
           <Field name="Ethnicity" value={formData.bio.ethnicity} />
