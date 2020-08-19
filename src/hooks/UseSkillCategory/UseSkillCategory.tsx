@@ -1,15 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAuthState } from "../../context/AuthContext/AuthContext";
 import SkillCategoryService from "../../services/SkillCategory/SkillCategoryService";
-import {
-  ISkillCategory,
-  SkillCategory,
-} from "../../models/SkillCategory.interface";
+import { ICategory, Category } from "../../models/Skill.interface";
 
 const useSkillCategory = () => {
   const { status, token } = useAuthState();
 
-  const [categories, setCategories] = useState([] as ISkillCategory[]);
+  const [categories, setCategories] = useState([] as ICategory[]);
 
   const fetchSkillCategories = useCallback(async () => {
     const categoryService = new SkillCategoryService(token);
@@ -19,7 +16,7 @@ const useSkillCategory = () => {
         res.status === 200
           ? setCategories(
               res.data.map((item) => {
-                return new SkillCategory(item);
+                return new Category(item);
               })
             )
           : setCategories([]);
