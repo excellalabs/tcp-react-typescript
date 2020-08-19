@@ -9,6 +9,9 @@ import {
   useAuthState,
   useAuthDispatch,
 } from "../../context/AuthContext/AuthContext";
+import {
+  useUserState
+} from "../../context/UserContext/UserContext";
 
 function ListItemLink(props: any) {
   return <ListItem button component="a" {...props} />;
@@ -17,6 +20,7 @@ function ListItemLink(props: any) {
 const LoginLogoutLink = () => {
   const { status } = useAuthState();
   const authActions = useAuthDispatch();
+  
   return status === "authenticated" ? (
     <ListItemLink onClick={() => authActions({ type: "logout" })} to={"/login"}>
       <ListItemText data-testid="logout-sidenav" primary={"Logout"} />
@@ -28,42 +32,63 @@ const LoginLogoutLink = () => {
   );
 };
 
+const UserLinks = () => {
+  const { status } = useAuthState();
+  
+  return status === "authenticated" ? (
+    <>
+      <List>
+        <ListItemLink component={Link} to="/home">
+          <ListItemText primary="Home" />
+        </ListItemLink>
+        <ListItemLink component={Link} to="/employee/self">
+          <ListItemText primary="Manage My Skills" />
+        </ListItemLink>
+        <ListItemLink component={Link} to="/employee/list">
+          <ListItemText primary="Employee List" />
+        </ListItemLink>
+      </List>
+      <Divider />
+    </>
+  ) : (<></>);
+};
+
+const AdminLinks = () => {
+  const { status } = useAuthState();
+  const { isAdmin } = useUserState();
+  
+  return (status === "authenticated"  && isAdmin) ? (
+    <>
+      <List
+        component="nav"
+        aria-labelledby="list-subheader"
+        subheader={
+          <ListSubheader component="div" id="list-subheader">
+            Admin Actions
+          </ListSubheader>
+        }
+      >
+        <ListItemLink component={Link} to="/employee/add">
+          <ListItemText primary="Add Employee" />
+        </ListItemLink>
+        <ListItemLink component={Link} to="/admin/skills">
+          <ListItemText primary="Manage Skills" />
+        </ListItemLink>
+        <ListItemLink component={Link} to="/admin/categories">
+          <ListItemText primary="Manage Categories" />
+        </ListItemLink>
+      </List>
+      <Divider />
+    </>
+  ) : (<></>);
+};
+
 export class SideNav extends React.Component {
   render() {
     return (
       <div>
-        <List>
-          <ListItemLink component={Link} to="/home">
-            <ListItemText primary="Home" />
-          </ListItemLink>
-          <ListItemLink component={Link} to="/employee/self">
-            <ListItemText primary="Manage My Skills" />
-          </ListItemLink>
-          <ListItemLink component={Link} to="/employee/list">
-            <ListItemText primary="Employee List" />
-          </ListItemLink>
-        </List>
-        <Divider />
-        <List
-          component="nav"
-          aria-labelledby="list-subheader"
-          subheader={
-            <ListSubheader component="div" id="list-subheader">
-              Admin Actions
-            </ListSubheader>
-          }
-        >
-          <ListItemLink component={Link} to="/employee/add">
-            <ListItemText primary="Add Employee" />
-          </ListItemLink>
-          <ListItemLink component={Link} to="/admin/skills">
-            <ListItemText primary="Manage Skills" />
-          </ListItemLink>
-          <ListItemLink component={Link} to="/admin/categories">
-            <ListItemText primary="Manage Categories" />
-          </ListItemLink>
-        </List>
-        <Divider />
+        <UserLinks />
+        <AdminLinks />
         <List>
           <LoginLogoutLink />
         </List>
