@@ -61,7 +61,7 @@ const Review: React.FC<{}> = () => {
           <Field name="Ethnicity" value={formData.bio.ethnicity} />
           <Field
             name="Us Citizen"
-            value={formData.bio.isCitizen ? "Yes" : "No"}
+            value={formData.bio.usCitizen ? "Yes" : "No"}
           />
         </Grid>
       </Grid>

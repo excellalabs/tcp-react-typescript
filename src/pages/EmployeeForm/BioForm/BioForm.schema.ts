@@ -37,8 +37,8 @@ export const bioFormModel = {
     requiredErrorMsg: "Ethnicity is required",
     default: "",
   },
-  isCitizen: {
-    name: "isCitizen",
+  usCitizen: {
+    name: "usCitizen",
     label: "US Citizen",
     default: false,
   },
@@ -51,7 +51,7 @@ const {
   birthDate,
   gender,
   ethnicity,
-  isCitizen,
+  usCitizen,
 } = bioFormModel;
 
 export const bioFormSchema = Yup.object({
@@ -75,7 +75,7 @@ export const bioFormSchema = Yup.object({
   ethnicity: Yup.string()
     .required(`${ethnicity.requiredErrorMsg}`)
     .default(ethnicity.default),
-  isCitizen: Yup.boolean().default(isCitizen.default),
+  usCitizen: Yup.boolean().default(usCitizen.default),
 }).required();
 
 export type IEmployeeBioForm = Yup.InferType<typeof bioFormSchema>;

@@ -49,7 +49,7 @@ describe("BioForm", () => {
       birthDate: "03/17/1980",
       gender: "MALE",
       ethnicity: "ASIAN",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     await expect(bioFormSchema.validate(testInfo)).resolves;
@@ -62,7 +62,7 @@ describe("BioForm", () => {
       birthDate: "03/17/1980",
       gender: "MALE",
       ethnicity: "ASIAN",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     expect.assertions(1);
@@ -78,7 +78,7 @@ describe("BioForm", () => {
       birthDate: "03/17/1980",
       gender: "MALE",
       ethnicity: "ASIAN",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     expect.assertions(1);
@@ -94,7 +94,7 @@ describe("BioForm", () => {
       birthDate: null,
       gender: "MALE",
       ethnicity: "ASIAN",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     expect.assertions(1);
@@ -110,7 +110,7 @@ describe("BioForm", () => {
       birthDate: "02/14/2020",
       gender: "MALE",
       ethnicity: "ASIAN",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     expect.assertions(1);
@@ -126,7 +126,7 @@ describe("BioForm", () => {
       birthDate: "03/17/1980",
       gender: "",
       ethnicity: "ASIAN",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     expect.assertions(1);
@@ -142,7 +142,7 @@ describe("BioForm", () => {
       birthDate: "03/17/1980",
       gender: "MALE",
       ethnicity: "",
-      isCitizen: true,
+      usCitizen: true,
     };
 
     expect.assertions(1);
