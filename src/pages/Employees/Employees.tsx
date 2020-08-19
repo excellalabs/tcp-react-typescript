@@ -8,15 +8,7 @@ import React, { useEffect, useState } from "react";
 import { ChipList } from "../../components/ChipList/ChipList";
 import { Employee } from "../../models/Employee.interface";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
-
-// REPLACE THESE WITH REAL DATA FROM API
-const skills: FilterOption[] = [
-  { name: "JavaScript", value: "JavaScript" },
-  { name: "Java", value: "Java" },
-  { name: "Scrum Master", value: "Scrum Master" },
-  { name: "React", value: "React" },
-  { name: "Data Analysis", value: "Data Analysis" },
-];
+import useSkill from "../../hooks/UseSkill/UseSkill";
 
 const columns: DataColumn<Employee>[] = [
   {
@@ -80,6 +72,10 @@ const EmployeesPage: React.FC<{}> = () => {
   // Fetch emplolyees from API
   const { employees } = useEmployee();
 
+  // Fetch skills from API
+  const { skills } = useSkill();
+  const filterOptions = skills.map((s) => ({ name: s.name, value: s }));
+
   const [employeeList, setEmployeeList] = useState<Employee[]>([]);
 
   // Update the list when the API data updates
@@ -122,7 +118,7 @@ const EmployeesPage: React.FC<{}> = () => {
       <SearchAndFilter
         searchBy="Employee Name"
         filterBy="Skill"
-        filterOptions={skills} // REPLACE WITH SKILLS FROM API
+        filterOptions={filterOptions} // REPLACE WITH SKILLS FROM API
         handleSearch={handleSearch}
         handleFilter={handleFilter}
       ></SearchAndFilter>
