@@ -23,7 +23,6 @@ export const BioForm: React.FC<{
   } = bioFormModel;
 
   const withFormGroup = addFormGroup(formGroup);
-
   return (
     <Card>
       <Box p={3}>
