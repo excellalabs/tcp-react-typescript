@@ -32,7 +32,7 @@ const getId = (params) => {
 
 export default {
   get: jest.fn((params = "") => {
-    if (params.includes("/employee/")) {
+    if (params.includes("/employee")) {
       return Promise.resolve({ status: 200, data: [fakeEmployee] });
     }
     if (params.includes("/skill")) {
