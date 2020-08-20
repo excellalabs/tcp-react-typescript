@@ -1,34 +1,42 @@
 import React, { useState } from "react";
 
+import { ISkill } from "../../models/Skill.interface";
 import SkillForm from "./SkillForm/SkillForm";
 import SkillTable from "./SkillTable/SkillTable";
-import { ISkill } from "../../models/Skill.interface";
-import skills from "../../__mocks__/data/skill";
+import useSkill from "../../hooks/UseSkill/UseSkill";
 
 const SkillsPage: React.FC<{}> = () => {
+  // Skills API
+  const {
+    skills,
+    createSkill,
+    getSkillById,
+    updateSkill,
+    deleteSkill,
+  } = useSkill();
 
+  // State for the skill being worked on
   const [skillToEdit, setSkillToEdit] = useState<ISkill | undefined>(
     {} as ISkill
   );
 
+  // Response Handlers
   const handleSubmit = (skill: ISkill) => {
     if (skill.id) {
-      // REPLACE WITH API CALL
-      console.log("Updating Skill: ", skill);
+      updateSkill(skill).then(() => {});
     } else {
-      // REPLACE WITH API CALL
-      console.log("Adding Skill: ", skill);
+      createSkill(skill).then(() => {});
     }
   };
 
   function handleEditSkill(id: number) {
-    // REPLACE WITH API CALL TO GET SKILL
-    setSkillToEdit(skills.find((s) => s.id === id));
+    getSkillById(id).then((response) => {
+      setSkillToEdit(response.data);
+    });
   }
 
   function handleDeleteSkill(id: number) {
-    // REPLACE WITH API CALL
-    console.log("deleteing: ", id);
+    deleteSkill(id).then(() => {});
   }
 
   return (

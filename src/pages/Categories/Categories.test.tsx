@@ -1,11 +1,16 @@
 import { render, screen } from "@testing-library/react";
 
-import CategoriesPage from "./Categories";
+import Categories from "./Categories";
+import { AuthProvider } from "../../context/AuthContext/AuthContext";
 import React from "react";
 
 describe("Categories page", () => {
   beforeEach(() => {
-    render(<CategoriesPage />);
+    render(
+      <AuthProvider>
+        <Categories />
+      </AuthProvider>
+    );
   });
 
   it("renders the Category Form page", () => {

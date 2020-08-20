@@ -1,10 +1,15 @@
-import { render, screen } from "@testing-library/react";
 import React from "react";
 import SkillsPage from "./Skills";
+import { AuthProvider } from "../../context/AuthContext/AuthContext";
+import { render, screen } from "@testing-library/react";
 
 describe("Skills page", () => {
   beforeEach(() => {
-    render(<SkillsPage />);
+    render(
+      <AuthProvider>
+        <SkillsPage />
+      </AuthProvider>
+    );
   });
 
   it("renders the Skills Form page", () => {

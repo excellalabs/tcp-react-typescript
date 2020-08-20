@@ -10,11 +10,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import React, { useEffect, useState } from "react";
-import categories from "../../../__mocks__/data/category";
-
 import { ICategory, ISkill } from "../../../models/Skill.interface";
+import React, { useEffect, useState } from "react";
+
+import { makeStyles } from "@material-ui/core/styles";
+import useSkillCategory from "../../../hooks/UseSkillCategory/UseSkillCategory";
 
 export type SkillFormProps = {
   skillToEdit?: ISkill | undefined; // Input
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
+  // Fetch Categories from API
+  const { skillCategories } = useSkillCategory();
+
   // Store the skill being worked on
   const [skill, setSkill] = useState<ISkill>({
     name: "",
@@ -36,7 +39,6 @@ const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
 
   // When a new skill to edit is passed in, let's set the form accordingly
   useEffect(() => {
-    console.log(skillToEdit);
     setSkill(skillToEdit ?? ({ id: 0, name: "" } as ISkill));
   }, [skillToEdit]);
 
@@ -47,7 +49,10 @@ const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
 
   // Store changes as the user edits the category
   const handleCatChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSkill({ ...skill, category: event.target.value } as ISkill);
+    setSkill({
+      ...skill,
+      category: skillCategories.find((c) => c.id === event.target.value),
+    } as ISkill);
   };
 
   const classes = useStyles();
@@ -81,7 +86,7 @@ const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
                 onChange={handleCatChange}
               >
                 <MenuItem key={0} value={0}></MenuItem>
-                {categories.map((c: ICategory) => (
+                {skillCategories.map((c: ICategory) => (
                   <MenuItem key={c.id} value={c.id}>
                     {c.name}
                   </MenuItem>
