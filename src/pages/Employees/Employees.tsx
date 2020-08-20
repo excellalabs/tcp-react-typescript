@@ -118,7 +118,7 @@ const EmployeesPage: React.FC<{}> = () => {
       <SearchAndFilter
         searchBy="Employee Name"
         filterBy="Skill"
-        filterOptions={filterOptions} // REPLACE WITH SKILLS FROM API
+        filterOptions={filterOptions}
         handleSearch={handleSearch}
         handleFilter={handleFilter}
       ></SearchAndFilter>
