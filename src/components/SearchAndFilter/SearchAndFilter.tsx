@@ -15,10 +15,14 @@ import React, { ChangeEvent, ReactNode, useState } from "react";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formControl: {
-      margin: theme.spacing(1),
+      margin: 0,
       minWidth: "100%",
       maxWidth: "100%",
     },
+    container: {
+      margin: 0,
+      width: "100%",
+    }
   })
 );
 
@@ -68,7 +72,7 @@ export const SearchAndFilter = (
 
   return (
     <form noValidate autoComplete="off">
-      <Grid container spacing={2}>
+      <Grid container spacing={2} className={classes.container}>
         <Grid item xs={6}>
           <FormControl className={classes.formControl}>
             <TextField
