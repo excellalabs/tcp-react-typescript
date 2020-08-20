@@ -19,7 +19,7 @@ export const BioForm: React.FC<{
     birthDate,
     gender,
     ethnicity,
-    isCitizen,
+    usCitizen,
   } = bioFormModel;
 
   const withFormGroup = addFormGroup(formGroup);
@@ -77,8 +77,8 @@ export const BioForm: React.FC<{
           </Grid>
           <Grid item xs={12} sm={6}>
             <CheckboxField
-              label={isCitizen.label}
-              name={withFormGroup(isCitizen.name)}
+              label={usCitizen.label}
+              name={withFormGroup(usCitizen.name)}
             />
           </Grid>
         </Grid>

@@ -22,6 +22,14 @@ export interface ICategory extends IBaseItem {
   name: string;
 }
 
+export class Category extends BaseItem {
+  public name: string;
+  constructor(category: ICategory) {
+    super(category.id);
+    this.name = category.name;
+  }
+}
+
 // Basic Enum, not managed by Admin
 export enum PROFICIENCY {
   LOW = "LOW",

@@ -9,10 +9,20 @@ import {
 import EmployeeForm from "./EmployeeForm";
 import React from "react";
 import { defaultValues } from "./EmployeeForm.schema";
+import { AuthProvider } from "../../context/AuthContext/AuthContext";
 
+let container: HTMLElement;
 describe("EmployeeForm", () => {
+  beforeEach(() => {
+    const { container: c } = render(
+      <AuthProvider>
+        <EmployeeForm employeeFormData={defaultValues} />
+      </AuthProvider>
+    );
+    container = c;
+  });
+
   it("renders four steps", () => {
-    render(<EmployeeForm employeeFormData={defaultValues} />);
     expect(screen.getByText("Biological Information")).toBeInTheDocument();
     expect(screen.getByText("Contact Info")).toBeInTheDocument();
     expect(screen.getByText("Skills")).toBeInTheDocument();
@@ -20,7 +30,6 @@ describe("EmployeeForm", () => {
   });
 
   it("does not progress if bio form is not complete", async () => {
-    render(<EmployeeForm employeeFormData={defaultValues} />);
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const gender = screen.getByRole("radio", {
@@ -39,9 +48,6 @@ describe("EmployeeForm", () => {
   });
 
   it("progresses if required fields in bio form are complete", async () => {
-    const { container } = render(
-      <EmployeeForm employeeFormData={defaultValues} />
-    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {
@@ -70,9 +76,6 @@ describe("EmployeeForm", () => {
   });
 
   it("navigates from contact info to bio section by clicking bio heading", async () => {
-    const { container } = render(
-      <EmployeeForm employeeFormData={defaultValues} />
-    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {
@@ -103,9 +106,6 @@ describe("EmployeeForm", () => {
   });
 
   it("does not progress if contact form is not complete", async () => {
-    const { container } = render(
-      <EmployeeForm employeeFormData={defaultValues} />
-    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {
@@ -143,9 +143,6 @@ describe("EmployeeForm", () => {
   });
 
   it("progresses if required fields in contact form are complete", async () => {
-    const { container } = render(
-      <EmployeeForm employeeFormData={defaultValues} />
-    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {
@@ -196,9 +193,6 @@ describe("EmployeeForm", () => {
   });
 
   it("navigates from skills info to contact section by clicking contact heading", async () => {
-    const { container } = render(
-      <EmployeeForm employeeFormData={defaultValues} />
-    );
     const firstName = screen.getByLabelText(/First name*/) as HTMLInputElement;
     const lastName = screen.getByLabelText(/Last name*/) as HTMLInputElement;
     const birthDate = screen.getByRole("textbox", {

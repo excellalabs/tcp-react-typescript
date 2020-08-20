@@ -16,6 +16,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import ContactForm from "./ContactForm/ContactForm";
 import SkillsForm from "./SkillsForm/SkillsForm";
 import Review from "./Review/Review";
+import {
+  IEmployee,
+  IEmployeeBio,
+  GENDER,
+  ETHNICITY,
+} from "../../models/Employee.interface";
+import useSkill from "../../hooks/UseSkill/UseSkill";
+import { PROFICIENCY } from "../../models/Skill.interface";
+import useEmployee from "../../hooks/UseEmployee/UseEmployee";
+import { Redirect } from "react-router-dom";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +52,50 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
   const isLastStep = activeStep === steps.length - 1;
   const [snapshot, setSnapshot] = useState(employeeFormData);
 
+  const { skills: skillsList } = useSkill();
+  const { createEmployee } = useEmployee();
+
+  type SubmitStatus = "pending" | "success" | "error";
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("pending");
+
+  function formSchemaToIEmployee(values: IEmployeeForm): IEmployee {
+    return ({
+      bio: {
+        firstName: values.bio.firstName,
+        middleInitial: values.bio.middleInitial,
+        lastName: values.bio.lastName,
+        birthDate: values.bio.birthDate,
+        gender: values.bio.gender as GENDER,
+        ethnicity: values.bio.ethnicity as ETHNICITY,
+        usCitizen: values.bio.usCitizen ?? false,
+      },
+      contact: {
+        email: values.contact.email,
+        phoneNumber: values.contact.phoneNumber,
+        address: {
+          line1: values.contact.address1,
+          line2: values.contact.address2 ?? "",
+          city: values.contact.city,
+          stateCode: values.contact.state,
+          zipCode: values.contact.zipCode,
+        },
+      },
+      skills: values.skills.map((skill, count) => ({
+        id: count,
+        skill: skillsList.filter((i) => i.name === skill.skill)[0],
+        proficiency: skill.proficiency as PROFICIENCY,
+        primary: skill.primary ?? false,
+      })),
+    } as unknown) as IEmployee;
+  }
+
   function handleNext(values: IEmployeeForm) {
     if (isLastStep) {
-      alert("submitted!"); //placeholder
-      // TODO: Form must properly build Skills to be able to send to backend service. Currently only saves string for skill name, needs other details.
-      // const employeeService = new EmployeeService(AuthService.retrieveToken());
-      // employeeService.create((values as unknown) as IEmployee);
+      createEmployee(formSchemaToIEmployee(values)).then((res) => {
+        res.status === 200
+          ? setSubmitStatus("success")
+          : setSubmitStatus("error");
+      });
     } else {
       setSnapshot(values);
       setActiveStep(activeStep + 1);
@@ -93,6 +141,10 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
     setActiveStep(step);
   }
 
+  if (submitStatus === "success") {
+    return <Redirect to="/employee/list" />;
+  }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -122,6 +174,9 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
                       <Button type="submit" variant="contained" color="primary">
                         {isLastStep ? "Submit" : "Next"}
                       </Button>
+                      {submitStatus === "error" && (
+                        <p>There was an error with the submission</p>
+                      )}
                     </div>
                   </Form>
                 )}
