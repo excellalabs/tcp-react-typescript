@@ -9,7 +9,7 @@ export interface IEmployeeService extends IBaseCrudService<IEmployee> {
 
 export default class EmployeeService extends BaseCrudService<IEmployee>
   implements IEmployeeService {
-  endpoint = "/employee/";
+  endpoint = "/employee";
 
   formatDate(date: Date): Date {
     const year = date.getFullYear();
