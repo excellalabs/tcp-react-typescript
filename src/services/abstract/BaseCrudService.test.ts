@@ -9,7 +9,7 @@ interface ITestItem extends IBaseItem {
 
 class TestService extends BaseCrudService<ITestItem>
   implements IBaseCrudService<ITestItem> {
-  endpoint = "/items/";
+  endpoint = "/items";
 }
 
 describe("BaseCrudService", () => {

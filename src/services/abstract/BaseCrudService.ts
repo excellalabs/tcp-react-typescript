@@ -24,11 +24,18 @@ export abstract class BaseCrudService<I extends IBaseItem>
       },
     };
   }
-  get(): Promise<AxiosResponse<I[]>> {
-    return axios.get(`${this.baseUrl}${this.endpoint}`, this.config);
+  // Default page = 1 and size = 100
+  // Can be overwritten.
+  get(page: number = 0, size: number = 100): Promise<AxiosResponse<I[]>> {
+    const pageParam: string = page >= 0 ? `?page=${page}` : "?page";
+    const sizeParam: string = size > 0 ? `&size=${size}` : "";
+    return axios.get(
+      `${this.baseUrl}${this.endpoint}${pageParam}${sizeParam}`,
+      this.config
+    );
   }
   getById(id: number): Promise<AxiosResponse<I>> {
-    return axios.get(`${this.baseUrl}${this.endpoint}${id}`, this.config);
+    return axios.get(`${this.baseUrl}${this.endpoint}/${id}`, this.config);
   }
 
   create(item: I): Promise<AxiosResponse<I>> {
@@ -37,12 +44,12 @@ export abstract class BaseCrudService<I extends IBaseItem>
 
   update(item: I): Promise<AxiosResponse<I>> {
     return axios.put(
-      `${this.baseUrl}${this.endpoint}${item.id}`,
+      `${this.baseUrl}${this.endpoint}/${item.id}`,
       item,
       this.config
     );
   }
   delete(id: number): Promise<AxiosResponse<I>> {
-    return axios.delete(`${this.baseUrl}${this.endpoint}${id}`, this.config);
+    return axios.delete(`${this.baseUrl}${this.endpoint}/${id}`, this.config);
   }
 }
