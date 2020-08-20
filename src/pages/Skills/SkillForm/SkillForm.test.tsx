@@ -1,13 +1,17 @@
-import { render, screen } from "@testing-library/react";
-
+import React from "react";
 import SkillForm from "./SkillForm";
 import { ISkill } from "../../../models/Skill.interface";
-import React from "react";
+import { AuthProvider } from "../../../context/AuthContext/AuthContext";
+import { render, screen } from "@testing-library/react";
 
 describe("SkillForm page", () => {
   const mockSubmitHandler = jest.fn((category: ISkill) => {});
   beforeEach(() => {
-    render(<SkillForm submitSkill={mockSubmitHandler} />);
+    render(
+      <AuthProvider>
+        <SkillForm submitSkill={mockSubmitHandler} />
+      </AuthProvider>
+    );
   });
 
   it("renders the Skill Form input Label", () => {

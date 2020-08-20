@@ -1,15 +1,48 @@
-import { useState, useCallback, useEffect } from "react";
 import { ISkill, Skill } from "../../models/Skill.interface";
-import { useAuthState } from "../../context/AuthContext/AuthContext";
+import { useCallback, useEffect, useState } from "react";
+
 import SkillService from "../../services/Skill/SkillService";
+import { useAuthState } from "../../context/AuthContext/AuthContext";
 
 const useSkill = () => {
   const { status, token } = useAuthState();
 
+  // Cache service, refreshing on token change
+  const [skillService, setSkillService] = useState<SkillService>(
+    new SkillService(token)
+  );
+
+  // Variable to re-render the screen
+  const [shouldUpdate, setShouldUpdate] = useState(false);
+
+  useEffect(() => {
+    setSkillService(new SkillService(token));
+  }, [token]);
+
+  // Wrapper functions for CRUD operations
+  const createSkill = (skill: ISkill) => {
+    setShouldUpdate(true);
+    return skillService.create(skill);
+  };
+
+  const getSkillById = (id: number) => {
+    return skillService.getById(id);
+  };
+
+  const updateSkill = (skill: ISkill) => {
+    setShouldUpdate(true);
+    return skillService.update(skill);
+  };
+
+  const deleteSkill = (id: number) => {
+    setShouldUpdate(true);
+    return skillService.delete(id);
+  };
+
+  // Cache for skills
   const [skills, setSkills] = useState([] as ISkill[]);
 
   const fetchSkills = useCallback(async () => {
-    const skillService = new SkillService(token);
     skillService
       .get()
       .then((res) => {
@@ -24,7 +57,15 @@ const useSkill = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [token]);
+  }, [skillService, shouldUpdate]);
+
+  // Re-render upon updates
+  useEffect(() => {
+    if (shouldUpdate) {
+      setShouldUpdate(false);
+      fetchSkills();
+    }
+  }, [fetchSkills, shouldUpdate]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -32,7 +73,13 @@ const useSkill = () => {
     }
   }, [fetchSkills, status]);
 
-  return { skills };
+  return {
+    skills,
+    createSkill,
+    getSkillById,
+    updateSkill,
+    deleteSkill,
+  };
 };
 
 export default useSkill;
