@@ -7,7 +7,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import useSkillCategory from "./UseSkillCategory";
 
 const TestComponent = () => {
-  const { categories } = useSkillCategory();
+  const { skillCategories } = useSkillCategory();
   const authAction = useAuthDispatch();
   return (
     <>
@@ -17,7 +17,7 @@ const TestComponent = () => {
       >
         log in
       </button>
-      <div data-testid="skills-length">{categories.length}</div>
+      <div data-testid="categories-length">{skillCategories.length}</div>
     </>
   );
 };
@@ -36,7 +36,7 @@ describe("useSkillCategory hook", () => {
   });
 
   it("returns a default empty (length 0) array", () => {
-    const length = screen.getByTestId("skills-length");
+    const length = screen.getByTestId("categories-length");
     expect(length.firstChild?.textContent).toBe("0");
   });
 
@@ -45,7 +45,7 @@ describe("useSkillCategory hook", () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const length = screen.getByTestId("skills-length");
+      const length = screen.getByTestId("categories-length");
       expect(length.firstChild?.textContent).toBe("1");
     });
   });

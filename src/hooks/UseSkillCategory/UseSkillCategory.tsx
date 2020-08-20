@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useAuthState } from "../../context/AuthContext/AuthContext";
 import SkillCategoryService from "../../services/SkillCategory/SkillCategoryService";
 import { ICategory, Category } from "../../models/Skill.interface";
@@ -6,25 +6,64 @@ import { ICategory, Category } from "../../models/Skill.interface";
 const useSkillCategory = () => {
   const { status, token } = useAuthState();
 
-  const [categories, setCategories] = useState([] as ICategory[]);
+  const [skillCategoryService, setSkillCategoryService] = useState<
+    SkillCategoryService
+  >(new SkillCategoryService(token));
 
+  // Variable to re-render the screen
+  const [shouldUpdate, setShouldUpdate] = useState(false);
+
+  useEffect(() => {
+    setSkillCategoryService(new SkillCategoryService(token));
+  }, [token]);
+
+  // Wrapper functions for CRUD operations
+  const createSkillCategory = (category: ICategory) => {
+    setShouldUpdate(true);
+    return skillCategoryService.create(category);
+  };
+
+  const getSkillCategoryById = (id: number) => {
+    return skillCategoryService.getById(id);
+  };
+
+  const updateSkillCategory = (category: ICategory) => {
+    setShouldUpdate(true);
+    return skillCategoryService.update(category);
+  };
+
+  const deleteSkillCategory = (id: number) => {
+    setShouldUpdate(true);
+    return skillCategoryService.delete(id);
+  };
+
+  const [skillCategories, setSkillCategories] = useState([] as ICategory[]);
+
+  // Fetch categories
   const fetchSkillCategories = useCallback(async () => {
-    const categoryService = new SkillCategoryService(token);
-    categoryService
+    skillCategoryService
       .get()
       .then((res) => {
         res.status === 200
-          ? setCategories(
+          ? setSkillCategories(
               res.data.map((item) => {
                 return new Category(item);
               })
             )
-          : setCategories([]);
+          : setSkillCategories([]);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [token]);
+  }, [skillCategoryService, shouldUpdate]);
+
+  // Re-render upon updates
+  useEffect(() => {
+    if (shouldUpdate) {
+      setShouldUpdate(false);
+      fetchSkillCategories();
+    }
+  }, [fetchSkillCategories, shouldUpdate]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -32,7 +71,13 @@ const useSkillCategory = () => {
     }
   }, [fetchSkillCategories, status]);
 
-  return { categories };
+  return {
+    skillCategories,
+    createSkillCategory,
+    getSkillCategoryById,
+    updateSkillCategory,
+    deleteSkillCategory,
+  };
 };
 
 export default useSkillCategory;
