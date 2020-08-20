@@ -41,9 +41,7 @@ describe("UserContext", () => {
 
   it("errors out when clicking button", () => {
     const testButton = screen.getByTestId("testButton");
-    console.log(screen.debug())
     fireEvent.click(testButton);
-    console.log(screen.debug())
     expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
   });
 });
