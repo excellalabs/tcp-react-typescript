@@ -35,7 +35,7 @@ export abstract class BaseCrudService<I extends IBaseItem>
     );
   }
   getById(id: number): Promise<AxiosResponse<I>> {
-    return axios.get(`${this.baseUrl}${this.endpoint}${id}`, this.config);
+    return axios.get(`${this.baseUrl}${this.endpoint}/${id}`, this.config);
   }
 
   create(item: I): Promise<AxiosResponse<I>> {
@@ -44,12 +44,12 @@ export abstract class BaseCrudService<I extends IBaseItem>
 
   update(item: I): Promise<AxiosResponse<I>> {
     return axios.put(
-      `${this.baseUrl}${this.endpoint}${item.id}`,
+      `${this.baseUrl}${this.endpoint}/${item.id}`,
       item,
       this.config
     );
   }
   delete(id: number): Promise<AxiosResponse<I>> {
-    return axios.delete(`${this.baseUrl}${this.endpoint}${id}`, this.config);
+    return axios.delete(`${this.baseUrl}${this.endpoint}/${id}`, this.config);
   }
 }
