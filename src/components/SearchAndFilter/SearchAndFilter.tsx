@@ -63,7 +63,7 @@ export const SearchAndFilter = (
     // Update state to this renders correctly
     setFilters(newFilters);
     // Broadcast FilterOptions objects to parent
-    handleFilter(filterOptions.filter((opt) => newFilters.includes(opt.name)));
+    handleFilter(filterOptions.filter((opt) => newFilters.includes(opt.value)));
   };
 
   return (
