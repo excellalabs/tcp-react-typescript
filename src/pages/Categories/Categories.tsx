@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 
+import { ICategory } from "../../models/Skill.interface";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import CategoryTable from "./CategoryTable/CategoryTable";
-import { ICategory } from "../../models/Skill.interface";
-import categories from "../../__mocks__/data/category";
+import useSkillCategory from "../../hooks/UseSkillCategory/UseSkillCategory";
 
 const Categories: React.FC<{}> = () => {
-  // MOCK DATA, SHOULD COME FROM API
-  const skilledCategories = categories.map((c) => ({
+  //Fetch categories from API
+  const {
+    skillCategories,
+    createSkillCategory,
+    getSkillCategoryById,
+    updateSkillCategory,
+    deleteSkillCategory,
+  } = useSkillCategory();
+
+  const skilledCategories = skillCategories.map((c) => ({
     ...c,
     skillCount: Math.round(Math.random() * 10),
   }));
@@ -16,24 +24,23 @@ const Categories: React.FC<{}> = () => {
     {} as ICategory
   );
 
+  // Response handlers
   const handleSubmit = (category: ICategory) => {
     if (category.id) {
-      // REPLACE WITH API CALL
-      console.log("Updating Category: ", category);
+      updateSkillCategory(category).then(() => {});
     } else {
-      // REPLACE WITH API CALL
-      console.log("Adding Category: ", category);
+      createSkillCategory(category).then(() => {});
     }
   };
 
   function handleEditCategory(id: number) {
-    // REPLACE WITH API CALL TO GET SKILL
-    setCategoryToEdit(categories.find((c) => c.id === id));
+    getSkillCategoryById(id).then((response) => {
+      setCategoryToEdit(response.data);
+    });
   }
 
   function handleDeleteCategory(id: number) {
-    // REPLACE WITH API CALL
-    console.log("deleteing: ", id);
+    deleteSkillCategory(id).then(() => {});
   }
 
   return (
