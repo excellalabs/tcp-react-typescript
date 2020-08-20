@@ -13,7 +13,7 @@ export default class EmployeeService extends BaseCrudService<IEmployee>
 
   private formatDate(date: Date): Date {
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; //getMonth returns 0-11 instead of 1-12
+    const month = date.getMonth() + 1; //getMonth() returns 0-11 instead of 1-12
     const day = date.getDay();
 
     const prependZero = (val: number): string =>
