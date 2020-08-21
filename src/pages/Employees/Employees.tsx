@@ -10,35 +10,45 @@ import { Employee } from "../../models/Employee.interface";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
 import useSkill from "../../hooks/UseSkill/UseSkill";
 
-const columns: DataColumn<Employee>[] = [
-  {
-    propertyName: "fullName",
-    headerLabel: "Employee Name",
-    isNumeric: false,
-    renderer: (data: Employee) => data.fullName,
-  },
-  {
-    propertyName: "email",
-    headerLabel: "Employee Email",
-    isNumeric: false,
-    renderer: (data: Employee) => data.email,
-  },
-  {
-    propertyName: "skills",
-    headerLabel: "Skills",
-    isNumeric: false,
-    renderer: (data: Employee) => <ChipList skills={data.skills}></ChipList>,
-  },
-  // Include/exclude this column based on User Role
-  {
+import { useUserState } from "../../context/UserContext/UserContext";
+
+function columns(isAdmin: Boolean): DataColumn<Employee>[] {
+  let userColumns: DataColumn<Employee>[] = [
+    {
+      propertyName: "fullName",
+      headerLabel: "Employee Name",
+      isNumeric: false,
+      renderer: (data: Employee) => data.fullName,
+    },
+    {
+      propertyName: "email",
+      headerLabel: "Employee Email",
+      isNumeric: false,
+      renderer: (data: Employee) => data.email,
+    },
+    {
+      propertyName: "skills",
+      headerLabel: "Skills",
+      isNumeric: false,
+      renderer: (data: Employee) => <ChipList skills={data.skills}></ChipList>,
+    },
+  ];
+
+  const actionColumn: DataColumn<Employee> = {
     propertyName: "id",
     headerLabel: "Actions",
     isNumeric: false,
     renderer: (data: Employee) => (
       <a href={`/employee/edit/${data.id}`}>Edit</a>
-    ),
-  },
-];
+    )
+  }
+
+  if(isAdmin){
+    userColumns.push(actionColumn)
+  }
+
+  return userColumns
+}
 
 export function doSearchAndFilter(
   employees: Employee[],
@@ -113,6 +123,8 @@ const EmployeesPage: React.FC<{}> = () => {
     setEmployeeList(filteredEmployees);
   };
 
+  const { isAdmin } = useUserState();
+
   return (
     <>
       <SearchAndFilter
@@ -123,7 +135,7 @@ const EmployeesPage: React.FC<{}> = () => {
         handleFilter={handleFilter}
       ></SearchAndFilter>
       <DataTable<Employee>
-        columns={columns}
+        columns={columns(isAdmin)}
         rows={employeeList}
         initialSortProperty="fullName"
       />
