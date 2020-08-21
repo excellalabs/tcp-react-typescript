@@ -4,9 +4,7 @@ import { useUserState } from "../../../context/UserContext/UserContext";
 import NotFound from "../../../pages/NotFound/NotFound";
 
 const AdminRoute: React.FC<RouteProps> = ({ ...rest }) => {
-  const { isAdmin, employeeInfo } = useUserState();
-  console.log(employeeInfo);
-  console.log(isAdmin);
+  const { isAdmin } = useUserState();
   return isAdmin ? <Route {...rest} /> : <Route component={NotFound} />;
 };
 
