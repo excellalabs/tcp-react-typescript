@@ -25,7 +25,7 @@ import {
 import useSkill from "../../hooks/UseSkill/UseSkill";
 import { PROFICIENCY } from "../../models/Skill.interface";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -50,10 +50,16 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const isLastStep = activeStep === steps.length - 1;
-  const [snapshot, setSnapshot] = useState(employeeFormData);
+
+  const { id } = useParams();
+
+  const { createEmployee, getEmployeeFormDataById } = useEmployee();
+
+  const [snapshot, setSnapshot] = useState<IEmployeeForm>(
+    getEmployeeFormDataById(id)
+  );
 
   const { skills: skillsList } = useSkill();
-  const { createEmployee } = useEmployee();
 
   type SubmitStatus = "pending" | "success" | "error";
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("pending");
