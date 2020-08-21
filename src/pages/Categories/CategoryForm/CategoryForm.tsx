@@ -34,6 +34,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     setCategory({ ...category, name: event.target.value } as ICategory); // preserve ID if it's there
   };
 
+  // When submitting, pass category to parent and clear the form.
+  function saveCategory(category: ICategory) {
+    submitCategory(category);
+    setCategory({id: 0, name: ""});
+  }
+
   // Render the form
   return (
     <div>
@@ -54,7 +60,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           <Button
             variant="contained"
             color="primary"
-            onClick={() => submitCategory(category)}
+            onClick={() => saveCategory(category)}
           >
             {category?.id ? "Update" : "Add"} Category
           </Button>
