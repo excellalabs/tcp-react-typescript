@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LoginInfo } from "../../context/UserContext/UserContext";
 import Card from "@material-ui/core/Card";
 import Input from "@material-ui/core/Input";
@@ -9,6 +9,7 @@ import {
   useAuthState,
   useAuthDispatch,
 } from "../../context/AuthContext/AuthContext";
+import { Redirect, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => {
   return {
@@ -23,8 +24,15 @@ const useStyles = makeStyles(() => {
 });
 
 const Login: React.FC<{}> = () => {
-  const { error: authError } = useAuthState();
+  const { error: authError, status} = useAuthState();
   const authActions = useAuthDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      history.push("/")
+    }
+    }, [status])
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",
@@ -69,7 +77,7 @@ const Login: React.FC<{}> = () => {
               data-testid="submit-button"
               variant="contained"
               color="primary"
-              onClick={() => handleLogin()}
+              onClick={() => handleLogin() }
             >
               Submit
             </Button>
