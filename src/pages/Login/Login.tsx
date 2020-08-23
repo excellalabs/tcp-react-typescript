@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { LoginInfo } from "../../context/UserContext/UserContext";
-import Card from "@material-ui/core/Card";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  useAuthState,
-  useAuthDispatch,
-} from "../../context/AuthContext/AuthContext";
 import { Redirect, useHistory } from "react-router-dom";
+import {
+  useAuthDispatch,
+  useAuthState,
+} from "../../context/AuthContext/AuthContext";
+
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
+import { LoginInfo } from "../../context/UserContext/UserContext";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => {
   return {
@@ -24,15 +25,16 @@ const useStyles = makeStyles(() => {
 });
 
 const Login: React.FC<{}> = () => {
-  const { error: authError, status} = useAuthState();
+  const { error: authError, status } = useAuthState();
   const authActions = useAuthDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      history.push("/")
+    // Redirect to home on successful login
+    if (status === "authenticated") {
+      history.push("/");
     }
-    }, [status])
+  }, [status, history]);
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",
@@ -77,7 +79,7 @@ const Login: React.FC<{}> = () => {
               data-testid="submit-button"
               variant="contained"
               color="primary"
-              onClick={() => handleLogin() }
+              onClick={() => handleLogin()}
             >
               Submit
             </Button>
