@@ -13,7 +13,11 @@ import addFormGroup from "../../../helpers/FormGroup";
 export const ContactForm: React.FC<{
   formGroup: string;
 }> = ({ formGroup }) => {
+  // Watch for changes to the Formik values, to enbale proper rendering of the list
   const { values } = useFormikContext<IEmployeeForm>();
+  const skillList = (formGroup
+    ? values[formGroup]
+    : values) as typeof skillFormModel[];
 
   const withFormGroup = addFormGroup(formGroup);
 
@@ -24,7 +28,7 @@ export const ContactForm: React.FC<{
           name={formGroup}
           render={(arrayHelpers) => (
             <div>
-              {values.skills.map((skill, index) => (
+              {skillList.map((skill, index) => (
                 <div key={index}>
                   <Grid container spacing={3}>
                     <Grid item xs={5} sm={5}>

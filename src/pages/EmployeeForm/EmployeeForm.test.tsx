@@ -6,17 +6,24 @@ import {
   waitFor,
 } from "@testing-library/react";
 
+import { AuthProvider } from "../../context/AuthContext/AuthContext";
 import EmployeeForm from "./EmployeeForm";
+import { IEmployee } from "../../models/Employee.interface";
 import React from "react";
 import { defaultValues } from "./EmployeeForm.schema";
-import { AuthProvider } from "../../context/AuthContext/AuthContext";
 
 let container: HTMLElement;
 describe("EmployeeForm", () => {
+  let submitEmployee: (employee: IEmployee) => void;
+
   beforeEach(() => {
+    submitEmployee = jest.fn((employee: IEmployee) => {});
     const { container: c } = render(
       <AuthProvider>
-        <EmployeeForm employeeFormData={defaultValues} />
+        <EmployeeForm
+          employeeData={defaultValues}
+          submitEmployee={submitEmployee}
+        />
       </AuthProvider>
     );
     container = c;
