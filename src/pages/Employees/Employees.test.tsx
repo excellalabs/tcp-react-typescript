@@ -63,7 +63,7 @@ describe("table columns", () => {
     it("should have the right title", () => {
       expect(employeeSkillsColumn.headerLabel).toEqual("Skills");
     });
-    it("should sort on fullname", () => {
+    it("should sort on skills", () => {
       expect(employeeSkillsColumn.propertyName).toEqual("skills");
     });
     it("should render the employee skills in a ChipList", () => {
@@ -71,23 +71,6 @@ describe("table columns", () => {
       expect(
         screen.getByText(employees[0].skills[0].skill.name)
       ).toBeInTheDocument();
-    });
-  });
-  describe("action column", () => {
-    it("should have the right title", () => {
-      expect(employeeActionsColumn.headerLabel).toEqual("Actions");
-    });
-    it("should sort on fullname", () => {
-      expect(employeeActionsColumn.propertyName).toEqual("id");
-    });
-    it("should render a Delete button", () => {
-      render(
-        employeeActionsColumn.renderer(employees[0]) as React.ReactElement
-      );
-      expect(screen.getByText("Edit")).toBeInTheDocument();
-      expect(screen.getByText("Edit").getAttribute("href")).toEqual(
-        `/employee/edit/${employees[0].id}`
-      );
     });
   });
 });
