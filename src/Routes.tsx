@@ -1,13 +1,14 @@
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
-import SkillsPage from "./pages/Skills/Skills";
-import LoginComponent from "./pages/Login/Login";
-import React from "react";
 import CategoriesPage from "./pages/Categories/Categories";
+import EmployeeForm from "./pages/EmployeeForm/EmployeeForm";
+import EmployeeFormContainer from "./pages/EmployeeForm/EmployeeFormContainer";
 import EmployeesPage from "./pages/Employees/Employees";
 import HomePage from "./pages/Home/Home";
-import EmployeeForm from "./pages/EmployeeForm/EmployeeForm";
+import LoginComponent from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
+import React from "react";
+import SkillsPage from "./pages/Skills/Skills";
 
 export const Routes = () => (
   <Switch>
@@ -21,8 +22,8 @@ export const Routes = () => (
       path="/employee/self"
       render={({ match }) => <div>Manage Current User Skills</div>}
     />
-    <Route exact path="/employee/:id" component={EmployeeForm} />
-    <Route exact path="/employee/edit/:id" component={EmployeeForm} />
+    <Route exact path="/employee/:id" component={EmployeeFormContainer} />
+    <Route exact path="/employee/edit/:id" component={EmployeeFormContainer} />
     <Route exact path="/admin/categories" component={CategoriesPage} />
     <Route exact path="/admin/skills" component={SkillsPage} />
     <Route component={NotFound} />

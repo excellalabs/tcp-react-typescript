@@ -1,66 +1,72 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
 import { Employee, IEmployee } from "../../models/Employee.interface";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import EmployeeService from "../../services/Employee/EmployeeService";
 import { IEmployeeForm } from "../../pages/EmployeeForm/EmployeeForm.schema";
 import { useAuthState } from "../../context/AuthContext/AuthContext";
-import EmployeeService from "../../services/Employee/EmployeeService";
-
-import * as Yup from "yup";
 
 const useEmployee = () => {
+  // Initialize API service
   const { status, token } = useAuthState();
-
-  const [employees, setEmployees] = useState([] as Employee[]);
-  const [listUpdated, setListUpdated] = useState(false);
-
   const employeeService = useMemo(() => {
     return new EmployeeService(token);
   }, [token]);
 
+  // Local state
+  const [employees, setEmployees] = useState([] as Employee[]);
+  const [listUpdated, setListUpdated] = useState(false);
+
+  // Functions to be passed out from hook
   const createEmployee = (employee: IEmployee) => {
     setListUpdated(true);
     return employeeService.create(employee);
   };
 
-  const getEmployeeById = (id: number) => {
-    return employeeService.getById(id);
+  const updateEmployee = (employee: IEmployee) => {
+    setListUpdated(true);
+    return employeeService.update(employee);
   };
 
-  // const [myEmployee, setMyEmployee] = useState<IEmployee | undefined>(
-  //   {} as IEmployee
-  // );
-
-  const getEmployeeFormDataById = (id: number) => {
-    getEmployeeById(id).then((response) => {
-      //  setMyEmployee(response.data);
-      return employeeToFormSchema(response.data);
-    });
+  const deleteEmployee = (id: number) => {
+    setListUpdated(true);
+    return employeeService.delete(id);
   };
 
-  const employeeToFormSchema: IEmployeeForm = (employee: IEmployee) => {
-    const employeeFormSchema = Yup.object({
-      bio: Yup.object({
-        firstName: Yup.string().default(employee.bio.firstName),
-        middleInitial: Yup.string().default(employee.bio.middleInitial),
-        lastName: Yup.string().default(employee.bio.lastName),
-        birthDate: Yup.date().default(employee.bio.birthDate),
-        gender: Yup.string().default(employee.bio.gender),
-        ethnicity: Yup.string().default(employee.bio.ethnicity),
-        usCitizen: Yup.boolean().default(employee.bio.usCitizen),
-      }).required(),
-      contact: Yup.object({
-        email: Yup.string().default(employee.contact.email),
-        phoneNumber: Yup.string().default(employee.contact.phoneNumber),
-        address1: Yup.string().default(employee.contact.address.line1),
-        address2: Yup.string().default(employee.contact.address.line2),
-        city: Yup.string().default(employee.contact.address.city),
-        state: Yup.string().default(employee.contact.address.stateCode),
-        zipCode: Yup.string().default(employee.contact.address.zipCode),
-      }).required(),
-      skills: Yup.array().default(employee.skills).required(),
-    }).required();
+  const getEmployeeById = useCallback(
+    (id: number) => {
+      return employeeService.getById(id);
+    },
+    [employeeService]
+  );
 
-    return employeeFormSchema;
-  };
+  const getEmployeeFormDataById = useCallback(
+    (id: number): Promise<IEmployeeForm> => {
+      return employeeService
+        .getById(id)
+        .then((response) => employeeToFormSchema(response.data));
+    },
+    [employeeService]
+  );
+
+  function employeeToFormSchema(employee: IEmployee): IEmployeeForm {
+    return {
+      bio: employee.bio,
+      contact: {
+        email: employee.contact.email,
+        phoneNumber: employee.contact.phoneNumber,
+        address1: employee.contact.address.line1,
+        address2: employee.contact.address.line2 ?? "",
+        city: employee.contact.address.city,
+        state: employee.contact.address.stateCode,
+        zipCode: employee.contact.address.zipCode,
+      },
+      skills: employee.skills.map((s) => ({
+        skill: s.skill.name,
+        proficiency: s.proficiency,
+        primary: s.primary,
+      })),
+    };
+  }
 
   const fetchEmployees = useCallback(
     async () => {
@@ -98,6 +104,8 @@ const useEmployee = () => {
     createEmployee,
     getEmployeeById,
     getEmployeeFormDataById,
+    updateEmployee,
+    deleteEmployee,
   };
 };
 

@@ -1,31 +1,24 @@
 import { Button, Step, StepButton, Stepper } from "@material-ui/core";
+import { ETHNICITY, GENDER, IEmployee } from "../../models/Employee.interface";
 import { Form, Formik } from "formik";
 import {
   IEmployeeForm,
-  defaultValues,
-  employeeFormSchema,
   bioEmployeeSchema,
   contactEmployeeSchema,
+  defaultValues,
+  employeeFormSchema,
   skillsEmployeeSchema,
 } from "./EmployeeForm.schema";
-import React, { useState } from "react";
+import { ISkill, PROFICIENCY } from "../../models/Skill.interface";
+import React, { useEffect, useState } from "react";
 
 import { BioForm } from "./BioForm/BioForm";
+import ContactForm from "./ContactForm/ContactForm";
+import Review from "./Review/Review";
+import SkillsForm from "./SkillsForm/SkillsForm";
 import StepContent from "@material-ui/core/StepContent";
 import { makeStyles } from "@material-ui/core/styles";
-import ContactForm from "./ContactForm/ContactForm";
-import SkillsForm from "./SkillsForm/SkillsForm";
-import Review from "./Review/Review";
-import {
-  IEmployee,
-  IEmployeeBio,
-  GENDER,
-  ETHNICITY,
-} from "../../models/Employee.interface";
 import useSkill from "../../hooks/UseSkill/UseSkill";
-import { PROFICIENCY } from "../../models/Skill.interface";
-import useEmployee from "../../hooks/UseEmployee/UseEmployee";
-import { Redirect, useParams } from "react-router-dom";
 
 const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
 const useStyles = makeStyles((theme) => ({
@@ -44,64 +37,70 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
-  employeeFormData = defaultValues,
+export function formSchemaToIEmployee(
+  values: IEmployeeForm,
+  skillsList: ISkill[]
+): IEmployee {
+  return {
+    bio: {
+      firstName: values.bio.firstName,
+      middleInitial: values.bio.middleInitial,
+      lastName: values.bio.lastName,
+      birthDate: values.bio.birthDate,
+      gender: values.bio.gender as GENDER,
+      ethnicity: values.bio.ethnicity as ETHNICITY,
+      usCitizen: values.bio.usCitizen ?? false,
+    },
+    contact: {
+      email: values.contact.email,
+      phoneNumber: values.contact.phoneNumber,
+      address: {
+        line1: values.contact.address1,
+        line2: values.contact.address2 ?? "",
+        city: values.contact.city,
+        stateCode: values.contact.state,
+        zipCode: values.contact.zipCode,
+      },
+    },
+    skills: values.skills.map((skill, index) => ({
+      id: index,
+      skill: skillsList.find((i) => i.name === skill.skill),
+      proficiency: skill.proficiency as PROFICIENCY,
+      primary: skill.primary ?? false,
+    })),
+  } as IEmployee;
+}
+
+export type EmployeeFormProps = {
+  employeeData: IEmployeeForm;
+  submitEmployee: (employee: IEmployee) => void;
+};
+
+const EmployeeForm: React.FC<EmployeeFormProps> = ({
+  employeeData = defaultValues,
+  submitEmployee,
 }) => {
   const classes = useStyles();
+
+  // Wizard management / form state
   const [activeStep, setActiveStep] = useState(0);
   const isLastStep = activeStep === steps.length - 1;
 
-  const { id } = useParams();
-
-  const { createEmployee, getEmployeeFormDataById } = useEmployee();
-
-  const [snapshot, setSnapshot] = useState<IEmployeeForm>(
-    getEmployeeFormDataById(id)
-  );
-
+  // API data and helpers
   const { skills: skillsList } = useSkill();
 
-  type SubmitStatus = "pending" | "success" | "error";
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("pending");
+  // Form Data snapshot
+  const [snapshot, setSnapshot] = useState<IEmployeeForm>(employeeData);
 
-  function formSchemaToIEmployee(values: IEmployeeForm): IEmployee {
-    return ({
-      bio: {
-        firstName: values.bio.firstName,
-        middleInitial: values.bio.middleInitial,
-        lastName: values.bio.lastName,
-        birthDate: values.bio.birthDate,
-        gender: values.bio.gender as GENDER,
-        ethnicity: values.bio.ethnicity as ETHNICITY,
-        usCitizen: values.bio.usCitizen ?? false,
-      },
-      contact: {
-        email: values.contact.email,
-        phoneNumber: values.contact.phoneNumber,
-        address: {
-          line1: values.contact.address1,
-          line2: values.contact.address2 ?? "",
-          city: values.contact.city,
-          stateCode: values.contact.state,
-          zipCode: values.contact.zipCode,
-        },
-      },
-      skills: values.skills.map((skill, count) => ({
-        id: count,
-        skill: skillsList.filter((i) => i.name === skill.skill)[0],
-        proficiency: skill.proficiency as PROFICIENCY,
-        primary: skill.primary ?? false,
-      })),
-    } as unknown) as IEmployee;
-  }
+  // Update form with data passed in from parent (Editing)
+  useEffect(() => {
+    setSnapshot(employeeData);
+  }, [employeeData]);
 
+  // Event Handlers
   function handleNext(values: IEmployeeForm) {
     if (isLastStep) {
-      createEmployee(formSchemaToIEmployee(values)).then((res) => {
-        res.status === 200
-          ? setSubmitStatus("success")
-          : setSubmitStatus("error");
-      });
+      submitEmployee(formSchemaToIEmployee(values, skillsList));
     } else {
       setSnapshot(values);
       setActiveStep(activeStep + 1);
@@ -147,10 +146,6 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
     setActiveStep(step);
   }
 
-  if (submitStatus === "success") {
-    return <Redirect to="/employee/list" />;
-  }
-
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -165,6 +160,7 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
             <StepContent>
               <Formik
                 initialValues={snapshot}
+                enableReinitialize={true}
                 validationSchema={getValidation(activeStep)}
                 onSubmit={handleNext}
               >
@@ -180,9 +176,6 @@ const EmployeeForm: React.FC<{ employeeFormData: IEmployeeForm }> = ({
                       <Button type="submit" variant="contained" color="primary">
                         {isLastStep ? "Submit" : "Next"}
                       </Button>
-                      {submitStatus === "error" && (
-                        <p>There was an error with the submission</p>
-                      )}
                     </div>
                   </Form>
                 )}

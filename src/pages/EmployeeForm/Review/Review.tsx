@@ -1,7 +1,8 @@
+import { Grid, makeStyles } from "@material-ui/core";
+
+import { IEmployeeForm } from "../EmployeeForm.schema";
 import React from "react";
 import { useFormikContext } from "formik";
-import { Grid, makeStyles } from "@material-ui/core";
-import { IEmployeeForm } from "../EmployeeForm.schema";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -37,9 +38,16 @@ const Field: React.FC<{ name: string; value: any; value2?: any }> = ({
 };
 
 const Review: React.FC<{}> = () => {
-  const { values } = useFormikContext();
+  const { values } = useFormikContext<IEmployeeForm>();
 
-  const formData = values as IEmployeeForm;
+  const formData = {
+    ...values,
+    bio: {
+      ...values.bio,
+      // Handle the fact the data comes back
+      birthDate: new Date((values.bio.birthDate as unknown) as string),
+    },
+  } as IEmployeeForm;
   const classes = useStyles();
   return (
     <div className={classes.root}>
