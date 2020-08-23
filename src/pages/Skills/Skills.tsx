@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { AxiosResponse } from "axios";
 import { ISkill } from "../../models/Skill.interface";
 import SkillForm from "./SkillForm/SkillForm";
 import SkillTable from "./SkillTable/SkillTable";
@@ -9,6 +10,7 @@ const SkillsPage: React.FC<{}> = () => {
   // Skills API
   const {
     skills,
+    fetchSkills,
     createSkill,
     getSkillById,
     updateSkill,
@@ -21,11 +23,21 @@ const SkillsPage: React.FC<{}> = () => {
   );
 
   // Response Handlers
+  function refreshAfter(call: Promise<AxiosResponse<ISkill>>) {
+    call
+      .then(() => {
+        // Update the list automatically, so user doesn't need to reload
+        fetchSkills();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
   const handleSubmit = (skill: ISkill) => {
     if (skill.id) {
-      updateSkill(skill).then(() => {});
+      refreshAfter(updateSkill(skill));
     } else {
-      createSkill(skill).then(() => {});
+      refreshAfter(createSkill(skill));
     }
   };
 
@@ -36,7 +48,7 @@ const SkillsPage: React.FC<{}> = () => {
   }
 
   function handleDeleteSkill(id: number) {
-    deleteSkill(id).then(() => {});
+    refreshAfter(deleteSkill(id));
   }
 
   return (

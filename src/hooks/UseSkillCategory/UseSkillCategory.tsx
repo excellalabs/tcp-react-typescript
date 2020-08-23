@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
-import { useAuthState } from "../../context/AuthContext/AuthContext";
+import { Category, ICategory } from "../../models/Skill.interface";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
 import SkillCategoryService from "../../services/SkillCategory/SkillCategoryService";
-import { ICategory, Category } from "../../models/Skill.interface";
+import { useAuthState } from "../../context/AuthContext/AuthContext";
 
 const useSkillCategory = () => {
   const { status, token } = useAuthState();
@@ -73,6 +74,7 @@ const useSkillCategory = () => {
 
   return {
     skillCategories,
+    fetchSkillCategories,
     createSkillCategory,
     getSkillCategoryById,
     updateSkillCategory,
