@@ -5,9 +5,11 @@ import {
 } from "../../components/SearchAndFilter/SearchAndFilter";
 import React, { useEffect, useState } from "react";
 
+import { Button } from "@material-ui/core";
 import { ChipList } from "../../components/ChipList/ChipList";
 import { Employee } from "../../models/Employee.interface";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
+import { useHistory } from "react-router-dom";
 import useSkill from "../../hooks/UseSkill/UseSkill";
 import { useUserState } from "../../context/UserContext/UserContext";
 
@@ -45,27 +47,6 @@ export const employeeSkillsColumn: DataColumn<Employee> = {
   },
 };
 
-export const employeeActionsColumn: DataColumn<Employee> = {
-  propertyName: "id",
-  headerLabel: "Actions",
-  isNumeric: false,
-  renderer: (data: Employee) => <a href={`/employee/edit/${data.id}`}>Edit</a>,
-};
-
-export function columns(isAdmin: Boolean): DataColumn<Employee>[] {
-  let userColumns: DataColumn<Employee>[] = [
-    employeeNameColumn,
-    employeeEmailColumn,
-    employeeSkillsColumn,
-  ];
-
-  if (isAdmin) {
-    userColumns.push(employeeActionsColumn);
-  }
-
-  return userColumns;
-}
-
 export function doSearchAndFilter(
   employees: Employee[],
   searchText: string,
@@ -93,7 +74,8 @@ const EmployeesPage: React.FC<{}> = () => {
   // We also likely want pagination to be done on the back-end??  Would be a heavy lift on this code to do
 
   // Fetch emplolyees from API
-  const { employees } = useEmployee();
+  const { employees, fetchEmployees, deleteEmployee } = useEmployee();
+  const history = useHistory();
 
   // Fetch skills from API
   const { skills } = useSkill();
@@ -136,7 +118,46 @@ const EmployeesPage: React.FC<{}> = () => {
     setEmployeeList(filteredEmployees);
   };
 
+  const handleDelete = (id: number): void => {
+    deleteEmployee(id).then(() => {
+      fetchEmployees();
+    });
+  };
+
+  // setup columns
   const { isAdmin } = useUserState();
+  const employeeActionsColumn: DataColumn<Employee> = {
+    propertyName: "id",
+    headerLabel: "Actions",
+    isNumeric: false,
+    renderer: (data: Employee) => (
+      <>
+        <Button onClick={() => history.push(`/employee/edit/${data.id}`)}>
+          Edit
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => handleDelete(data.id)}
+        >
+          Delete
+        </Button>
+      </>
+    ),
+  };
+  function columns(isAdmin: Boolean): DataColumn<Employee>[] {
+    const userColumns: DataColumn<Employee>[] = [
+      employeeNameColumn,
+      employeeEmailColumn,
+      employeeSkillsColumn,
+    ];
+
+    if (isAdmin) {
+      userColumns.push(employeeActionsColumn);
+    }
+
+    return userColumns;
+  }
 
   return (
     <>

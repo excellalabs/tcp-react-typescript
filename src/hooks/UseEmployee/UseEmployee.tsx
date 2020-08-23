@@ -102,6 +102,7 @@ const useEmployee = () => {
   return {
     employees,
     createEmployee,
+    fetchEmployees,
     getEmployeeById,
     getEmployeeFormDataById,
     updateEmployee,
