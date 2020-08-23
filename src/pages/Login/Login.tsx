@@ -1,14 +1,16 @@
-import React from "react";
-import { LoginInfo } from "../../context/UserContext/UserContext";
-import Card from "@material-ui/core/Card";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import {
-  useAuthState,
   useAuthDispatch,
+  useAuthState,
 } from "../../context/AuthContext/AuthContext";
+
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
+import { LoginInfo } from "../../context/UserContext/UserContext";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => {
   return {
@@ -23,8 +25,16 @@ const useStyles = makeStyles(() => {
 });
 
 const Login: React.FC<{}> = () => {
-  const { error: authError } = useAuthState();
+  const { error: authError, status } = useAuthState();
   const authActions = useAuthDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    // Redirect to home on successful login
+    if (status === "authenticated") {
+      history.push("/");
+    }
+  }, [status, history]);
 
   const [loginInfo, setLoginInfo] = React.useState({
     username: "",
