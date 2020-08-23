@@ -1,32 +1,43 @@
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
-import SkillsPage from "./pages/Skills/Skills";
-import LoginComponent from "./pages/Login/Login";
-import React from "react";
+import AdminRoute from "./components/Route/AdminRoute/AdminRoute";
 import CategoriesPage from "./pages/Categories/Categories";
+import EmployeeForm from "./pages/EmployeeForm/EmployeeForm";
 import EmployeesPage from "./pages/Employees/Employees";
 import HomePage from "./pages/Home/Home";
-import EmployeeForm from "./pages/EmployeeForm/EmployeeForm";
+import LoginComponent from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
-import AdminRoute from "./components/Route/AdminRoute/AdminRoute";
+import React from "react";
+import SkillsPage from "./pages/Skills/Skills";
 import UserRoute from "./components/Route/UserRoute/UserRoute";
+import { useAuthState } from "./context/AuthContext/AuthContext";
 
-export const Routes = () => (
-  <Switch>
-    <Route exact path="/" render={() => <Redirect to="/home" />} />
-    <UserRoute exact path="/home" component={HomePage} />
-    <Route exact path="/login" component={LoginComponent} />
+export const Routes = () => {
+  const { status } = useAuthState();
 
-    <AdminRoute exact path="/employee/add" component={EmployeeForm} />
-    <UserRoute exact path="/employee/list" component={EmployeesPage} />
-    <UserRoute
-      exact
-      path="/employee/self"
-      render={({ match }) => <div>Manage Current User Skills</div>}
-    />
-    <AdminRoute exact path="/employee/:id" component={EmployeeForm} />
-    <AdminRoute exact path="/admin/categories" component={CategoriesPage} />
-    <AdminRoute exact path="/admin/skills" component={SkillsPage} />
-    <Route component={NotFound} />
-  </Switch>
-);
+  return (
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={() => (
+          <Redirect to={status === "authenticated" ? "/home" : "/login"} />
+        )}
+      />
+      <UserRoute exact path="/home" component={HomePage} />
+      <Route exact path="/login" component={LoginComponent} />
+
+      <AdminRoute exact path="/employee/add" component={EmployeeForm} />
+      <UserRoute exact path="/employee/list" component={EmployeesPage} />
+      <UserRoute
+        exact
+        path="/employee/self"
+        render={({ match }) => <div>Manage Current User Skills</div>}
+      />
+      <AdminRoute exact path="/employee/:id" component={EmployeeForm} />
+      <AdminRoute exact path="/admin/categories" component={CategoriesPage} />
+      <AdminRoute exact path="/admin/skills" component={SkillsPage} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+};
