@@ -1,16 +1,25 @@
-import EmployeesPage, { doSearchAndFilter } from "./Employees";
+import EmployeesPage, {
+  doSearchAndFilter,
+  employeeActionsColumn,
+  employeeEmailColumn,
+  employeeNameColumn,
+  employeeSkillsColumn,
+} from "./Employees";
 import { javaSkill, scrumMasterSkill } from "../../__mocks__/data/skill";
 import { render, screen } from "@testing-library/react";
 
 import { AuthProvider } from "../../context/AuthContext/AuthContext";
 import React from "react";
+import { UserProvider } from "../../context/UserContext/UserContext";
 import { employees } from "../../__mocks__/data/employee";
 
 describe("Employees page", () => {
   beforeEach(() => {
     render(
       <AuthProvider>
-        <EmployeesPage />
+        <UserProvider>
+          <EmployeesPage />
+        </UserProvider>
       </AuthProvider>
     );
   });
@@ -20,6 +29,66 @@ describe("Employees page", () => {
     expect(screen.getByText("Employee Name")).toBeInTheDocument();
     expect(screen.getByText("Employee Email")).toBeInTheDocument();
     expect(screen.getByText("Skills")).toBeInTheDocument();
+  });
+});
+
+describe("table columns", () => {
+  describe("name column", () => {
+    it("should have the right title", () => {
+      expect(employeeNameColumn.headerLabel).toEqual("Employee Name");
+    });
+    it("should sort on fullname", () => {
+      expect(employeeNameColumn.propertyName).toEqual("fullName");
+    });
+    it("should render the employee fullname", () => {
+      expect(employeeNameColumn.renderer(employees[0])).toEqual(
+        employees[0].fullName
+      );
+    });
+  });
+  describe("email column", () => {
+    it("should have the right title", () => {
+      expect(employeeEmailColumn.headerLabel).toEqual("Employee Email");
+    });
+    it("should sort on email", () => {
+      expect(employeeEmailColumn.propertyName).toEqual("email");
+    });
+    it("should render the employee email", () => {
+      expect(employeeEmailColumn.renderer(employees[0])).toEqual(
+        employees[0].email
+      );
+    });
+  });
+  describe("skills column", () => {
+    it("should have the right title", () => {
+      expect(employeeSkillsColumn.headerLabel).toEqual("Skills");
+    });
+    it("should sort on fullname", () => {
+      expect(employeeSkillsColumn.propertyName).toEqual("skills");
+    });
+    it("should render the employee skills in a ChipList", () => {
+      render(employeeSkillsColumn.renderer(employees[0]) as React.ReactElement);
+      expect(
+        screen.getByText(employees[0].skills[0].skill.name)
+      ).toBeInTheDocument();
+    });
+  });
+  describe("action column", () => {
+    it("should have the right title", () => {
+      expect(employeeActionsColumn.headerLabel).toEqual("Actions");
+    });
+    it("should sort on fullname", () => {
+      expect(employeeActionsColumn.propertyName).toEqual("id");
+    });
+    it("should render a Delete button", () => {
+      render(
+        employeeActionsColumn.renderer(employees[0]) as React.ReactElement
+      );
+      expect(screen.getByText("Edit")).toBeInTheDocument();
+      expect(screen.getByText("Edit").getAttribute("href")).toEqual(
+        `/employee/edit/${employees[0].id}`
+      );
+    });
   });
 });
 
