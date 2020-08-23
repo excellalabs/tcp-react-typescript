@@ -43,6 +43,11 @@ export const Routes = () => {
         path="/employee/:id"
         component={EmployeeFormContainer}
       />
+      <AdminRoute
+        exact
+        path="/employee/edit/:id"
+        component={EmployeeFormContainer}
+      />
       <AdminRoute exact path="/admin/categories" component={CategoriesPage} />
       <AdminRoute exact path="/admin/skills" component={SkillsPage} />
       <Route component={NotFound} />
