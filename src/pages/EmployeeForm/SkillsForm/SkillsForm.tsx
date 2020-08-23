@@ -66,7 +66,11 @@ export const SkillsForm: React.FC<{
                   </Grid>
                 </div>
               ))}
-              <Button onClick={() => arrayHelpers.push(skillFormInitialValues)}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => arrayHelpers.push(skillFormInitialValues)}
+              >
                 Add Skill
               </Button>
             </div>
