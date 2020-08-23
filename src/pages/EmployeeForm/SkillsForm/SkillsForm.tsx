@@ -10,19 +10,19 @@ import React from "react";
 import SelectField from "../Components/SelectField";
 import addFormGroup from "../../../helpers/FormGroup";
 
-export const ContactForm: React.FC<{
-  formGroup: string;
+export const SkillsForm: React.FC<{
+  formGroup: keyof IEmployeeForm;
 }> = ({ formGroup }) => {
   // Watch for changes to the Formik values, to enbale proper rendering of the list
   const { values } = useFormikContext<IEmployeeForm>();
-  const skillList = (formGroup
-    ? values[formGroup]
-    : values) as typeof skillFormModel[];
+  const skillList = ((formGroup
+    ? values[formGroup] // Argh, Typescript....
+    : values) as unknown) as typeof skillFormModel[];
 
   const withFormGroup = addFormGroup(formGroup);
 
   return (
-    <Card data-testid="contactform">
+    <Card data-testid="skillsform">
       <Box p={3}>
         <FieldArray
           name={formGroup}
@@ -77,4 +77,4 @@ export const ContactForm: React.FC<{
   );
 };
 
-export default ContactForm;
+export default SkillsForm;
