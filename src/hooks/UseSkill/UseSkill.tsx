@@ -75,6 +75,7 @@ const useSkill = () => {
 
   return {
     skills,
+    fetchSkills,
     createSkill,
     getSkillById,
     updateSkill,
