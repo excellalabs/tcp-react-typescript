@@ -55,6 +55,16 @@ const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
     } as ISkill);
   };
 
+  // When submitting, pass skill to parent and clear the form.
+  function saveSkill(skill: ISkill) {
+    submitSkill(skill);
+    setSkill({
+      id: 0,
+      name: "",
+      category: { id: 0, name: "" },
+    });
+  }
+
   const classes = useStyles();
 
   // Render the form
@@ -99,7 +109,7 @@ const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => submitSkill(skill)}
+            onClick={() => saveSkill(skill)}
           >
             {skill?.id ? "Update" : "Add"} Skill
           </Button>

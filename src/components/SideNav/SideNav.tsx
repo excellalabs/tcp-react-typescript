@@ -5,36 +5,17 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
-import {
-  useAuthState,
-  useAuthDispatch,
-} from "../../context/AuthContext/AuthContext";
-import {
-  useUserState
-} from "../../context/UserContext/UserContext";
+import { useAuthState } from "../../context/AuthContext/AuthContext";
+import { useUserState } from "../../context/UserContext/UserContext";
+import LoginLogoutButton from "./LoginLogoutButton/LoginLogoutButton";
 
-function ListItemLink(props: any) {
+export function ListItemLink(props: any) {
   return <ListItem button component="a" {...props} />;
 }
 
-const LoginLogoutLink = () => {
-  const { status } = useAuthState();
-  const authActions = useAuthDispatch();
-  
-  return status === "authenticated" ? (
-    <ListItemLink onClick={() => authActions({ type: "logout" })} to={"/login"}>
-      <ListItemText data-testid="logout-sidenav" primary={"Logout"} />
-    </ListItemLink>
-  ) : (
-    <ListItemLink component={Link} to={"/login"}>
-      <ListItemText data-testid="login-sidenav" primary={"Login"} />
-    </ListItemLink>
-  );
-};
-
 const UserLinks = () => {
   const { status } = useAuthState();
-  
+
   return status === "authenticated" ? (
     <>
       <List>
@@ -50,14 +31,16 @@ const UserLinks = () => {
       </List>
       <Divider />
     </>
-  ) : (<></>);
+  ) : (
+    <></>
+  );
 };
 
 const AdminLinks = () => {
   const { status } = useAuthState();
   const { isAdmin } = useUserState();
-  
-  return (status === "authenticated"  && isAdmin) ? (
+
+  return status === "authenticated" && isAdmin ? (
     <>
       <List
         component="nav"
@@ -80,7 +63,9 @@ const AdminLinks = () => {
       </List>
       <Divider />
     </>
-  ) : (<></>);
+  ) : (
+    <></>
+  );
 };
 
 export class SideNav extends React.Component {
@@ -90,7 +75,7 @@ export class SideNav extends React.Component {
         <UserLinks />
         <AdminLinks />
         <List>
-          <LoginLogoutLink />
+          <LoginLogoutButton />
         </List>
       </div>
     );

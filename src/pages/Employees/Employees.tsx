@@ -9,36 +9,62 @@ import { ChipList } from "../../components/ChipList/ChipList";
 import { Employee } from "../../models/Employee.interface";
 import useEmployee from "../../hooks/UseEmployee/UseEmployee";
 import useSkill from "../../hooks/UseSkill/UseSkill";
+import { useUserState } from "../../context/UserContext/UserContext";
 
-const columns: DataColumn<Employee>[] = [
-  {
-    propertyName: "fullName",
-    headerLabel: "Employee Name",
-    isNumeric: false,
-    renderer: (data: Employee) => data.fullName,
+export const employeeNameColumn: DataColumn<Employee> = {
+  propertyName: "fullName",
+  headerLabel: "Employee Name",
+  isNumeric: false,
+  renderer: (data: Employee) => data.fullName,
+};
+
+export const employeeEmailColumn: DataColumn<Employee> = {
+  propertyName: "email",
+  headerLabel: "Employee Email",
+  isNumeric: false,
+  renderer: (data: Employee) => data.email,
+};
+
+export const employeeSkillsColumn: DataColumn<Employee> = {
+  propertyName: "skills",
+  headerLabel: "Skills",
+  isNumeric: false,
+  renderer: (data: Employee) => {
+    const sortedSkills = data.skills.sort((a, b) => {
+      // If same "priority", sort aslphabetically
+      if (a.primary === b.primary) {
+        return a.skill.name.localeCompare(b.skill.name);
+      }
+      // Push primary skills to the front
+      if (a.primary) {
+        return -1;
+      }
+      return 1;
+    });
+    return <ChipList skills={sortedSkills}></ChipList>;
   },
-  {
-    propertyName: "email",
-    headerLabel: "Employee Email",
-    isNumeric: false,
-    renderer: (data: Employee) => data.email,
-  },
-  {
-    propertyName: "skills",
-    headerLabel: "Skills",
-    isNumeric: false,
-    renderer: (data: Employee) => <ChipList skills={data.skills}></ChipList>,
-  },
-  // Include/exclude this column based on User Role
-  {
-    propertyName: "id",
-    headerLabel: "Actions",
-    isNumeric: false,
-    renderer: (data: Employee) => (
-      <a href={`/employee/edit/${data.id}`}>Edit</a>
-    ),
-  },
-];
+};
+
+export const employeeActionsColumn: DataColumn<Employee> = {
+  propertyName: "id",
+  headerLabel: "Actions",
+  isNumeric: false,
+  renderer: (data: Employee) => <a href={`/employee/edit/${data.id}`}>Edit</a>,
+};
+
+export function columns(isAdmin: Boolean): DataColumn<Employee>[] {
+  let userColumns: DataColumn<Employee>[] = [
+    employeeNameColumn,
+    employeeEmailColumn,
+    employeeSkillsColumn,
+  ];
+
+  if (isAdmin) {
+    userColumns.push(employeeActionsColumn);
+  }
+
+  return userColumns;
+}
 
 export function doSearchAndFilter(
   employees: Employee[],
@@ -64,10 +90,7 @@ export function doSearchAndFilter(
 }
 
 const EmployeesPage: React.FC<{}> = () => {
-  // Employees should come from the API, instead of dummy data
   // We also likely want pagination to be done on the back-end??  Would be a heavy lift on this code to do
-
-  // Columns should be modified to include/exclude the edit column based on User Role
 
   // Fetch emplolyees from API
   const { employees } = useEmployee();
@@ -113,6 +136,8 @@ const EmployeesPage: React.FC<{}> = () => {
     setEmployeeList(filteredEmployees);
   };
 
+  const { isAdmin } = useUserState();
+
   return (
     <>
       <SearchAndFilter
@@ -123,7 +148,7 @@ const EmployeesPage: React.FC<{}> = () => {
         handleFilter={handleFilter}
       ></SearchAndFilter>
       <DataTable<Employee>
-        columns={columns}
+        columns={columns(isAdmin)}
         rows={employeeList}
         initialSortProperty="fullName"
       />
