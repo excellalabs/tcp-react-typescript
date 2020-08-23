@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-import { ICategory } from "../../models/Skill.interface";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import CategoryTable from "./CategoryTable/CategoryTable";
+import { ICategory } from "../../models/Skill.interface";
+import useSkill from "../../hooks/UseSkill/UseSkill";
 import useSkillCategory from "../../hooks/UseSkillCategory/UseSkillCategory";
 
 const Categories: React.FC<{}> = () => {
@@ -15,9 +16,11 @@ const Categories: React.FC<{}> = () => {
     deleteSkillCategory,
   } = useSkillCategory();
 
+  // Count skills per category
+  const { skills } = useSkill();
   const skilledCategories = skillCategories.map((c) => ({
     ...c,
-    skillCount: Math.round(Math.random() * 10),
+    skillCount: skills.filter((s) => s.category.id === c.id).length,
   }));
 
   const [categoryToEdit, setCategoryToEdit] = useState<ICategory | undefined>(
