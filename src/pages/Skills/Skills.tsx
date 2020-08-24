@@ -23,21 +23,11 @@ const SkillsPage: React.FC<{}> = () => {
   );
 
   // Response Handlers
-  function refreshAfter(call: Promise<AxiosResponse<ISkill>>) {
-    call
-      .then(() => {
-        // Update the list automatically, so user doesn't need to reload
-        fetchSkills();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
   const handleSubmit = (skill: ISkill) => {
     if (skill.id) {
-      refreshAfter(updateSkill(skill));
+      updateSkill(skill);
     } else {
-      refreshAfter(createSkill(skill));
+      createSkill(skill);
     }
   };
 
@@ -48,7 +38,7 @@ const SkillsPage: React.FC<{}> = () => {
   }
 
   function handleDeleteSkill(id: number) {
-    refreshAfter(deleteSkill(id));
+    deleteSkill(id);
   }
 
   return (

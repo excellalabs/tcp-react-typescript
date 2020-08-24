@@ -11,7 +11,6 @@ const Categories: React.FC<{}> = () => {
   //Fetch categories from API
   const {
     skillCategories,
-    fetchSkillCategories,
     createSkillCategory,
     getSkillCategoryById,
     updateSkillCategory,
@@ -29,23 +28,12 @@ const Categories: React.FC<{}> = () => {
     {} as ICategory
   );
 
-  function refreshAfter(call: Promise<AxiosResponse<ICategory>>) {
-    call
-      .then(() => {
-        // Update the list automatically, so user doesn't need to reload
-        fetchSkillCategories();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
-
   // Response handlers
   const handleSubmit = (category: ICategory) => {
     if (category.id) {
-      refreshAfter(updateSkillCategory(category));
+      updateSkillCategory(category);
     } else {
-      refreshAfter(createSkillCategory(category));
+      createSkillCategory(category);
     }
   };
 
@@ -56,7 +44,7 @@ const Categories: React.FC<{}> = () => {
   }
 
   function handleDeleteCategory(id: number) {
-    refreshAfter(deleteSkillCategory(id));
+    deleteSkillCategory(id);
   }
 
   return (

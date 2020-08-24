@@ -20,23 +20,26 @@ const useSkill = () => {
   }, [token]);
 
   // Wrapper functions for CRUD operations
-  const createSkill = (skill: ISkill) => {
+  const createSkill = async (skill: ISkill) => {
+    const res = await skillService.create(skill);
     setShouldUpdate(true);
-    return skillService.create(skill);
+    return res;
   };
 
   const getSkillById = (id: number) => {
     return skillService.getById(id);
   };
 
-  const updateSkill = (skill: ISkill) => {
+  const updateSkill = async (skill: ISkill) => {
+    const res = await skillService.update(skill);
     setShouldUpdate(true);
-    return skillService.update(skill);
+    return res;
   };
 
-  const deleteSkill = (id: number) => {
+  const deleteSkill = async (id: number) => {
+    const res = await skillService.delete(id);
     setShouldUpdate(true);
-    return skillService.delete(id);
+    return res;
   };
 
   // Cache for skills
