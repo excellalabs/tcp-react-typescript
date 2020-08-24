@@ -19,29 +19,26 @@ const useSkillCategory = () => {
   }, [token]);
 
   // Wrapper functions for CRUD operations
-  const createSkillCategory = (category: ICategory) => {
-    return skillCategoryService.create(category).then((res) => {
-      setShouldUpdate(true);
-      return res;
-    });
+  const createSkillCategory = async (category: ICategory) => {
+    const res = await skillCategoryService.create(category);
+    setShouldUpdate(true);
+    return res;
   };
 
   const getSkillCategoryById = (id: number) => {
     return skillCategoryService.getById(id);
   };
 
-  const updateSkillCategory = (category: ICategory) => {
-    return skillCategoryService.update(category).then((res) => {
-      setShouldUpdate(true);
-      return res;
-    });
+  const updateSkillCategory = async (category: ICategory) => {
+    const res = await skillCategoryService.update(category);
+    setShouldUpdate(true);
+    return res;
   };
 
-  const deleteSkillCategory = (id: number) => {
-    return skillCategoryService.delete(id).then((res) => {
-      setShouldUpdate(true);
-      return res;
-    });
+  const deleteSkillCategory = async (id: number) => {
+    const res = await skillCategoryService.delete(id);
+    setShouldUpdate(true);
+    return res;
   };
 
   const [skillCategories, setSkillCategories] = useState([] as ICategory[]);
