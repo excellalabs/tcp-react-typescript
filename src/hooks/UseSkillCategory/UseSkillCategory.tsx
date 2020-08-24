@@ -20,8 +20,10 @@ const useSkillCategory = () => {
 
   // Wrapper functions for CRUD operations
   const createSkillCategory = (category: ICategory) => {
-    setShouldUpdate(true);
-    return skillCategoryService.create(category);
+    return skillCategoryService.create(category).then((res) => {
+      setShouldUpdate(true);
+      return res;
+    });
   };
 
   const getSkillCategoryById = (id: number) => {
@@ -29,13 +31,17 @@ const useSkillCategory = () => {
   };
 
   const updateSkillCategory = (category: ICategory) => {
-    setShouldUpdate(true);
-    return skillCategoryService.update(category);
+    return skillCategoryService.update(category).then((res) => {
+      setShouldUpdate(true);
+      return res;
+    });
   };
 
   const deleteSkillCategory = (id: number) => {
-    setShouldUpdate(true);
-    return skillCategoryService.delete(id);
+    return skillCategoryService.delete(id).then((res) => {
+      setShouldUpdate(true);
+      return res;
+    });
   };
 
   const [skillCategories, setSkillCategories] = useState([] as ICategory[]);
