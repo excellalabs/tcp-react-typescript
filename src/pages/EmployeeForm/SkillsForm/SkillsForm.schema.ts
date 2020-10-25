@@ -1,5 +1,4 @@
 import * as Yup from "yup";
-import { IEmployeeSkill } from "../../../models/Skill.interface";
 
 export const skillFormModel = {
   skill: {
