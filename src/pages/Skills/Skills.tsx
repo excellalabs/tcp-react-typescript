@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { AxiosResponse } from "axios";
 import { ISkill } from "../../models/Skill.interface";
 import SkillForm from "./SkillForm/SkillForm";
 import SkillTable from "./SkillTable/SkillTable";
@@ -10,7 +9,6 @@ const SkillsPage: React.FC<{}> = () => {
   // Skills API
   const {
     skills,
-    fetchSkills,
     createSkill,
     getSkillById,
     updateSkill,

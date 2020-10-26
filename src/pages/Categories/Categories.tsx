@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { AxiosResponse } from "axios";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import CategoryTable from "./CategoryTable/CategoryTable";
 import { ICategory } from "../../models/Skill.interface";

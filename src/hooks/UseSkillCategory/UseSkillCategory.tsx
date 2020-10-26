@@ -1,5 +1,5 @@
 import { Category, ICategory } from "../../models/Skill.interface";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import SkillCategoryService from "../../services/SkillCategory/SkillCategoryService";
 import { useAuthState } from "../../context/AuthContext/AuthContext";
@@ -59,7 +59,7 @@ const useSkillCategory = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [skillCategoryService, shouldUpdate]);
+  }, [skillCategoryService]);
 
   // Re-render upon updates
   useEffect(() => {

@@ -60,7 +60,7 @@ const useSkill = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [skillService, shouldUpdate]);
+  }, [skillService]);
 
   // Re-render upon updates
   useEffect(() => {
