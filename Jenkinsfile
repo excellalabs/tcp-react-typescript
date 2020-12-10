@@ -69,8 +69,7 @@ spec:
       image: k3integrations/kubectl
       imagePullPolicy: IfNotPresent
       tty: true
-      command:
-        - cat
+      command: ["sh", "cat"]
   serviceAccountName: jenkins-deployer
 """
         }
