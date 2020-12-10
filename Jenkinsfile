@@ -1,4 +1,5 @@
 pipeline {
+  agent any;
   stages {
     stage('Run Unit Tests') {
       agent {
