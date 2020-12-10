@@ -68,8 +68,6 @@ spec:
     - name: kubectl
       image: bitnami/kubectl:latest
       imagePullPolicy: IfNotPresent
-      command: 
-        - cat
       tty: true
   serviceAccountName: jenkins-deployer
           """
