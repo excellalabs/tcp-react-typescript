@@ -55,5 +55,29 @@ spec:
       sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:testing"
       }
     }
+    stage('Deploy'){
+      agent {
+        kubernetes {
+          defaultContainer "kubectl"
+          yaml """
+kind: Pod
+metadata:
+  name: kubectl
+spec:
+  containers:
+    - name: kubectl
+      image: bitnami/kubectl:latest
+      imagePullPolicy: IfNotPresent
+      command: 
+        - cat
+      tty: true
+  serviceAccountName: jenkins-deployer
+          """
+        }
+      }
+      steps {
+        sh "kubectl apply -f kubernetes/deployment.yaml"
+      }
+    }
   }
 }

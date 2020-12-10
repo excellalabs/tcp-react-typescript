@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-react-typescript
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcp-react-typescript
+  template:
+    metadata:
+      labels:
+        app: tcp-react-typescript
+    spec:
+      containers:
+      - image: 775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:testing
+        imagePullPolicy: Always
+        name: tcp-react-typescript
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tcp-react-typescript
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: tcp-react-typescript
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: tcp-react-typescript.external-dns-test.excella-va-cedar.com
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:775216406089:certificate/f280d16a-7ffe-4ed5-8acd-8fd7632e6a07
+    kubernetes.io/ingress.class: alb
+  name: tcp-react-typescript
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: tcp-react-typescript
+          servicePort: 80
+        path: 
