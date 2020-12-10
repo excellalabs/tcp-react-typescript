@@ -66,11 +66,13 @@ metadata:
 spec:
   containers:
     - name: kubectl
-      image: bitnami/kubectl:latest
+      image: k3integrations/kubectl
       imagePullPolicy: IfNotPresent
       tty: true
+      command:
+        - cat
   serviceAccountName: jenkins-deployer
-          """
+"""
         }
       }
       steps {
