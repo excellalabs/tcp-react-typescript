@@ -21,6 +21,7 @@ spec:
         }
       }
       steps {
+        sh 'npm i'
         sh 'npm run test:ci'
       }
     }
