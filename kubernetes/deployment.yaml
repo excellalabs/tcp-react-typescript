@@ -22,6 +22,7 @@ spec:
           httpGet:
             path: /login
             port: 3000
+          initialDelaySeconds: 60
           failureThreshold: 1
           periodSeconds: 10
         startupProbe:
@@ -29,6 +30,12 @@ spec:
             path: /login
             port: 3000
           failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 3000
+          initialDelaySeconds: 30
           periodSeconds: 10
 ---
 apiVersion: v1
