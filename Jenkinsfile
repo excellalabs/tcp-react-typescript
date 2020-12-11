@@ -66,7 +66,7 @@ metadata:
 spec:
   containers:
     - name: kubectl
-      image: bitnami/kubectl
+      image: d3fk/kubectl
       imagePullPolicy: IfNotPresent
       tty: true
       command: ["/bin/cat"]
