@@ -79,8 +79,9 @@ spec:
         }
       }
       steps {
-        sh "sed -i 's/{{IMAGE_ID}}/${IMAGE_ID}/g'"
-        sh "kubectl apply -f kubernetes/deployment.yaml"
+        sh 'cd kubernetes'
+        sh "sed -i 's,{{IMAGE_ID}},${IMAGE_ID},g' deployment.yaml"
+        sh "kubectl apply -f deployment.yaml"
       }
     }
   }
