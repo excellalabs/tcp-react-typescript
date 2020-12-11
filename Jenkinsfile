@@ -66,10 +66,10 @@ metadata:
 spec:
   containers:
     - name: kubectl
-      image: d3fk/kubectl
+      image: codefresh/kube-helm
       imagePullPolicy: IfNotPresent
       tty: true
-      command: ["/bin/cat"]
+      command: ["cat"]
   serviceAccountName: jenkins-deployer
 """
         }
