@@ -12,4 +12,6 @@ RUN npm install react-scripts
 
 COPY . ./
 
-CMD ["npm", "start"]
+RUN npm run build
+
+CMD ["node", "server.js"]

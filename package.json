@@ -17,6 +17,7 @@
     "@types/react-dom": "^16.9.0",
     "axios": "^0.19.2",
     "date-fns": "^2.15.0",
+    "express": "^4.17.1",
     "formik": "^2.1.5",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
