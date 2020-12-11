@@ -69,7 +69,7 @@ spec:
       image: bitnami/kubectl
       imagePullPolicy: IfNotPresent
       tty: true
-      command: ["sh", "cat"]
+      command: ["/bin/bash", "cat"]
   serviceAccountName: jenkins-deployer
 """
         }
