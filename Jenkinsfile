@@ -69,7 +69,8 @@ spec:
       image: codefresh/kube-helm
       imagePullPolicy: IfNotPresent
       tty: true
-      command: ["cat"]
+      command: 
+        - cat
   serviceAccountName: jenkins-deployer
 """
         }
