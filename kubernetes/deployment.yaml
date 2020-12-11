@@ -43,11 +43,11 @@ metadata:
     kubernetes.io/ingress.class: alb
   name: tcp-react-typescript
 spec:
-  host: tcp-react-typescript.external-dns-test.excella-va-cedar.com
   rules:
   - http:
       paths:
       - backend:
           serviceName: tcp-react-typescript
           servicePort: 80
-        path: 
+        path:
+    host: tcp-react-typescript.external-dns-test.excella-va-cedar.com
