@@ -13,7 +13,7 @@ spec:
         app: tcp-react-typescript
     spec:
       containers:
-      - image: 775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:testing
+      - image: {{IMAGE_ID}}
         imagePullPolicy: Always
         name: tcp-react-typescript
         tty: true

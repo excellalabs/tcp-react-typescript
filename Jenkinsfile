@@ -1,5 +1,8 @@
 pipeline {
   agent any;
+  environment {
+    IMAGE_ID = "775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:${BUILD_ID}"
+  }
   stages {
     stage('Run Unit Tests') {
       agent {
@@ -52,7 +55,7 @@ spec:
       }
     }
     steps {
-      sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:testing"
+      sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${IMAGE_ID}"
       }
     }
     stage('Deploy'){
@@ -76,7 +79,7 @@ spec:
         }
       }
       steps {
-        sh "kubectl apply -f kubernetes/deployment.yaml"
+        sh "cat kubernetes/deployment.yaml | sed "s/{{IMAGE_ID}}/${IMAGE_ID}/g" | kubectl apply -f -"
       }
     }
   }
