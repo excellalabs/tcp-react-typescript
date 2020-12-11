@@ -36,7 +36,6 @@ spec:
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  hostName: tcp-react-typescript.external-dns-test.excella-va-cedar.com
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     external-dns.alpha.kubernetes.io/hostname: tcp-react-typescript.external-dns-test.excella-va-cedar.com
@@ -44,6 +43,7 @@ metadata:
     kubernetes.io/ingress.class: alb
   name: tcp-react-typescript
 spec:
+  host: tcp-react-typescript.external-dns-test.excella-va-cedar.com
   rules:
   - http:
       paths:
