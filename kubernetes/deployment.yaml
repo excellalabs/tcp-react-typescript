@@ -16,6 +16,7 @@ spec:
       - image: 775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:testing
         imagePullPolicy: Always
         name: tcp-react-typescript
+        tty: true
         ports:
         - containerPort: 3000
         livenessProbe:
