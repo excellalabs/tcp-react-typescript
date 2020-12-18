@@ -1,7 +1,7 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import { AxiosResponse, AxiosRequestConfig } from "axios";
 import ApiService, { DecodedJWT } from "../interfaces/ApiService.interface";
 import { Role } from "../../models/UserRole.enum";
-
+import { axiosInstance } from "../axios-instance"
 const jwtDecode = require("jwt-decode");
 
 export default class AuthService implements ApiService {
@@ -24,7 +24,7 @@ export default class AuthService implements ApiService {
   }
 
   login(username: string, password: string): Promise<AxiosResponse> {
-    return axios.post(
+    return axiosInstance.post(
       `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`,
       {},
       this.config
