@@ -30,7 +30,7 @@ const getId = (params) => {
   return null;
 };
 
-export default {
+const mock = {
   get: jest.fn((params = "") => {
     if (params.includes("/employee")) {
       return Promise.resolve({ status: 200, data: [fakeEmployee] });
@@ -58,5 +58,11 @@ export default {
     const id = getId(params);
     return Promise.resolve({ data: fakeAxiosData[id] });
   }),
-  create: jest.fn(() => mockAxios),
-};
+}
+
+export default Object.assign(
+  mock,
+  {
+    create: jest.fn(() => Object.assign(mockAxios, mock))
+  } 
+)
