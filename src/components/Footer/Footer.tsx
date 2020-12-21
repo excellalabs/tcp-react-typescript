@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import * as styles from './footer.module.scss';
 
-const logo = "https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/img/header-logo.png";
+const logo = "https://www.va.gov/img/homepage/va-logo-white.png";
 
 const Footer: React.FunctionComponent<{}> = () => {
   return (
-    <header className={styles.footer}>
-        <Link to="/home">
+    <header className={`${styles.footer} vads-l-row vads-u-justify-content--space-between`}>
+        <Link to="/home" className={styles.footerLogo}>
           <img src={logo} alt="Go to VA.gov" />
         </Link>
     </header>
