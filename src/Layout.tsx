@@ -3,14 +3,9 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes } from "./Routes";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import { SideNav } from "./components/SideNav/SideNav";
 import { useUserState } from "./context/UserContext/UserContext";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 const drawerWidth = 240;
 
@@ -64,30 +59,9 @@ function Layout(props: any) {
     <div className={classes.root}>
       <BrowserRouter>
         <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              {/* <MenuIcon /> */}
-            </IconButton>
-            <Typography variant="h6" noWrap id="header-text">
-              Employee Listing
-            </Typography>
-            <span className={classes.spacer}></span>
-            {employeeInfo && (
-              <Typography variant="h6">
-                Welcome, {employeeInfo?.bio.firstName ?? ""}{" "}
-                {employeeInfo?.bio.lastName ?? ""}
-              </Typography>
-            )}
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
+        <div className="vads-u-display--flex vads-u-flex-direction--column layout-container">
+          <Header></Header>
+        {/* <nav className={classes.drawer} aria-label="mailbox folders">
           <Hidden smUp implementation="css">
             <Drawer
               container={container}
@@ -116,11 +90,13 @@ function Layout(props: any) {
               <SideNav></SideNav>
             </Drawer>
           </Hidden>
-        </nav>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Routes />
-        </main>
+        </nav> */}
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Routes />
+          </main>
+          <Footer></Footer>
+        </div>
       </BrowserRouter>
     </div>
   );
