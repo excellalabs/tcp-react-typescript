@@ -55,6 +55,7 @@
     "@types/yup": "^0.29.4",
     "cypress": "^4.12.1",
     "jest-environment-jsdom-sixteen": "^1.0.3",
+    "node-sass": "^4.0.0",
     "rimraf": "^3.0.2"
   }
 }
