@@ -13,7 +13,7 @@ spec:
         app: va-cedar-frontend
     spec:
       containers:
-        - image: { { IMAGE_ID } }
+        - image: {{IMAGE_ID}}
           imagePullPolicy: Always
           name: va-cedar-frontend
           tty: true
