@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./App.css";
+import "./App.scss";
 import "@department-of-veterans-affairs/formation/dist/formation.min.css"
 import Layout from "./Layout";
 import { useAuthDispatch } from "./context/AuthContext/AuthContext";

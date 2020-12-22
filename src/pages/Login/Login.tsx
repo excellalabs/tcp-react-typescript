@@ -5,24 +5,9 @@ import {
   useAuthState,
 } from "../../context/AuthContext/AuthContext";
 
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import Input from "@material-ui/core/Input";
 import { LoginInfo } from "../../context/UserContext/UserContext";
-import { makeStyles } from "@material-ui/core/styles";
+import * as styles from './login.module.scss';
 
-const useStyles = makeStyles(() => {
-  return {
-    root: {
-      textAlign: "left",
-      padding: "16px",
-    },
-    error: {
-      color: "red",
-    },
-  };
-});
 
 const Login: React.FC<{}> = () => {
   const { error: authError, status } = useAuthState();
@@ -48,50 +33,50 @@ const Login: React.FC<{}> = () => {
     });
   };
 
-  const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <h2>Login</h2>
+    <div className={`${styles.root} greySectionCard`}>
+      <h2 className={`${styles.loginHeader}`} aria-label="login-header">Login</h2>
       <form>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <Input
+        <div>
+          <div>
+            <input
               placeholder="Username"
               data-testid="login-username"
+              aria-label="login-username"
               onChange={(e) =>
                 setLoginInfo({ ...loginInfo, username: e.target.value })
               }
             />
-          </Grid>
-          <Grid item>
-            <Input
+          </div>
+          <div >
+            <input
               type="password"
               placeholder="Password"
               data-testid="login-password"
+              aria-label="login-password"
               onChange={(e) =>
                 setLoginInfo({ ...loginInfo, password: e.target.value })
               }
             />
-          </Grid>
-          <Grid item>
-            <Button
+          </div>
+          <div >
+            <button
               data-testid="submit-button"
-              variant="contained"
-              color="primary"
               onClick={() => handleLogin()}
+              aria-label="submit-login-button"
             >
               Submit
-            </Button>
+            </button>
             {authError && (
-              <p data-testid="login-error" className={classes.error}>
+              <p data-testid="login-error" aria-label="login-error" className={styles.error}>
                 {authError}
               </p>
             )}
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </form>
-    </Card>
+    </div>
   );
 };
 

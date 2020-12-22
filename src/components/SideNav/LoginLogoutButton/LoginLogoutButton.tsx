@@ -4,8 +4,6 @@ import {
 } from "../../../context/AuthContext/AuthContext";
 import { useHistory, Link } from "react-router-dom";
 import React from "react";
-import { ListItemText } from "@material-ui/core";
-import { ListItemLink } from "../SideNav";
 
 const LoginLogoutButton = () => {
   const { status } = useAuthState();
@@ -18,13 +16,15 @@ const LoginLogoutButton = () => {
   };
 
   return status === "authenticated" ? (
-    <ListItemLink onClick={() => onLogout()}>
-      <ListItemText data-testid="logout-sidenav" primary={"Logout"} />
-    </ListItemLink>
+    <button data-testid="logout-button" onClick={() => onLogout()}>
+      Sign In
+    </button>
   ) : (
-    <ListItemLink component={Link} to={"/login"}>
-      <ListItemText data-testid="login-sidenav" primary={"Login"} />
-    </ListItemLink>
+    <Link to='/login'>
+      <button data-testid="login-button">
+        Sign Out
+      </button>
+    </Link>
   );
 };
 

@@ -22,6 +22,11 @@ Resolves: (issue/ticket number)
 - [ ] This change includes unit tests for the changed/new code
 - [ ] This has been tested locally, and does not break existing functionality
 
+The lighthouse accessibility score for the page(s) this PR affects is: 
+
+List any libraries added by this PR and compatible browsers for each library:
+node-sass: 4.0.0
+
 **Testing Tasks To Be Done:**
 
 - [ ] This includes a documentation change, which should be peer reviewed

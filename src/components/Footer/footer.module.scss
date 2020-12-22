@@ -1,0 +1,18 @@
+@import '~@department-of-veterans-affairs/formation/sass/base/_b-variables';
+
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 10rem;
+  background-color: $color-primary-darkest;
+  color: $color-white;
+  padding: 3rem;
+}
+
+.footerLogo {
+  max-width: 30%;
+  width: 20rem
+}
