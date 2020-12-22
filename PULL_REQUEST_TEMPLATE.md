@@ -22,9 +22,10 @@ Resolves: (issue/ticket number)
 - [ ] This change includes unit tests for the changed/new code
 - [ ] This has been tested locally, and does not break existing functionality
 
-The lighthouse accessability score for the page(s) this PR affects is: 
+The lighthouse accessibility score for the page(s) this PR affects is: 
 
-List any libraries added by this PR and compatabile browsers for each library:
+List any libraries added by this PR and compatible browsers for each library:
+node-sass: 4.0.0
 
 **Testing Tasks To Be Done:**
 
