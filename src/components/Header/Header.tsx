@@ -8,7 +8,7 @@ const logo = "https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/img/head
 const Header: React.FunctionComponent<{}> = () => {
   return (
     <header className={`${styles.header} vads-l-row vads-u-justify-content--space-between`}>
-        <Link className={styles.headerLogo} to="/home">
+        <Link className={styles.headerLogo} data-testid="va-main-logo" aria-label="va-main-logo" to="/home">
           <img src={logo} alt="Go to VA.gov" />
         </Link>
         <LoginLogoutButton></LoginLogoutButton>
