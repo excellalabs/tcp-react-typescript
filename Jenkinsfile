@@ -1,7 +1,8 @@
 pipeline {
   agent any;
   environment {
-    IMAGE_ID = "775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository:${BUILD_ID}"
+    REPO = credentials("frontend-ecr-repository")
+    IMAGE_ID = "${REPO}:${BUILD_ID}"
   }
   stages {
     stage('Run Unit Tests') {
@@ -17,7 +18,7 @@ spec:
     - name: node
       image: node:14.5.0
       imagePullPolicy: IfNotPresent
-      command: 
+      command:
         - cat
       tty: true
 """
@@ -72,7 +73,7 @@ spec:
       image: codefresh/kube-helm
       imagePullPolicy: IfNotPresent
       tty: true
-      command: 
+      command:
         - cat
   serviceAccountName: jenkins-deployer
 """
