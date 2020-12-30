@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: va-cedar-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: va-cedar-frontend
+  template:
+    metadata:
+      labels:
+        app: va-cedar-frontend
+    spec:
+      containers:
+        - image: {{IMAGE_ID}}
+          imagePullPolicy: Always
+          name: va-cedar-frontend
+          tty: true
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: va-cedar-frontend
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: va-cedar-frontend
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: va-cedar-frontend.external-dns-test.excella-va-cedar.com
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:775216406089:certificate/f280d16a-7ffe-4ed5-8acd-8fd7632e6a07
+    kubernetes.io/ingress.class: alb
+  name: va-cedar-frontend
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              serviceName: va-cedar-frontend
+              servicePort: 80
+            path:
+      host: va-cedar-frontend.external-dns-test.excella-va-cedar.com

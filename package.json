@@ -17,13 +17,14 @@
     "@types/react-dom": "^16.9.0",
     "axios": "^0.19.2",
     "date-fns": "^2.15.0",
+    "express": "^4.17.1",
     "formik": "^2.1.5",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.3",
-    "typescript": "~3.7.2",
+    "react-scripts": "^3.4.4",
+    "typescript": "^3.8.0",
     "yup": "^0.29.3"
   },
   "scripts": {
@@ -31,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --watchAll=false",
-    "test:ci": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --runInBand",
+    "test:ci": "CI=true react-scripts test --env=jest-environment-jsdom-sixteen --coverage --runInBand",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open"
   },
