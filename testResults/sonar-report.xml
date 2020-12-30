@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unitTest version="1">
+    <file path="/Users/aeason/code/va-cedar-frontend/src/App.test.tsx">
+        <testCase name="renders learn react link" duration="52"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/components/Route/AdminRoute/AdminRoute.test.tsx">
+        <testCase name="AdminRoute renders the 404 page when unAuthenticateds" duration="13"/>
+        <testCase name="AdminRoute renders &apos;admin&apos; when authenticated as an admin" duration="14"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/context/UserContext/UserContext.test.tsx">
+        <testCase name="UserContext renders default sign in page" duration="6"/>
+        <testCase name="UserContext changes state after clicking Log In Button, and then back after clicking log out" duration="4"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/components/Route/UserRoute/UserRoute.test.tsx">
+        <testCase name="AdminRoute renders the 404 page when unAuthenticateds" duration="8"/>
+        <testCase name="AdminRoute renders &apos;user&apos; when authenticated as an user" duration="5"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/hooks/UseSkill/UseSkill.test.tsx">
+        <testCase name="useSkill hook returns a default empty (length 0) array" duration="5"/>
+        <testCase name="useSkill hook returns a non-zero array when user is logged in" duration="8"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/hooks/UseSkillCategory/UseSkillCategory.test.tsx">
+        <testCase name="useSkillCategory hook returns a default empty (length 0) array" duration="4"/>
+        <testCase name="useSkillCategory hook returns a non-zero array when user is logged in" duration="6"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/context/AuthContext/AuthContext.test.tsx">
+        <testCase name="AuthContext has default values" duration="4"/>
+        <testCase name="AuthContext login function works" duration="7"/>
+        <testCase name="AuthContext returns unauthenticated when login credentials are wrong" duration="5"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/components/Header/Header.test.tsx">
+        <testCase name="Header renders Sign in/out button by default" duration="8"/>
+        <testCase name="Header renders Va Logo by default" duration="3"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/pages/Login/Login.test.tsx">
+        <testCase name="Login page renders the login page" duration="7"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/components/ErrorBoundary/ErrorBoundary.test.tsx">
+        <testCase name="UserContext renders default button" duration="5"/>
+        <testCase name="UserContext errors out when clicking button" duration="16"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/components/LoginLogoutButton/LoginLogoutButton.test.tsx">
+        <testCase name="LoginLogoutButton renders Login by default" duration="5"/>
+        <testCase name="LoginLogoutButton renders Logout correctly" duration="7"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/hooks/UseEmployee/UseEmployee.test.tsx">
+        <testCase name="useEmployee hook returns a default empty (length 0) array" duration="7"/>
+        <testCase name="useEmployee hook returns a non-zero array when user is logged in" duration="5"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/components/Footer/Footer.test.tsx">
+        <testCase name="Footer renders Va Logo by default" duration="6"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/pages/NotFound/NotFound.test.tsx">
+        <testCase name="NotFound page renders the NotFound page" duration="5"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/pages/Home/Home.test.tsx">
+        <testCase name="Employees page renders the home page" duration="2"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/services/Auth/AuthService.test.ts">
+        <testCase name="AuthService token functions can decode token and get values" duration="1"/>
+        <testCase name="AuthService token functions returns a token on retrieveToken" duration="1"/>
+        <testCase name="AuthService login posts to login" duration="1"/>
+        <testCase name="AuthService logout removes local storage on logout" duration="0"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/models/Employee.interface.test.ts">
+        <testCase name="Employee (class) should flatten the provided IEmployee object" duration="1"/>
+        <testCase name="Employee (class) should have an id" duration="0"/>
+        <testCase name="Employee (class) .fullname should only have one psace between first and last name when no middle intitial" duration="0"/>
+        <testCase name="Employee (class) .fullname should include the middle initial if one is present" duration="1"/>
+        <testCase name="Employee (class) toJSON should return an iEmployee object" duration="0"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/services/abstract/BaseCrudService.test.ts">
+        <testCase name="BaseCrudService fetches all items" duration="1"/>
+        <testCase name="BaseCrudService gets by id" duration="0"/>
+        <testCase name="BaseCrudService calls delete" duration="1"/>
+        <testCase name="BaseCrudService calls update" duration="0"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/services/Employee/EmployeeService.test.ts">
+        <testCase name="employeeService formats date properly" duration="1"/>
+    </file>
+    <file path="/Users/aeason/code/va-cedar-frontend/src/helpers/FormGroup.test.ts">
+        <testCase name="FormGroup (Helper) addFormGroup should return a function" duration="1"/>
+        <testCase name="FormGroup (Helper) withFormGroup should add the formGroup if one is configured" duration="0"/>
+        <testCase name="FormGroup (Helper) withFormGroup should just return the field name if no formGroup (&quot;&quot;) is provided" duration="0"/>
+    </file>
+</unitTest>

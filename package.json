@@ -27,12 +27,18 @@
     "typescript": "^3.8.0",
     "yup": "^0.29.3"
   },
+  "jestSonar": {
+    "sonar56x": true,
+    "reportPath": "SonarResults",
+    "reportFile": "sonar-report.xml",
+    "indent": 4
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --watchAll=false",
-    "test:ci": "CI=true react-scripts test --env=jest-environment-jsdom-sixteen --coverage --runInBand",
+    "test:ci": "CI=true react-scripts test --env=jest-environment-jsdom-sixteen --coverage --runInBand --testResultsProcessor ./node_modules/jest-sonar-reporter/index.js",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open"
   },
@@ -57,6 +63,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/yup": "^0.29.4",
     "cypress": "^4.12.1",
+    "jest-sonar-reporter": "^2.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "node-sass": "^4.0.0",
     "rimraf": "^3.0.2"
