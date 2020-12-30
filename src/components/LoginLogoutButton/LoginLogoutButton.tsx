@@ -1,7 +1,7 @@
 import {
   useAuthDispatch,
   useAuthState,
-} from "../../../context/AuthContext/AuthContext";
+} from "../../context/AuthContext/AuthContext";
 import { useHistory, Link } from "react-router-dom";
 import React from "react";
 
@@ -17,12 +17,12 @@ const LoginLogoutButton = () => {
 
   return status === "authenticated" ? (
     <button data-testid="logout-button" onClick={() => onLogout()}>
-      Sign In
+      Sign Out
     </button>
   ) : (
     <Link to='/login'>
       <button data-testid="login-button">
-        Sign Out
+        Sign In
       </button>
     </Link>
   );

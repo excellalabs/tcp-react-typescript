@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import {
   AuthProvider,
   useAuthDispatch,
-} from "../../../context/AuthContext/AuthContext";
+} from "../../context/AuthContext/AuthContext";
 import React from "react";
 import LoginLogoutButton from "./LoginLogoutButton";
 import { BrowserRouter, useHistory } from "react-router-dom";
@@ -12,7 +12,7 @@ const TestComponent = () => {
 
   return (
     <button
-      data-testid={"login-button"}
+      data-testid={"login-test-button"}
       onClick={() => action({ type: "loginSuccess" })}
     >
       clickme{" "}
@@ -32,12 +32,12 @@ describe("LoginLogoutButton", () => {
     );
   });
   it("renders Login by default", () => {
-    expect(screen.getByText(/Login/)).toBeInTheDocument();
+    expect(screen.getByText(/Sign In/)).toBeInTheDocument();
   });
   it("renders Logout correctly", () => {
-    const button = screen.getByTestId("login-button");
+    const button = screen.getByTestId("login-test-button");
     fireEvent.click(button);
     console.log(screen.debug());
-    expect(screen.getByText(/Logout/)).toBeInTheDocument();
+    expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
   });
 });
