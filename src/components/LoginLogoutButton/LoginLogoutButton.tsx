@@ -16,9 +16,12 @@ const LoginLogoutButton = () => {
   };
 
   return status === "authenticated" ? (
-    <button data-testid="logout-button" onClick={() => onLogout()}>
-      Sign Out
-    </button>
+    <Link to='/login'>
+      <button data-testid="logout-button" onClick={() => onLogout()}>
+        Sign Out
+      </button>
+    </Link>
+
   ) : (
     <Link to='/login'>
       <button data-testid="login-button">
