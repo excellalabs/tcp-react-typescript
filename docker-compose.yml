@@ -2,7 +2,10 @@ version: "3.7"
 services:
   app:
     container_name: tcp-react
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
     volumes:
       - ".:/app"
       - "/app/node_modules"
@@ -11,3 +14,4 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     tty: true
+    command: npm start
