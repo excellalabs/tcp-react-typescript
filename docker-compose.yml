@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   app:
-    container_name: tcp-react
+    container_name: va-cedar-frontend
     build:
       context: .
       dockerfile: Dockerfile

@@ -1,10 +1,3 @@
-## Repository Health:
-
-<!-- prettier-ignore -->
-| Build Status | Coverage Status |
-| ------------ | --------------- |
-| [![CircleCI](https://circleci.com/gh/excellaco/tcp-react-typescript.svg?style=svg&circle-token=24a8b6df1de53ca5c4fca49472214acdef7bf827)](https://circleci.com/gh/excellaco/tcp-react-typescript) | Coming Soon! |
-
 ## Running the project
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -15,5 +8,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Getting into the container
 
-- To open a bash terminal in the running container you can do `docker exec -it tcp-react bash`
+- To open a bash terminal in the running container you can do `docker exec -it va-cedar-frontend bash`
 - From here you can run the different `npm` commands like `npm test`
