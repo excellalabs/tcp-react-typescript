@@ -5,8 +5,8 @@ context('Login', () => {
     })
 
     it('Logs in', () => {    
-      cy.get('[data-testid="login-sidenav"').should('exist')
-      cy.login('admin', 'pass')
-      cy.get('[data-testid="logout-sidenav"').should('exist')
+      cy.get('[data-testid="login-button"').should('exist')
+      cy.login('user', 'pass')
+      cy.get('[data-testid="logout-button"').should('exist')
     })
 })
