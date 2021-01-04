@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.scss";
 import "@department-of-veterans-affairs/formation/dist/formation.min.css";
 import Layout from "./Layout";
