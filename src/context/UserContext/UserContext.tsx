@@ -1,7 +1,5 @@
-import React, { useCallback } from "react";
-import { useAuthState } from "../AuthContext/AuthContext";
+import React from "react";
 import AuthService from "../../services/Auth/AuthService";
-import EmployeeService from "../../services/Employee/EmployeeService";
 import { IEmployee } from "../../models/Employee.interface";
 
 export type LoginInfo = { username: string; password: string };
@@ -30,7 +28,6 @@ function userReducer(state: UserState, action: UserAction) {
     case "populate": {
       return {
         ...state,
-        employeeInfo: action.payload,
         isAdmin: API.isAdmin(),
       };
     }
@@ -41,25 +38,10 @@ function userReducer(state: UserState, action: UserAction) {
 }
 
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const { status, token } = useAuthState();
-
   const [state, dispatch]: [
     UserState,
     UserDispatch
   ] = React.useReducer(userReducer, { ...defaultState });
-
-  const populateUser = useCallback(async () => {
-    const employeeService = new EmployeeService(token);
-    const employee: IEmployee = await employeeService
-      .getByEmail(API.getEmail())
-      .then((res) => res);
-    dispatch({ type: "populate", payload: employee });
-  }, [token]);
-
-  React.useEffect(() => {
-    if (status === "authenticated" && token !== "") populateUser();
-    if (status === "unauthenticated") dispatch({ type: "clear" });
-  }, [status, populateUser, token]);
 
   return (
     <UserStateContext.Provider value={state}>
