@@ -7,8 +7,10 @@
 
 # testing
 /coverage
+/sonarResults
 /cypress/videos
 /cypress/screenshots
+
 # production
 /build
 
