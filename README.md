@@ -30,7 +30,7 @@ https://github.com/axios/axios
 Formik manages form state
 https://formik.org/docs/overview
 
-Form valdiation handles form validation
+Yup handles form validation
 https://github.com/jquense/yup
 
 Date manipulation uses Date Fns
