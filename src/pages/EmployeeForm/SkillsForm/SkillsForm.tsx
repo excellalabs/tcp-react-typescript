@@ -48,6 +48,7 @@ export const SkillsForm: React.FC<{
                         label={skillFormModel.proficiency.label}
                         data={PROFICIENCY}
                         fullWidth
+
                       />
                     </Grid>
                     <Grid item xs={3} sm={3}>

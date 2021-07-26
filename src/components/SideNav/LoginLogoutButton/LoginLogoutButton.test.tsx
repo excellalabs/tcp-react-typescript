@@ -37,7 +37,7 @@ describe("LoginLogoutButton", () => {
   it("renders Logout correctly", () => {
     const button = screen.getByTestId("login-button");
     fireEvent.click(button);
-    console.log(screen.debug());
+
     expect(screen.getByText(/Logout/)).toBeInTheDocument();
   });
 });

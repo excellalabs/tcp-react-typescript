@@ -33,9 +33,9 @@ export function DataTableHeader<T extends IBaseItem>(
   return (
     <TableHead>
       <TableRow>
-        {columns.map((column: DataColumn<T>) => (
+        {columns.map((column: DataColumn<T>, idx) => (
           <TableCell
-            key={column.propertyName as string}
+            key={(column.propertyName as string) + idx}
             align={column.isNumeric ? "right" : "left"}
             // padding={column.disablePadding ? "none" : "default"}
             sortDirection={orderBy === column.propertyName ? order : false}

@@ -89,7 +89,7 @@ const Review: React.FC<{}> = () => {
       <Grid container direction="column">
         {formData.skills.map((skill) => {
           return (
-            <Grid item container direction="row">
+            <Grid item container direction="row" key={skill.skill}>
               <Field name={"Skill Name (Skill Category)"} value={skill.skill} />
               <Field name="Proficiency" value={skill.proficiency} />
               <Field
