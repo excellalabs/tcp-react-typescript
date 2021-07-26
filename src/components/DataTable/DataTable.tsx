@@ -86,6 +86,7 @@ export const DataTable = <T extends IBaseItem>(
                     {columns.map((column: DataColumn<T>, index: number) =>
                       index === 0 ? (
                         <TableCell
+                          key={(column.propertyName as string) + index}
                           component="th"
                           id={`table-row-${row.id}`}
                           scope="row"
@@ -94,7 +95,10 @@ export const DataTable = <T extends IBaseItem>(
                           {column.renderer(row)}
                         </TableCell>
                       ) : (
-                        <TableCell align={column.isNumeric ? "right" : "left"}>
+                        <TableCell 
+                          align={column.isNumeric ? "right" : "left"}
+                          key={(column.propertyName as string) + index}
+                        >
                           {column.renderer(row)}
                         </TableCell>
                       )

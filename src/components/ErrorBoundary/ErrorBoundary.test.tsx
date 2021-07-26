@@ -40,8 +40,10 @@ describe("UserContext", () => {
   });
 
   it("errors out when clicking button", () => {
+    jest.spyOn(console, 'error').mockImplementation(jest.fn())
     const testButton = screen.getByTestId("testButton");
     fireEvent.click(testButton);
+    
     expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
   });
 });
