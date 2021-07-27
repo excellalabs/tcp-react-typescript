@@ -1,5 +1,5 @@
 import React from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 export interface ForgeUser {
   id: number,
@@ -14,7 +14,7 @@ function ForgeUsers() {
 
   const getUsers = () => {
     axios
-      .get<ForgeUser[]>("/api/v1/users")
+      .get<ForgeUser[]>("http://localhost:3000/api/v1/users")
       .then(response => response.data.map((user: ForgeUser) => ({
         id: user.id,
         name: `${user.name}`,
@@ -41,10 +41,10 @@ function ForgeUsers() {
       } 
       <div>
         {!loading ? (
-            users.map(user => {
+            users.map((user: ForgeUser) => {
               const { name } = user;
               return (
-                <div>
+                <div key={name}>
                   <p>{name}</p>
                 </div>
               );
