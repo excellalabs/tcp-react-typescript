@@ -1,7 +1,7 @@
 
 context('Login', () => {
     beforeEach(() => {
-      cy.visit('localhost:3000/login')
+      cy.visit('localhost:9000/login')
     })
 
     it('Logs in', () => {    

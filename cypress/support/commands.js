@@ -10,7 +10,7 @@
 //
 //
 Cypress.Commands.add("login", (username, password) => { 
-    cy.visit('http://localhost:3000/login')
+    cy.visit('http://localhost:9000/login')
     cy.get('[data-testid="login-username"')
     .type(username)
     cy.get('[data-testid="login-password"')

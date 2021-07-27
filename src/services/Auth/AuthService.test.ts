@@ -36,7 +36,7 @@ describe("AuthService", () => {
   });
 
   describe("login", () => {
-    it("posts to login", async () => {
+    it.only("posts to login", async () => {
       const service = new AuthService();
       const expectedParams = [
         "/oauth/token?grant_type=password&username=user&password=pass&scope=read%20write",

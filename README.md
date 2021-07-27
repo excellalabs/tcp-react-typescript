@@ -10,7 +10,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 - Must have docker installed and running
-- Run `docker-compose up --build` and the app will start on `localhost:3000`
+- Run `docker-compose up --build` and the app will start on `localhost:9000`
 - **Note:** you must have a `package-lock.json` in your local folder structure for the docker build to work. This should have been included after cloning the repo, but in the case it is missing, run `npm install` to generate it.
 - Although this will stand up this application, you will not be able to login or populated any pages with data without also standing up the tcp-java repo available at: https://github.com/excellalabs/tcp-java
 

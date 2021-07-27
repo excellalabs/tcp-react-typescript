@@ -11,6 +11,7 @@ import React from "react";
 import SkillsPage from "./pages/Skills/Skills";
 import UserRoute from "./components/Route/UserRoute/UserRoute";
 import { useAuthState } from "./context/AuthContext/AuthContext";
+import ForgeUsers from './components/Forge/ForgeUsers'
 
 export const Routes = () => {
   const { status } = useAuthState();
@@ -26,7 +27,7 @@ export const Routes = () => {
       />
       <UserRoute exact path="/home" component={HomePage} />
       <Route exact path="/login" component={LoginComponent} />
-
+      <Route exact path="/users" component={ForgeUsers} />    
       <AdminRoute
         exact
         path="/employee/add"
