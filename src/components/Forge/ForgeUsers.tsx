@@ -14,7 +14,7 @@ function ForgeUsers() {
 
   const getUsers = () => {
     axios
-      .get<ForgeUser[]>("http://localhost:3000/api/v1/users")
+      .get<ForgeUser[]>("/api/v1/users")
       .then(response => response.data.map((user: ForgeUser) => ({
         id: user.id,
         name: `${user.name}`,
