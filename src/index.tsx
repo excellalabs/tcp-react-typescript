@@ -6,6 +6,15 @@ import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./context/AuthContext/AuthContext";
 import { UserProvider } from "./context/UserContext/UserContext";
 
+console.log("use msw", process.env.USE_MSW)
+console.log("process", process.env)
+
+if (process.env.REACT_APP_USE_MSW === 'true') {
+  const { worker } = require("./mocks/browser")
+  worker.start()
+}
+
+
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
