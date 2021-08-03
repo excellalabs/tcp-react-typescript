@@ -5,6 +5,7 @@ import NotFound from "../../../pages/NotFound/NotFound";
 
 const AdminRoute: React.FC<RouteProps> = ({ ...rest }) => {
   const { isAdmin } = useUserState();
+
   return isAdmin ? <Route {...rest} /> : <Route component={NotFound} />;
 };
 

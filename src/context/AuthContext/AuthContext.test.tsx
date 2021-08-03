@@ -2,8 +2,6 @@ import { AuthProvider, useAuthState, useAuthDispatch } from "./AuthContext";
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
-const mockAxios = jest.mock("../../__mocks__/axios");
-
 const TestComponent = () => {
   const { status, error } = useAuthState();
   const authActions = useAuthDispatch();

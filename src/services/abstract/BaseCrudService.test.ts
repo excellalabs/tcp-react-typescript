@@ -1,6 +1,6 @@
 import { BaseCrudService, IBaseCrudService } from "./BaseCrudService";
 import { IBaseItem } from "../../models/BaseItem.interface";
-import { fakeAxiosData } from "../../__mocks__/axios";
+import { fakeAxiosData } from "mocks/data/fakeAxiosData";
 
 interface ITestItem extends IBaseItem {
   name: string;
@@ -28,17 +28,19 @@ describe("BaseCrudService", () => {
   it("gets by id", async () => {
     const id = 1;
     await service.getById(id).then((res) => {
-      expect(res.data).toBe(fakeAxiosData[id]);
+      expect(res.data).toEqual(fakeAxiosData[id]);
     });
   });
 
   it("calls delete", async () => {
     await service.delete(1).then((res) => {
-      expect(res.data).toBe(fakeAxiosData[1]);
+      expect(res.data).toEqual(fakeAxiosData[1]);
     });
   });
   it("calls update", async () => {
-    const obj = { id: 1, name: "name", cost: 1 };
-    await service.update(obj).then((res) => expect(res.data).toBe(obj));
+    const id = 1;
+    const obj = fakeAxiosData[id];
+    obj.name = "fooism"
+    await service.update(obj).then((res) => expect(res.data).toEqual(obj));
   });
 });

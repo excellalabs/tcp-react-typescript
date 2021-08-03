@@ -118,7 +118,7 @@ const AuthProvider: React.FC<{}> = (props) => {
 function useAuthDispatch(): AuthDispatch {
   const context = React.useContext(AuthDispatchContext);
   if (context === undefined) {
-    throw new Error("useUserDispatch must be used within a CountProvider");
+    throw new Error("useUserDispatch must be used within a AuthProvider");
   }
 
   return context;
