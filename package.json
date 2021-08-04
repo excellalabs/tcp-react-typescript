@@ -33,7 +33,10 @@
     "test:coverage": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --watchAll=false --resetMocks=false",
     "test:ci": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --runInBand --resetMocks=false",
     "eject": "react-scripts eject",
-    "test:cypress": "cypress run"
+    "test:cypress": "cypress run",
+    "cypress:open": "cypress open",
+    "format": "prettier --write .",
+    "check-form": "prettier --list-different"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -58,6 +61,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^8.0.0",
     "@types/react": "^17.0.2",
+    "prettier": "^2.3.2",
     "@types/react-router-dom": "^5.1.8",
     "@types/yup": "^0.29.13",
     "cypress": "^8.2.0",
