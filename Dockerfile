@@ -1,4 +1,4 @@
-FROM node:14.5.0
+FROM cypress/base:14.5.0
 
 WORKDIR /app
 
