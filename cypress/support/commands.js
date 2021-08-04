@@ -9,6 +9,8 @@
 // ***********************************************
 //
 //
+import '@testing-library/cypress/add-commands'
+
 Cypress.Commands.add("login", (username, password) => { 
     cy.visit('http://localhost:3000/login')
     cy.get('[data-testid="login-username"')
