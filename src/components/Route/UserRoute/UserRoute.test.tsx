@@ -8,8 +8,6 @@ import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "../../../context/UserContext/UserContext";
 import UserRoute from "./UserRoute";
 
-jest.mock("../../../__mocks__/axios");
-
 const TestComponent = () => {
   const authAction = useAuthDispatch();
   return (

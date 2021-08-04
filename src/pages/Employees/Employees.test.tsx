@@ -5,13 +5,13 @@ import EmployeesPage, {
   employeeNameColumn,
   employeeSkillsColumn,
 } from "./Employees";
-import { javaSkill, scrumMasterSkill } from "../../__mocks__/data/skill";
+import { javaSkill, scrumMasterSkill } from "mocks/data/skill";
 import { render, screen } from "@testing-library/react";
 
 import { AuthProvider } from "../../context/AuthContext/AuthContext";
 import React from "react";
 import { UserProvider } from "../../context/UserContext/UserContext";
-import { employees } from "../../__mocks__/data/employee";
+import { employees } from "mocks/data/employee";
 
 describe("Employees page", () => {
   beforeEach(() => {

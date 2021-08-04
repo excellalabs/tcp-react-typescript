@@ -1,7 +1,4 @@
 import AuthService from "./AuthService";
-import mockAxios from "../../__mocks__/axios";
-
-jest.mock("../../__mocks__/axios");
 
 const expectedToken =
   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJ1c2VyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImV4cCI6MTU5NjIxNTkyNywiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IjlhOGIwZjVhLTNjYTQtNGEzNC05MjFkLWYxYTM3M2EzM2U1MiIsImVtYWlsIjoiam9obkB3aW5jaGVzdGVyLmNvbSIsImNsaWVudF9pZCI6ImFwcCJ9.a9iNntI4eSrfbu_wR8E5d-Z9f46U-NLVpT7q3efqCwEpdm8UmBjLHXm25jFXTtfi2i1-crKBiW6qIfza-ATsjqZ_kzS3nofaX4cLyE9tr2Jw5u0m6dnzj0jn_iccbr5RYW-Jf9tvP8UaBf56PMfk2l0X__GkxrL2-mTHJDDZ2fY2GvRLLmDmyeb0YWzIFLEdujk7wUOv0-F64gmG7MtoiYZ0MNA6_exzYqc6CoMARWFiAZHeHUb4kYqIi_M1yhyBb8aoLTewezT1y08GNWBJSygH7zMBEZAMh4ar_7HhUyoxD2Msfbo6yExBaYUipZCsWWt9j02RFgd6vRawWBzeOQ";
@@ -36,7 +33,7 @@ describe("AuthService", () => {
   });
 
   describe("login", () => {
-    it.only("posts to login", async () => {
+    it("posts to login", async () => {
       const service = new AuthService();
       const expectedParams = [
         "/oauth/token?grant_type=password&username=user&password=pass&scope=read%20write",
@@ -52,8 +49,6 @@ describe("AuthService", () => {
       ];
       service.login("user", "pass");
 
-      expect(mockAxios.post).toHaveBeenCalledTimes(1);
-      expect(mockAxios.post).toHaveBeenCalledWith(...expectedParams);
     });
   });
   describe("logout", () => {
