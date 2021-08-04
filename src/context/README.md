@@ -15,16 +15,16 @@ const App = () => {
     <UserProvider>
       <HomePage />
     </UserProvider>
-  );
-};
+  )
+}
 
 const HomePage = () => {
   // We can access the useUserState hook here because HomePage is wrapped in a UserProvider
   // *This assumes there is a value `username` in the user state*
-  const { username } = useUserState();
+  const { username } = useUserState()
 
   // Same thing here with the useUserDispatch hook
-  const userActions = useUserDispatch();
+  const userActions = useUserDispatch()
 
   // This renders a button that will call the hypothetical `updateUserName` action that would be defined in the reducer in the UserContext file.
   return (
@@ -33,16 +33,16 @@ const HomePage = () => {
       <button
         onClick={() =>
           userActions({
-            type: "updateUserName",
-            payload: { username: "new user name" },
+            type: 'updateUserName',
+            payload: { username: 'new user name' },
           })
         }
       >
         Click me to call updateUserName Action
       </button>
     </div>
-  );
-};
+  )
+}
 ```
 
 ## Modifying Context

@@ -1,15 +1,13 @@
-import { render, screen } from "@testing-library/react";
-import React from "react";
-import HomePage from "./Home";
+import { render, screen } from '@testing-library/react'
+import React from 'react'
+import HomePage from './Home'
 
-describe("Employees page", () => {
+describe('Employees page', () => {
   beforeEach(() => {
-    render(
-        <HomePage />
-    );
-  });
+    render(<HomePage />)
+  })
 
-  it("renders the home page", () => {
-    expect(screen.getByText(/Home/)).toBeInTheDocument();
-  });
-});
+  it('renders the home page', () => {
+    expect(screen.getByText(/Home/)).toBeInTheDocument()
+  })
+})

@@ -1,81 +1,81 @@
-import React, { useCallback } from "react";
-import AuthService from "../../services/Auth/AuthService";
+import React, { useCallback } from 'react'
+import AuthService from '../../services/Auth/AuthService'
 
-type LoginInfo = { username: string; password: string };
+type LoginInfo = { username: string; password: string }
 type AuthAction = {
-  type: "loginSuccess" | "login" | "loginFailure" | "logout" | "loadUser";
-  payload?: LoginInfo;
-};
+  type: 'loginSuccess' | 'login' | 'loginFailure' | 'logout' | 'loadUser'
+  payload?: LoginInfo
+}
 
 type AuthState = {
-  status: "authenticated" | "unauthenticated" | "loading";
-  error: string;
-  token: string;
-  payload?: LoginInfo;
-};
-const AuthContext = React.createContext<AuthState | undefined>(undefined);
+  status: 'authenticated' | 'unauthenticated' | 'loading'
+  error: string
+  token: string
+  payload?: LoginInfo
+}
+const AuthContext = React.createContext<AuthState | undefined>(undefined)
 
-type AuthDispatch = (action: AuthAction) => void;
+type AuthDispatch = (action: AuthAction) => void
 const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
   undefined
-);
+)
 
-const API = new AuthService();
+const API = new AuthService()
 const defaultState: AuthState = {
-  status: "unauthenticated",
-  error: "",
-  token: "",
-};
+  status: 'unauthenticated',
+  error: '',
+  token: '',
+}
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
-    case "loginSuccess": {
+    case 'loginSuccess': {
       return {
         ...state,
-        status: "authenticated",
-        error: "",
+        status: 'authenticated',
+        error: '',
         token: AuthService.retrieveToken(),
         payload: undefined,
-      };
+      }
     }
-    case "loginFailure": {
+    case 'loginFailure': {
       return {
         ...defaultState,
-        error: "Login information not found",
-      };
+        error: 'Login information not found',
+      }
     }
-    case "login": {
+    case 'login': {
       return action.payload?.username === undefined ||
         action.payload.password === undefined
         ? state
         : {
             ...state,
-            status: "loading",
+            status: 'loading',
             payload: {
               username: action.payload.username,
               password: action.payload.password,
             },
-          };
+          }
     }
-    case "logout": {
-      API.logout();
+    case 'logout': {
+      API.logout()
       return {
         ...state,
-        status: "unauthenticated",
-      };
+        status: 'unauthenticated',
+      }
     }
-    case "loadUser": {
-      const token = AuthService.retrieveToken();
+    case 'loadUser': {
+      const token = AuthService.retrieveToken()
       if (!token) {
-        return { ...state };
+        return { ...state }
       }
       if (AuthService.tokenHasLifeLeft()) {
         return {
           ...state,
-          status: "authenticated",
+          status: 'authenticated',
           token: token,
-        };
+        }
       }
-      return { ...state };
+      return { ...state }
     }
   }
 }
@@ -84,27 +84,27 @@ const AuthProvider: React.FC<{}> = (props) => {
   const [state, dispatch]: [AuthState, AuthDispatch] = React.useReducer(
     authReducer,
     defaultState
-  );
+  )
 
   const loginNeeded = useCallback(async () => {
-    if (state.payload === undefined) return;
+    if (state.payload === undefined) return
     API.login(state.payload?.username, state.payload?.password)
       .then((res) => {
-        API.saveToken(res.data?.access_token ?? "");
+        API.saveToken(res.data?.access_token ?? '')
         res.status === 200
-          ? dispatch({ type: "loginSuccess" })
-          : dispatch({ type: "loginFailure" });
+          ? dispatch({ type: 'loginSuccess' })
+          : dispatch({ type: 'loginFailure' })
       })
       .catch(() => {
-        dispatch({ type: "loginFailure" });
-      });
-  }, [state.payload]);
+        dispatch({ type: 'loginFailure' })
+      })
+  }, [state.payload])
 
   React.useEffect(() => {
-    if (state.status === "loading") {
-      loginNeeded();
+    if (state.status === 'loading') {
+      loginNeeded()
     }
-  }, [state.status, loginNeeded]);
+  }, [state.status, loginNeeded])
 
   return (
     <AuthContext.Provider value={state}>
@@ -112,25 +112,25 @@ const AuthProvider: React.FC<{}> = (props) => {
         {props.children}
       </AuthDispatchContext.Provider>
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 function useAuthDispatch(): AuthDispatch {
-  const context = React.useContext(AuthDispatchContext);
+  const context = React.useContext(AuthDispatchContext)
   if (context === undefined) {
-    throw new Error("useUserDispatch must be used within a AuthProvider");
+    throw new Error('useUserDispatch must be used within a AuthProvider')
   }
 
-  return context;
+  return context
 }
 
 function useAuthState() {
-  const context = React.useContext(AuthContext);
+  const context = React.useContext(AuthContext)
 
   if (context === undefined) {
-    throw new Error("useAuth must be used within a AuthProvider");
+    throw new Error('useAuth must be used within a AuthProvider')
   }
-  return context;
+  return context
 }
 
-export { AuthProvider, useAuthState, useAuthDispatch };
+export { AuthProvider, useAuthState, useAuthDispatch }

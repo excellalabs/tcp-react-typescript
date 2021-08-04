@@ -1,21 +1,21 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import React from 'react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import {
   AuthProvider,
   useAuthDispatch,
-} from "../../../context/AuthContext/AuthContext";
-import { BrowserRouter } from "react-router-dom";
-import { UserProvider } from "../../../context/UserContext/UserContext";
-import UserRoute from "./UserRoute";
+} from '../../../context/AuthContext/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
+import { UserProvider } from '../../../context/UserContext/UserContext'
+import UserRoute from './UserRoute'
 
 const TestComponent = () => {
-  const authAction = useAuthDispatch();
+  const authAction = useAuthDispatch()
   return (
     <>
       <button
-        data-testid={"login-button"}
+        data-testid={'login-button'}
         onClick={() => {
-          authAction({ type: "loginSuccess" });
+          authAction({ type: 'loginSuccess' })
         }}
       >
         click me to authenticate
@@ -24,9 +24,9 @@ const TestComponent = () => {
         <UserRoute render={() => <div>user</div>} />
       </BrowserRouter>
     </>
-  );
-};
-describe("AdminRoute", () => {
+  )
+}
+describe('AdminRoute', () => {
   beforeEach(() => {
     render(
       <AuthProvider>
@@ -34,19 +34,19 @@ describe("AdminRoute", () => {
           <TestComponent></TestComponent>
         </UserProvider>
       </AuthProvider>
-    );
-  });
+    )
+  })
 
-  it("renders the 404 page when unAuthenticateds", () => {
-    expect(screen.getByText(/404/)).toBeInTheDocument();
-  });
+  it('renders the 404 page when unAuthenticateds', () => {
+    expect(screen.getByText(/404/)).toBeInTheDocument()
+  })
 
   it("renders 'user' when authenticated as an user", async () => {
-    const button = screen.getByTestId("login-button");
-    fireEvent.click(button);
+    const button = screen.getByTestId('login-button')
+    fireEvent.click(button)
 
     await waitFor(() => {
-      expect(screen.getByText("user")).toBeInTheDocument();
-    });
-  });
-});
+      expect(screen.getByText('user')).toBeInTheDocument()
+    })
+  })
+})

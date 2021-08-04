@@ -1,22 +1,22 @@
-import React from "react";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import { Link } from "react-router-dom";
-import ListItem from "@material-ui/core/ListItem";
-import { useAuthState } from "../../context/AuthContext/AuthContext";
-import { useUserState } from "../../context/UserContext/UserContext";
-import LoginLogoutButton from "./LoginLogoutButton/LoginLogoutButton";
+import React from 'react'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import Divider from '@material-ui/core/Divider'
+import List from '@material-ui/core/List'
+import { Link } from 'react-router-dom'
+import ListItem from '@material-ui/core/ListItem'
+import { useAuthState } from '../../context/AuthContext/AuthContext'
+import { useUserState } from '../../context/UserContext/UserContext'
+import LoginLogoutButton from './LoginLogoutButton/LoginLogoutButton'
 
 export function ListItemLink(props: any) {
-  return <ListItem button component="a" {...props} />;
+  return <ListItem button component="a" {...props} />
 }
 
 const UserLinks = () => {
-  const { status } = useAuthState();
+  const { status } = useAuthState()
 
-  return status === "authenticated" ? (
+  return status === 'authenticated' ? (
     <>
       <List>
         <ListItemLink component={Link} to="/home">
@@ -33,14 +33,14 @@ const UserLinks = () => {
     </>
   ) : (
     <></>
-  );
-};
+  )
+}
 
 const AdminLinks = () => {
-  const { status } = useAuthState();
-  const { isAdmin } = useUserState();
+  const { status } = useAuthState()
+  const { isAdmin } = useUserState()
 
-  return status === "authenticated" && isAdmin ? (
+  return status === 'authenticated' && isAdmin ? (
     <>
       <List
         component="nav"
@@ -65,8 +65,8 @@ const AdminLinks = () => {
     </>
   ) : (
     <></>
-  );
-};
+  )
+}
 
 export class SideNav extends React.Component {
   render() {
@@ -78,6 +78,6 @@ export class SideNav extends React.Component {
           <LoginLogoutButton />
         </List>
       </div>
-    );
+    )
   }
 }

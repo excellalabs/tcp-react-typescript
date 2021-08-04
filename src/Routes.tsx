@@ -1,20 +1,20 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from 'react-router-dom'
 
-import AdminRoute from "./components/Route/AdminRoute/AdminRoute";
-import CategoriesPage from "./pages/Categories/Categories";
-import EmployeeFormContainer from "./pages/EmployeeForm/EmployeeFormContainer";
-import EmployeesPage from "./pages/Employees/Employees";
-import HomePage from "./pages/Home/Home";
-import LoginComponent from "./pages/Login/Login";
-import NotFound from "./pages/NotFound/NotFound";
-import React from "react";
-import SkillsPage from "./pages/Skills/Skills";
-import UserRoute from "./components/Route/UserRoute/UserRoute";
-import { useAuthState } from "./context/AuthContext/AuthContext";
+import AdminRoute from './components/Route/AdminRoute/AdminRoute'
+import CategoriesPage from './pages/Categories/Categories'
+import EmployeeFormContainer from './pages/EmployeeForm/EmployeeFormContainer'
+import EmployeesPage from './pages/Employees/Employees'
+import HomePage from './pages/Home/Home'
+import LoginComponent from './pages/Login/Login'
+import NotFound from './pages/NotFound/NotFound'
+import React from 'react'
+import SkillsPage from './pages/Skills/Skills'
+import UserRoute from './components/Route/UserRoute/UserRoute'
+import { useAuthState } from './context/AuthContext/AuthContext'
 import ForgeUsers from './components/Forge/ForgeUsers'
 
 export const Routes = () => {
-  const { status } = useAuthState();
+  const { status } = useAuthState()
 
   return (
     <Switch>
@@ -22,12 +22,12 @@ export const Routes = () => {
         exact
         path="/"
         render={() => (
-          <Redirect to={status === "authenticated" ? "/home" : "/login"} />
+          <Redirect to={status === 'authenticated' ? '/home' : '/login'} />
         )}
       />
       <UserRoute exact path="/home" component={HomePage} />
       <Route exact path="/login" component={LoginComponent} />
-      <Route exact path="/users" component={ForgeUsers} />    
+      <Route exact path="/users" component={ForgeUsers} />
       <AdminRoute
         exact
         path="/employee/add"
@@ -53,5 +53,5 @@ export const Routes = () => {
       <AdminRoute exact path="/admin/skills" component={SkillsPage} />
       <Route component={NotFound} />
     </Switch>
-  );
-};
+  )
+}

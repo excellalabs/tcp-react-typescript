@@ -9,63 +9,63 @@ import {
   Select,
   TextField,
   Typography,
-} from "@material-ui/core";
-import { ICategory, ISkill } from "../../../models/Skill.interface";
-import React, { useEffect, useState } from "react";
+} from '@material-ui/core'
+import { ICategory, ISkill } from '../../../models/Skill.interface'
+import React, { useEffect, useState } from 'react'
 
-import { makeStyles } from "@material-ui/core/styles";
-import useSkillCategory from "../../../hooks/UseSkillCategory/UseSkillCategory";
+import { makeStyles } from '@material-ui/core/styles'
+import useSkillCategory from '../../../hooks/UseSkillCategory/UseSkillCategory'
 
 export type SkillFormProps = {
-  skillToEdit?: ISkill | undefined; // Input
-  submitSkill: (skill: ISkill) => void; // Output
-};
+  skillToEdit?: ISkill | undefined // Input
+  submitSkill: (skill: ISkill) => void // Output
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
-}));
+}))
 
 const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
   // Fetch Categories from API
-  const { skillCategories } = useSkillCategory();
+  const { skillCategories } = useSkillCategory()
 
   // Store the skill being worked on
   const [skill, setSkill] = useState<ISkill>({
-    name: "",
-    category: { id: 0, name: "" },
-  } as ISkill);
+    name: '',
+    category: { id: 0, name: '' },
+  } as ISkill)
 
   // When a new skill to edit is passed in, let's set the form accordingly
   useEffect(() => {
-    setSkill(skillToEdit ?? ({ id: 0, name: "" } as ISkill));
-  }, [skillToEdit]);
+    setSkill(skillToEdit ?? ({ id: 0, name: '' } as ISkill))
+  }, [skillToEdit])
 
   // Store changes as the user edits the name
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSkill({ ...skill, name: event.target.value } as ISkill); // preserve ID if it's there
-  };
+    setSkill({ ...skill, name: event.target.value } as ISkill) // preserve ID if it's there
+  }
 
   // Store changes as the user edits the category
   const handleCatChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSkill({
       ...skill,
       category: skillCategories.find((c) => c.id === event.target.value),
-    } as ISkill);
-  };
+    } as ISkill)
+  }
 
   // When submitting, pass skill to parent and clear the form.
   function saveSkill(skill: ISkill) {
-    submitSkill(skill);
+    submitSkill(skill)
     setSkill({
       id: 0,
-      name: "",
-      category: { id: 0, name: "" },
-    });
+      name: '',
+      category: { id: 0, name: '' },
+    })
   }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   // Render the form
   return (
@@ -111,12 +111,12 @@ const SkillForm: React.FC<SkillFormProps> = ({ skillToEdit, submitSkill }) => {
             color="primary"
             onClick={() => saveSkill(skill)}
           >
-            {skill?.id ? "Update" : "Add"} Skill
+            {skill?.id ? 'Update' : 'Add'} Skill
           </Button>
         </CardActions>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default SkillForm;
+export default SkillForm

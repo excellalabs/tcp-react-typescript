@@ -1,17 +1,17 @@
-import { DataColumn, DataTable } from "../../../components/DataTable/DataTable";
+import { DataColumn, DataTable } from '../../../components/DataTable/DataTable'
 
-import { Button } from "@material-ui/core";
-import { ISkill } from "../../../models/Skill.interface";
-import React from "react";
+import { Button } from '@material-ui/core'
+import { ISkill } from '../../../models/Skill.interface'
+import React from 'react'
 
 export type SkillTableProps = {
-  skills: ISkill[];
-  editSkill: (id: number) => void;
-  deleteSkill: (id: number) => void;
-};
+  skills: ISkill[]
+  editSkill: (id: number) => void
+  deleteSkill: (id: number) => void
+}
 
 export interface ISkillWithCategoryName extends ISkill {
-  categoryName: string;
+  categoryName: string
 }
 
 const SkillTable: React.FC<SkillTableProps> = ({
@@ -22,12 +22,12 @@ const SkillTable: React.FC<SkillTableProps> = ({
   const skillsWithCategoryName = skills.map((s) => ({
     ...s,
     categoryName: s.category.name,
-  }));
+  }))
 
   const columns: DataColumn<ISkillWithCategoryName>[] = [
     {
-      propertyName: "id",
-      headerLabel: "",
+      propertyName: 'id',
+      headerLabel: '',
       isNumeric: false,
       renderer: (data: ISkillWithCategoryName) => (
         <Button
@@ -41,20 +41,20 @@ const SkillTable: React.FC<SkillTableProps> = ({
     },
     {
       // Don't Touch
-      propertyName: "name",
-      headerLabel: "Name",
+      propertyName: 'name',
+      headerLabel: 'Name',
       isNumeric: false,
       renderer: (data: ISkillWithCategoryName) => data.name,
     },
     {
-      propertyName: "categoryName",
-      headerLabel: "Skill Category",
+      propertyName: 'categoryName',
+      headerLabel: 'Skill Category',
       isNumeric: false,
       renderer: (data: ISkillWithCategoryName) => data.categoryName,
     },
     {
-      propertyName: "id",
-      headerLabel: "",
+      propertyName: 'id',
+      headerLabel: '',
       isNumeric: false,
       renderer: (data: ISkillWithCategoryName) => (
         <Button color="secondary" onClick={() => deleteSkill(data.id)}>
@@ -62,7 +62,7 @@ const SkillTable: React.FC<SkillTableProps> = ({
         </Button>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -72,7 +72,7 @@ const SkillTable: React.FC<SkillTableProps> = ({
         initialSortProperty="name"
       />
     </>
-  );
-};
+  )
+}
 
-export default SkillTable;
+export default SkillTable

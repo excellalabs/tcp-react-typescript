@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react'
 
-class ErrorBoundary extends React.Component<{},any> {
+class ErrorBoundary extends React.Component<{}, any> {
   constructor(props: any) {
-    super(props);
-    this.state = { hasError: false };
+    super(props)
+    this.state = { hasError: false }
   }
 
   componentDidCatch(error: any, info: any) {
     // Display fallback UI
-    this.setState({ hasError: true });
+    this.setState({ hasError: true })
 
     // Should add some sort of error logging here
     // errorLoggingFunction(error, info);
@@ -16,7 +16,7 @@ class ErrorBoundary extends React.Component<{},any> {
 
   render() {
     const myStyle = {
-      paddingLeft: "30px"
+      paddingLeft: '30px',
     }
     if (this.state.hasError) {
       return (
@@ -26,8 +26,8 @@ class ErrorBoundary extends React.Component<{},any> {
         </div>
       )
     }
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

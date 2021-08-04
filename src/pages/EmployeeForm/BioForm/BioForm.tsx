@@ -1,16 +1,16 @@
-import React from "react";
-import { Box, Card, Grid } from "@material-ui/core";
-import CheckboxField from "../Components/CheckboxField";
-import DatePickerField from "../Components/DatePickerField";
-import InputField from "../Components/InputField";
-import RadioButtonField from "../Components/RadioButtonField";
-import SelectField from "../Components/SelectField";
-import { addFormGroup } from "../../../helpers/FormGroup";
-import { bioFormModel } from "./BioForm.schema";
-import { ETHNICITY, GENDER } from "../../../models/Employee.interface";
+import React from 'react'
+import { Box, Card, Grid } from '@material-ui/core'
+import CheckboxField from '../Components/CheckboxField'
+import DatePickerField from '../Components/DatePickerField'
+import InputField from '../Components/InputField'
+import RadioButtonField from '../Components/RadioButtonField'
+import SelectField from '../Components/SelectField'
+import { addFormGroup } from '../../../helpers/FormGroup'
+import { bioFormModel } from './BioForm.schema'
+import { ETHNICITY, GENDER } from '../../../models/Employee.interface'
 
 export const BioForm: React.FC<{
-  formGroup: string;
+  formGroup: string
 }> = ({ formGroup }) => {
   const {
     firstName,
@@ -20,9 +20,9 @@ export const BioForm: React.FC<{
     gender,
     ethnicity,
     usCitizen,
-  } = bioFormModel;
+  } = bioFormModel
 
-  const withFormGroup = addFormGroup(formGroup);
+  const withFormGroup = addFormGroup(formGroup)
   return (
     <Card>
       <Box p={3}>
@@ -55,7 +55,7 @@ export const BioForm: React.FC<{
               label={birthDate.label}
               placeholder="01/01/1990"
               format="MM/dd/yyyy"
-              views={["year", "month", "date"]}
+              views={['year', 'month', 'date']}
               maxDate={new Date()}
               fullWidth
             />
@@ -84,7 +84,7 @@ export const BioForm: React.FC<{
         </Grid>
       </Box>
     </Card>
-  );
-};
+  )
+}
 
-export default BioForm;
+export default BioForm
