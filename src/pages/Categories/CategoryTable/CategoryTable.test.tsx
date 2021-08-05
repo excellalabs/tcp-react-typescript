@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 
 import React from "react";
 import { act } from "react-dom/test-utils";
-import categories from "../../../__mocks__/data/category";
+import categories from "../../../mocks/data/category";
 
 describe("CategoryTable page", () => {
   let skilledCategories: ICategoryWithSkillCount[];
