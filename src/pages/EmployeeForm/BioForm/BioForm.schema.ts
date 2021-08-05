@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import moment from "moment";
+import differenceInYears from 'date-fns/differenceInYears'
 
 export const bioFormModel = {
   firstName: {
@@ -24,7 +24,6 @@ export const bioFormModel = {
     label: "Date of Birth*",
     requiredErrorMsg: "Date of birth is required",
     ageErrorMsg: "Employee must be 18 years old",
-    default: null,
   },
   gender: {
     name: "gender",
@@ -66,9 +65,8 @@ export const bioFormSchema = Yup.object({
     .nullable()
     .required(`${birthDate.requiredErrorMsg}`)
     .test("birthDate", `${birthDate.ageErrorMsg}`, (value) => {
-      return moment().diff(moment(value), "years") >= 18;
-    })
-    .default(birthDate.default),
+      return value ? differenceInYears(new Date(), value) >= 18 : false;
+    }),
   gender: Yup.string()
     .required(`${gender.requiredErrorMsg}`)
     .default(gender.default),
