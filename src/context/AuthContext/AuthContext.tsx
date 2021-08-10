@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import AuthService from "../../services/Auth/AuthService";
 
 type LoginInfo = { username: string; password: string };
+
 type AuthAction = {
   type: "loginSuccess" | "login" | "loginFailure" | "logout" | "loadUser";
   payload?: LoginInfo;
@@ -51,8 +52,8 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
             ...state,
             status: "loading",
             payload: {
-              username: action.payload.username,
-              password: action.payload.password,
+                username: action.payload.username,
+                password: action.payload.password,
             },
           };
     }

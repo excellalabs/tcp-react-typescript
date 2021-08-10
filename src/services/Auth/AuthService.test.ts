@@ -35,27 +35,23 @@ describe("AuthService", () => {
   describe("login", () => {
     it("posts to login", async () => {
       const service = new AuthService();
-      const expectedParams = [
-        "/oauth/token?grant_type=password&username=user&password=pass&scope=read%20write",
-        {},
-        {
-          baseURL: process.env.REACT_APP_API,
-          headers: {
-            Accept: "*/*",
-            Authorization:
-              "Basic YXBwOiQyYSQwNCRocWF3QmxkTHNXa0ZKNUNWc3Z0TDdlZDF6OXllb2tuZnVzelBPRUhXenhmTEJvVmlLNk9WaQ==",
-          },
-        },
-      ];
-      service.login("user", "pass");
+      let status;
+      await service.login("user", "pass")
+      .then((res) => {
+        status = res.status
+      })
+      .catch(() => {
+        console.error("AuthService.test login failure. Is the handler setup correctly in handlers.ts?")
+      });
 
+      expect(status).toBe(200)
     });
   });
   describe("logout", () => {
     it("removes local storage on logout", () => {
       const service = new AuthService();
       service.logout();
-      expect(localStorage.removeItem).toHaveBeenCalled();
+      expect(localStorage.removeItem).toHaveBeenCalledWith(AuthService.key);
     });
   });
 });

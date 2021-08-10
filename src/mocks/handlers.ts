@@ -3,10 +3,18 @@ import { fakeAxiosData } from "mocks/data/fakeAxiosData";
 import fakeEmployee from 'mocks/data/employee';
 import { agileSkillCategory } from "./data/category";
 import { reactSkill } from "./data/skill";
+
+interface LoginBody {
+  username: string,
+  password: string
+}
+
+
 export const handlers = [
       
-    rest.post("/oauth/token", async (req, res, ctx) => {
-      const status = req.url.searchParams.get('password') === 'pass' ? 200 : 401 
+    rest.post<LoginBody>("/api/v1/users/signin", async (req, res, ctx) => {
+      const { password } = req.body.user
+      const status = (password === 'pass') ? 200 : 401 
       return res(ctx.status(status))
     }),
   
