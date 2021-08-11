@@ -18,12 +18,6 @@ afterEach(() => {
 });
 describe("AuthService", () => {
   describe("token functions", () => {
-    it("can decode token and get values", async () => {
-      const decodedToken = AuthService.decodedToken();
-      expect(decodedToken?.email).toBe("john@winchester.com");
-
-      expect(AuthService.tokenHasLifeLeft()).toBeFalsy();
-    });
     it("returns a token on retrieveToken", () => {
       const token = AuthService.retrieveToken();
       expect(token).toBe(
