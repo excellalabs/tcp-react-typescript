@@ -86,12 +86,12 @@ const AuthProvider: React.FC<{}> = (props) => {
     authReducer,
     defaultState
   );
-
   const loginNeeded = useCallback(async () => {
     if (state.payload === undefined) return;
     API.login(state.payload?.username, state.payload?.password)
       .then((res) => {
-        API.saveToken(res.data?.access_token ?? "");
+        const t = res.data?.user.token ?? ""
+        API.saveToken(t);
         res.status === 200
           ? dispatch({ type: "loginSuccess" })
           : dispatch({ type: "loginFailure" });
