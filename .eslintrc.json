@@ -5,7 +5,9 @@
     "react-app/jest",
     "plugin:prettier/recommended",
     "plugin:cypress/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
@@ -21,6 +23,6 @@
   },
   "rules": {
     "react/prop-types": ["off"],
-    "max-lines-per-function": ["error", 40]
+    "max-lines-per-function": ["error", 80]
   }
 }
