@@ -1,0 +1,144 @@
+pipeline {
+  agent {
+      kubernetes {
+          yaml """
+          apiVersion: v1
+          kind: Pod
+          spec:
+            serviceAccountName: jenkins-agent
+            containers:
+            - name: node
+              image: cypress/base:14.5.0
+              tty: true
+              command:
+              - cat
+            - name: kaniko
+              image: gcr.io/kaniko-project/executor:v1.6.0-debug
+              tty: true
+              command:
+              - sleep
+              args:
+              - 99d
+              volumeMounts:
+              - name: docker-config
+                mountPath: /kaniko/.docker/
+            - name: terraform
+              image: hashicorp/terraform:1.0.0
+              tty: true
+              command: ['cat']
+            - name: helm
+              image: alpine/helm:3.6.2
+              tty: true
+              command: ['cat']
+            - name: tfsec
+              image: tfsec/tfsec-ci:v0.47.0
+              tty: true
+              command: ['cat']              
+              securityContext:
+                runAsUser: 0
+            - name: sonar
+              image: sonarsource/sonar-scanner-cli:4.6
+              tty: true
+              command: ['cat']
+            volumes:
+              - name: docker-config
+              configMap:
+                name: docker-config
+          """.stripIndent()
+      }
+  }
+
+  environment {
+    CI = 'true'
+    IMAGE = 'frontend'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Download Dependencies') {
+      steps {
+        container('node') {
+          sh """
+          npm install
+          """
+        }
+      }
+    }
+
+    stage('Build') {
+      steps {
+        container('kaniko') {
+          sh """#!/busybox/sh
+          /kaniko/executor -f `pwd`/Dockerfile.prod -c `pwd` --cache=true --destination=${ECR_HOST}/didit/${IMAGE}:${GIT_COMMIT}
+          """
+        }
+      }
+    }
+
+    stage('Deploy Stage') {
+      when {
+        branch 'main'
+      }
+      steps {
+        script {
+          container('terraform') {
+            withEnv(["TF_VAR_cluster=${PROJECT}", "TF_VAR_project=${PROJECT}_stage", "TF_VAR_region=${AWS_REGION}", "TF_CLI_ARGS=-no-color"]) {
+              dir('infrastructure/terraform') {
+                sh """set +x
+                terraform init -frontend-config bucket=${STATE_BUCKET} -frontend-config dynamodb_table=${STATE_TABLE}
+                terraform plan -out tfplan -var "kube_sa_token=\$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+                terraform apply -auto-approve tfplan
+                """
+              }
+            }
+          }
+
+          container('helm') {
+            dir('infrastructure/helm') {
+              sh """set +x
+              helm upgrade --install frontend . -n dev --set ecrHost=\${ECR_HOST} --set tag=\${GIT_COMMIT}
+              """
+            }
+          }
+        } // script
+      } // steps
+    } // stage
+
+    stage('Deploy Prod') {
+      when {
+        branch 'main'
+      }
+      steps {
+        script {
+          container('terraform') {
+            withEnv(["TF_VAR_cluster=${PROJECT}", "TF_VAR_project=${PROJECT}_prod", "TF_VAR_region=${AWS_REGION}", "TF_CLI_ARGS=-no-color"]) {
+              dir('infrastructure/terraform') {
+                sh """set +x
+                terraform init -frontend-config bucket=${STATE_BUCKET} -frontend-config dynamodb_table=${STATE_TABLE}
+                terraform plan -out tfplan -var "kube_sa_token=\$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+                terraform apply -auto-approve tfplan
+                """
+              }
+            }
+          }
+          
+          container('helm') {
+            dir('infrastructure/helm') {
+              sh """set +x
+              helm upgrade --install frontend . -n test --set ecrHost=\${ECR_HOST} --set tag=\${GIT_COMMIT}
+              """
+            }
+          }
+        } // script
+      } // steps
+    } // stage
+
+    stage("Trigger Prod") {
+    }
+  } // stages
+} // pipeline
