@@ -49,7 +49,7 @@ pipeline {
   }
   environment {
     CI = 'true'
-    IMAGE = 'react-typescript'
+    IMAGE = 'frontend'
   }
   stages {
     stage('Checkout') {
@@ -98,23 +98,23 @@ pipeline {
       }
     }
 
-    stage('SonarQube') {
-      steps {
-        container('sonar') {
-          withSonarQubeEnv('sonarqube') {
-            sh """
-            sonar-scanner -Dsonar.projectKey="frontend"
-            """
-          }
-        }
-      }
-    }
+    // stage('SonarQube') {
+    //   steps {
+    //     container('sonar') {
+    //       withSonarQubeEnv('sonarqube') {
+    //         sh """
+    //         sonar-scanner -Dsonar.projectKey="frontend"
+    //         """
+    //       }
+    //     }
+    //   }
+    // }
 
     stage('Build') {
       steps {
         container('kaniko') {
           sh """#!/busybox/sh
-          /kaniko/executor -f `pwd`/Dockerfile.prod -c `pwd` --cache=true --destination=${ECR_HOST}/${IMAGE}:${GIT_COMMIT}
+          /kaniko/executor -f `pwd`/Dockerfile.prod -c `pwd` --cache=true --destination=${ECR_HOST}/didit/${IMAGE}:${GIT_COMMIT}
           """
         }
       }
@@ -130,31 +130,60 @@ pipeline {
       }
     }
 
-    stage('Deploy') {
-      when {
-        branch 'main'
-      }
+   stage('Deploy Dev') {
       steps {
-        container('terraform') {
-          withEnv(["TF_VAR_project=${PROJECT}", "TF_VAR_region=${AWS_REGION}", "TF_CLI_ARGS=-no-color"]) {
-            dir('infrastructure/terraform') {
-              sh """set +x
-              terraform init -backend-config bucket=${STATE_BUCKET} -backend-config dynamodb_table=${STATE_TABLE}
-              terraform plan -out tfplan -var "kube_sa_token=\$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
-              terraform apply -auto-approve tfplan
-              """
+        script {
+          container('terraform') {
+            withEnv(["TF_VAR_cluster=${PROJECT}", "TF_VAR_project=${PROJECT}_dev", "TF_VAR_region=${AWS_REGION}", "TF_CLI_ARGS=-no-color"]) {
+              dir('infrastructure/terraform') {
+                sh """set +x
+                terraform init -backend-config bucket=${STATE_BUCKET} -backend-config dynamodb_table=${STATE_TABLE}
+                terraform plan -out tfplan -var "kube_sa_token=\$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+                terraform apply -auto-approve tfplan
+                """
+              }
             }
           }
-        }
 
-        container('helm') {
-          dir('infrastructure/helm') {
-            sh """
-            helm upgrade --install frontend . -n default --set ecrHost=\${ECR_HOST} --set tag=\${GIT_COMMIT}
-            """
+          withVault([vaultSecrets: secrets]) {
+            container('helm') {
+              dir('infrastructure/helm') {
+                sh """set +x
+                helm upgrade --install frontend . -n dev --set ecrHost=\${ECR_HOST}/didit/\${IMAGE} --set tag=\${GIT_COMMIT} --set project=\${PROJECT}_dev
+                """
+              }
+            }
+          } // withVault
+        } // script
+      } // steps
+    } // stage
+
+    stage('Deploy Test') {
+      steps {
+        script {
+          container('terraform') {
+            withEnv(["TF_VAR_cluster=${PROJECT}", "TF_VAR_project=${PROJECT}_test", "TF_VAR_region=${AWS_REGION}", "TF_CLI_ARGS=-no-color"]) {
+              dir('infrastructure/terraform') {
+                sh """set +x
+                terraform init -backend-config bucket=${STATE_BUCKET} -backend-config dynamodb_table=${STATE_TABLE}
+                terraform plan -out tfplan -var "kube_sa_token=\$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+                terraform apply -auto-approve tfplan
+                """
+              }
+            }
           }
-        }
-      }
-    }
+
+          withVault([vaultSecrets: secrets]) {
+            container('helm') {
+              dir('infrastructure/helm') {
+                sh """set +x
+                helm upgrade --install frontend . -n test --set ecrHost=\${ECR_HOST}/didit/\${IMAGE} --set tag=\${GIT_COMMIT} --set project=\${PROJECT}_test
+                """
+              }
+            }
+          } // withVault
+        } // script
+      } // steps
+    } // stage
   }
 }
