@@ -71,7 +71,6 @@
     "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-sonarjs": "^0.9.1",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "msw": "^0.33.3",
     "prettier": "^2.3.2",

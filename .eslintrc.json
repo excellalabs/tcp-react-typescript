@@ -6,7 +6,6 @@
     "plugin:prettier/recommended",
     "plugin:cypress/recommended",
     "plugin:jest/recommended",
-    "plugin:sonarjs/recommended",
     "plugin:react/recommended"
   ],
   "parserOptions": {
