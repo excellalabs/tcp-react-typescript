@@ -7,6 +7,7 @@ type UserAction = { type: 'populate' | 'clear'; payload?: {} }
 type UserDispatch = (action: UserAction) => void
 type UserState = {
   isAdmin: boolean
+  id?: number
 }
 type UserProviderProps = { children: React.ReactNode }
 
@@ -16,7 +17,7 @@ const UserDispatchContext = React.createContext<UserDispatch | undefined>(
 )
 
 const defaultState: UserState = {
-  isAdmin: false,
+  isAdmin: false
 }
 
 // const API = new AuthService();
