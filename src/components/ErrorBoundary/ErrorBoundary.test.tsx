@@ -3,13 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import ErrorBoundary from './ErrorBoundary'
 
 describe('UserContext', () => {
-  function throwError() {
-    ;<div />
-  }
-
   class ErrorComponent extends React.Component {
     render() {
-      throw new Error('error')
+      return new Error('error')
     }
   }
 
