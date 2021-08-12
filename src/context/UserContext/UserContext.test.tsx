@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { UserProvider, useUserState, useUserDispatch } from './UserContext'
 import { AuthProvider } from '../AuthContext/AuthContext'
 import {
-  Employee,
   GENDER,
   ETHNICITY,
   IEmployee,
