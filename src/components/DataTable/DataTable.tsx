@@ -27,6 +27,7 @@ export type DataTableProps<T extends IBaseItem> = {
   initialSortProperty: keyof T
 }
 
+/* eslint-disable max-lines-per-function */
 export const DataTable = <T extends IBaseItem>(
   props: DataTableProps<T> & { children?: ReactNode }
 ): React.ReactElement => {
@@ -126,3 +127,4 @@ export const DataTable = <T extends IBaseItem>(
     </div>
   )
 }
+/* eslint-enable max-lines-per-function */
