@@ -2,11 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { UserProvider, useUserState, useUserDispatch } from './UserContext'
 import { AuthProvider } from '../AuthContext/AuthContext'
-import {
-  GENDER,
-  ETHNICITY,
-  IEmployee,
-} from '../../models/Employee.interface'
+import { GENDER, ETHNICITY, IEmployee } from '../../models/Employee.interface'
 import { PROFICIENCY } from '../../models/Skill.interface'
 
 const UserContextExample: React.FC<{}> = () => {
