@@ -21,13 +21,13 @@ export enum ETHNICITY {
 
 export class Employee extends BaseItem {
   // Bio
-  public firstName: string;
-  public middleInitial: string;
-  public lastName: string;
-  public birthDate: Date;
-  public gender: GENDER;
-  public ethnicity: ETHNICITY;
-  public usCitizen: boolean;
+  public firstName: string
+  public middleInitial: string
+  public lastName: string
+  public birthDate: Date
+  public gender: GENDER
+  public ethnicity: ETHNICITY
+  public usCitizen: boolean
   // Contact
   public email: string
   public phoneNumber: string
@@ -88,13 +88,13 @@ export interface IEmployee extends IBaseItem {
 }
 
 export interface IEmployeeBio {
-  firstName: string;
-  middleInitial: string;
-  lastName: string;
-  birthDate: Date; // date mask, should be over 18?
-  gender: GENDER; // radio buttons
-  ethnicity: ETHNICITY; // drop-down
-  usCitizen: boolean; // check-box
+  firstName: string
+  middleInitial: string
+  lastName: string
+  birthDate: Date // date mask, should be over 18?
+  gender: GENDER // radio buttons
+  ethnicity: ETHNICITY // drop-down
+  usCitizen: boolean // check-box
 }
 
 export interface IEmployeeContact {

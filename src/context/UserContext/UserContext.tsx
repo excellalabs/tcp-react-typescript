@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
-import { useAuthState } from "../AuthContext/AuthContext";
+import React, { useCallback } from 'react'
+import { useAuthState } from '../AuthContext/AuthContext'
 // import AuthService from "../../services/Auth/AuthService";
-import { IEmployee } from "../../models/Employee.interface";
+import { IEmployee } from '../../models/Employee.interface'
 
 export type LoginInfo = { username: string; password: string }
 type UserAction = { type: 'populate' | 'clear'; payload?: IEmployee }
@@ -31,7 +31,7 @@ function userReducer(state: UserState, action: UserAction) {
         ...state,
         employeeInfo: action.payload,
         isAdmin: true,
-      };
+      }
     }
     case 'clear': {
       return defaultState
@@ -52,8 +52,8 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     // const employee: IEmployee = await employeeService
     //   .getByEmail(API.getEmail())
     //   .then((res) => res);
-    dispatch({ type: "populate", payload: undefined });
-  }, []);
+    dispatch({ type: 'populate', payload: undefined })
+  }, [])
 
   React.useEffect(() => {
     if (status === 'authenticated' && token !== '') populateUser()
@@ -74,7 +74,7 @@ function useUserState(): UserState {
   if (context === undefined) {
     throw new Error('useUserState must be used within a UserProvider')
   }
-  return context;
+  return context
 }
 
 function useUserDispatch(): UserDispatch {

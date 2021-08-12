@@ -24,10 +24,10 @@ export const EmployeeFormContainer: React.FC<{}> = () => {
     useEmployee()
   // Handle loading form data when editing an employee
   interface EmployeeParams {
-    id: string;
+    id: string
   }
 
-  const params = useParams<EmployeeParams>();
+  const params = useParams<EmployeeParams>()
   // params are strings containing numbers our code expects an id to be a number
   const id = parseInt(params.id)
   useEffect(() => {
