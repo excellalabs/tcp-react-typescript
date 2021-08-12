@@ -22,7 +22,7 @@ export enum ETHNICITY {
 export class Employee extends BaseItem {
   // Bio
   public firstName: string;
-  public middleInitial: string | undefined;
+  public middleInitial: string;
   public lastName: string;
   public birthDate: Date;
   public gender: GENDER;
@@ -89,7 +89,7 @@ export interface IEmployee extends IBaseItem {
 
 export interface IEmployeeBio {
   firstName: string;
-  middleInitial?: string; // optional
+  middleInitial: string;
   lastName: string;
   birthDate: Date; // date mask, should be over 18?
   gender: GENDER; // radio buttons
