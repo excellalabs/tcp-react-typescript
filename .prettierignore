@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# VS Code Config file
+.vscode/
+
+# Coverage
+coverage/
+
+# Production Builds
+build/

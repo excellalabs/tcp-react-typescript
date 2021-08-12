@@ -1,7 +1,7 @@
-export function addFormGroup(namespace = "") {
+export function addFormGroup(namespace = '') {
   return function withFormGroup(fieldName: string): string {
-    return namespace ? `${namespace}.${fieldName}` : fieldName;
-  };
+    return namespace ? `${namespace}.${fieldName}` : fieldName
+  }
 }
 
-export default addFormGroup;
+export default addFormGroup

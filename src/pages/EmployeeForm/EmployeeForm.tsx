@@ -1,6 +1,6 @@
-import { Button, Step, StepButton, Stepper } from "@material-ui/core";
-import { ETHNICITY, GENDER, IEmployee } from "../../models/Employee.interface";
-import { Form, Formik } from "formik";
+import { Button, Step, StepButton, Stepper } from '@material-ui/core'
+import { ETHNICITY, GENDER, IEmployee } from '../../models/Employee.interface'
+import { Form, Formik } from 'formik'
 import {
   IEmployeeForm,
   bioEmployeeSchema,
@@ -8,22 +8,22 @@ import {
   defaultValues,
   employeeFormSchema,
   skillsEmployeeSchema,
-} from "./EmployeeForm.schema";
-import { ISkill, PROFICIENCY } from "../../models/Skill.interface";
-import React, { useEffect, useState } from "react";
+} from './EmployeeForm.schema'
+import { ISkill, PROFICIENCY } from '../../models/Skill.interface'
+import React, { useEffect, useState } from 'react'
 
-import { BioForm } from "./BioForm/BioForm";
-import ContactForm from "./ContactForm/ContactForm";
-import Review from "./Review/Review";
-import SkillsForm from "./SkillsForm/SkillsForm";
-import StepContent from "@material-ui/core/StepContent";
-import { makeStyles } from "@material-ui/core/styles";
-import useSkill from "../../hooks/UseSkill/UseSkill";
+import { BioForm } from './BioForm/BioForm'
+import ContactForm from './ContactForm/ContactForm'
+import Review from './Review/Review'
+import SkillsForm from './SkillsForm/SkillsForm'
+import StepContent from '@material-ui/core/StepContent'
+import { makeStyles } from '@material-ui/core/styles'
+import useSkill from '../../hooks/UseSkill/UseSkill'
 
-const steps = ["Biological Information", "Contact Info", "Skills", "Review"];
+const steps = ['Biological Information', 'Contact Info', 'Skills', 'Review']
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   button: {
     marginTop: theme.spacing(1),
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   resetContainer: {
     padding: theme.spacing(3),
   },
-}));
+}))
 
 export function formSchemaToIEmployee(
   values: IEmployeeForm,
@@ -56,7 +56,7 @@ export function formSchemaToIEmployee(
       phoneNumber: values.contact.phoneNumber,
       address: {
         line1: values.contact.address1,
-        line2: values.contact.address2 ?? "",
+        line2: values.contact.address2 ?? '',
         city: values.contact.city,
         stateCode: values.contact.state,
         zipCode: values.contact.zipCode,
@@ -68,82 +68,82 @@ export function formSchemaToIEmployee(
       proficiency: skill.proficiency as PROFICIENCY,
       primary: skill.primary ?? false,
     })),
-  } as IEmployee;
+  } as IEmployee
 }
 
 export type EmployeeFormProps = {
-  employeeData: IEmployeeForm;
-  submitEmployee: (employee: IEmployee) => void;
-};
+  employeeData: IEmployeeForm
+  submitEmployee: (employee: IEmployee) => void
+}
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({
   employeeData = defaultValues,
   submitEmployee,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   // Wizard management / form state
-  const [activeStep, setActiveStep] = useState(0);
-  const isLastStep = activeStep === steps.length - 1;
+  const [activeStep, setActiveStep] = useState(0)
+  const isLastStep = activeStep === steps.length - 1
 
   // API data and helpers
-  const { skills: skillsList } = useSkill();
+  const { skills: skillsList } = useSkill()
 
   // Form Data snapshot
-  const [snapshot, setSnapshot] = useState<IEmployeeForm>(employeeData);
+  const [snapshot, setSnapshot] = useState<IEmployeeForm>(employeeData)
 
   // Update form with data passed in from parent (Editing)
   useEffect(() => {
-    setSnapshot(employeeData);
-  }, [employeeData]);
+    setSnapshot(employeeData)
+  }, [employeeData])
 
   // Event Handlers
   function handleNext(values: IEmployeeForm) {
     if (isLastStep) {
-      submitEmployee(formSchemaToIEmployee(values, skillsList));
+      submitEmployee(formSchemaToIEmployee(values, skillsList))
     } else {
-      setSnapshot(values);
-      setActiveStep(activeStep + 1);
+      setSnapshot(values)
+      setActiveStep(activeStep + 1)
     }
   }
 
   function handleBack(values: IEmployeeForm) {
-    setSnapshot(values);
-    setActiveStep(activeStep - 1);
+    setSnapshot(values)
+    setActiveStep(activeStep - 1)
   }
 
   function getNextStep(step: number) {
     switch (step) {
       case 0:
-        return <BioForm formGroup="bio" />;
+        return <BioForm formGroup="bio" />
       case 1:
-        return <ContactForm formGroup="contact" />;
+        return <ContactForm formGroup="contact" />
       case 2:
-        return <SkillsForm formGroup="skills" />; //placeholder
+        return <SkillsForm formGroup="skills" /> //placeholder
       case 3:
-        return <Review />;
+        return <Review />
       default:
-        return <div>Not Found</div>;
+        return <div>Not Found</div>
     }
   }
 
   function getValidation(step: number) {
     switch (step) {
       case 0:
-        return bioEmployeeSchema;
+        return bioEmployeeSchema
       case 1:
-        return contactEmployeeSchema;
+        return contactEmployeeSchema
       case 2:
-        return skillsEmployeeSchema; //placeholder
+        return skillsEmployeeSchema //placeholder
       case 3:
-        return employeeFormSchema; //placeholder
+        return employeeFormSchema //placeholder
       default:
-        return <div>Not Found</div>;
+        return <div>Not Found</div>
     }
   }
 
   function handleStep(step: number) {
-    setActiveStep(step);
+    setActiveStep(step)
   }
 
   return (
@@ -174,7 +174,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
                         </Button>
                       )}
                       <Button type="submit" variant="contained" color="primary">
-                        {isLastStep ? "Submit" : "Next"}
+                        {isLastStep ? 'Submit' : 'Next'}
                       </Button>
                     </div>
                   </Form>
@@ -185,7 +185,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         ))}
       </Stepper>
     </div>
-  );
-};
+  )
+}
 
-export default EmployeeForm;
+export default EmployeeForm

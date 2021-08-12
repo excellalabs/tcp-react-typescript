@@ -1,4 +1,4 @@
-import { Order, getComparator, stableSort } from "./SortHelpers";
+import { Order, getComparator, stableSort } from './SortHelpers'
 import {
   Paper,
   Table,
@@ -7,59 +7,59 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
-} from "@material-ui/core";
-import React, { ReactNode } from "react";
+} from '@material-ui/core'
+import React, { ReactNode } from 'react'
 
-import DataTableHeader from "./DataTableHeader";
-import { IBaseItem } from "../../models/BaseItem.interface";
-import { useStyles } from "./DataTable.styles";
+import DataTableHeader from './DataTableHeader'
+import { IBaseItem } from '../../models/BaseItem.interface'
+import { useStyles } from './DataTable.styles'
 
 export interface DataColumn<T extends IBaseItem> {
-  propertyName: keyof T; // must be the key on the data object
-  headerLabel: string;
-  isNumeric: boolean; // uses right justification for data when true
-  renderer: (data: T) => string | number | JSX.Element | ReactNode;
+  propertyName: keyof T // must be the key on the data object
+  headerLabel: string
+  isNumeric: boolean // uses right justification for data when true
+  renderer: (data: T) => string | number | JSX.Element | ReactNode
 }
 
 export type DataTableProps<T extends IBaseItem> = {
-  columns: DataColumn<T>[];
-  rows: T[];
-  initialSortProperty: keyof T;
-};
+  columns: DataColumn<T>[]
+  rows: T[]
+  initialSortProperty: keyof T
+}
 
 export const DataTable = <T extends IBaseItem>(
   props: DataTableProps<T> & { children?: ReactNode }
 ): React.ReactElement => {
-  const { columns, rows, initialSortProperty } = props;
+  const { columns, rows, initialSortProperty } = props
 
-  const classes = useStyles();
-  const [order, setOrder] = React.useState<Order>(Order.ASCENDING);
-  const [orderBy, setOrderBy] = React.useState<keyof T>(initialSortProperty);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const classes = useStyles()
+  const [order, setOrder] = React.useState<Order>(Order.ASCENDING)
+  const [orderBy, setOrderBy] = React.useState<keyof T>(initialSortProperty)
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof T
   ) => {
-    const isAsc = orderBy === property && order === Order.ASCENDING;
-    setOrder(isAsc ? Order.DESCENDING : Order.ASCENDING);
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === Order.ASCENDING
+    setOrder(isAsc ? Order.DESCENDING : Order.ASCENDING)
+    setOrderBy(property)
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   return (
     <div className={classes.root}>
@@ -95,8 +95,8 @@ export const DataTable = <T extends IBaseItem>(
                           {column.renderer(row)}
                         </TableCell>
                       ) : (
-                        <TableCell 
-                          align={column.isNumeric ? "right" : "left"}
+                        <TableCell
+                          align={column.isNumeric ? 'right' : 'left'}
                           key={(column.propertyName as string) + index}
                         >
                           {column.renderer(row)}
@@ -124,5 +124,5 @@ export const DataTable = <T extends IBaseItem>(
         />
       </Paper>
     </div>
-  );
-};
+  )
+}

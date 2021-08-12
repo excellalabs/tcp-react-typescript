@@ -1,18 +1,18 @@
-import React from "react";
-import { at } from "lodash";
-import { useField } from "formik";
+import React from 'react'
+import { at } from 'lodash'
+import { useField } from 'formik'
 import {
   FormControl,
   Checkbox,
   FormControlLabel,
   FormGroup,
-} from "@material-ui/core";
+} from '@material-ui/core'
 
 function CheckboxField(props: any) {
-  const { label, data, ...rest } = props;
-  const [field, meta, helper] = useField(props);
-  const [touched, error] = at(meta, "touched", "error");
-  const isError = touched && error && true;
+  const { label, data, ...rest } = props
+  const [field, meta, helper] = useField(props)
+  const [touched, error] = at(meta, 'touched', 'error')
+  const isError = touched && error && true
 
   return (
     <FormControl {...rest} error={isError}>
@@ -32,7 +32,7 @@ function CheckboxField(props: any) {
         />
       </FormGroup>
     </FormControl>
-  );
+  )
 }
 
-export default CheckboxField;
+export default CheckboxField

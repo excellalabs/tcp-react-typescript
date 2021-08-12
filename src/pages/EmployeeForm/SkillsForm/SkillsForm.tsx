@@ -1,25 +1,25 @@
-import { Box, Button, Card, Grid } from "@material-ui/core";
-import { FieldArray, useFormikContext } from "formik";
-import { skillFormInitialValues, skillFormModel } from "./SkillsForm.schema";
+import { Box, Button, Card, Grid } from '@material-ui/core'
+import { FieldArray, useFormikContext } from 'formik'
+import { skillFormInitialValues, skillFormModel } from './SkillsForm.schema'
 
-import CheckboxField from "../Components/CheckboxField";
-import { IEmployeeForm } from "../EmployeeForm.schema";
-import InputField from "../Components/InputField";
-import { PROFICIENCY } from "../../../models/Skill.interface";
-import React from "react";
-import SelectField from "../Components/SelectField";
-import addFormGroup from "../../../helpers/FormGroup";
+import CheckboxField from '../Components/CheckboxField'
+import { IEmployeeForm } from '../EmployeeForm.schema'
+import InputField from '../Components/InputField'
+import { PROFICIENCY } from '../../../models/Skill.interface'
+import React from 'react'
+import SelectField from '../Components/SelectField'
+import addFormGroup from '../../../helpers/FormGroup'
 
 export const SkillsForm: React.FC<{
-  formGroup: keyof IEmployeeForm;
+  formGroup: keyof IEmployeeForm
 }> = ({ formGroup }) => {
   // Watch for changes to the Formik values, to enbale proper rendering of the list
-  const { values } = useFormikContext<IEmployeeForm>();
-  const skillList = ((formGroup
+  const { values } = useFormikContext<IEmployeeForm>()
+  const skillList = (formGroup
     ? values[formGroup] // Argh, Typescript....
-    : values) as unknown) as typeof skillFormModel[];
+    : values) as unknown as typeof skillFormModel[]
 
-  const withFormGroup = addFormGroup(formGroup);
+  const withFormGroup = addFormGroup(formGroup)
 
   return (
     <Card data-testid="skillsform">
@@ -48,7 +48,6 @@ export const SkillsForm: React.FC<{
                         label={skillFormModel.proficiency.label}
                         data={PROFICIENCY}
                         fullWidth
-
                       />
                     </Grid>
                     <Grid item xs={3} sm={3}>
@@ -79,7 +78,7 @@ export const SkillsForm: React.FC<{
         />
       </Box>
     </Card>
-  );
-};
+  )
+}
 
-export default SkillsForm;
+export default SkillsForm

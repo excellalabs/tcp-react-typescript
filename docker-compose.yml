@@ -1,15 +1,15 @@
-version: "3.7"
+version: '3.7'
 services:
   app:
     container_name: tcp-react
     build: .
     volumes:
-      - ".:/app"
-      - "/app/node_modules"
+      - '.:/app'
+      - '/app/node_modules'
     ports:
       - 9000:9000
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     environment:
       - CHOKIDAR_USEPOLLING=true
     tty: true

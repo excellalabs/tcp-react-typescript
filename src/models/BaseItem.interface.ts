@@ -1,11 +1,11 @@
 export interface IBaseItem {
-  id: number;
+  id: number
 }
 
 export class BaseItem implements IBaseItem {
-  readonly id: number;
+  readonly id: number
 
   constructor(id: number) {
-    this.id = id;
+    this.id = id
   }
 }

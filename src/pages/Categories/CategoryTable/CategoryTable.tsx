@@ -1,18 +1,18 @@
-import { DataColumn, DataTable } from "../../../components/DataTable/DataTable";
+import { DataColumn, DataTable } from '../../../components/DataTable/DataTable'
 
-import { Button } from "@material-ui/core";
-import { ICategory } from "../../../models/Skill.interface";
-import React from "react";
+import { Button } from '@material-ui/core'
+import { ICategory } from '../../../models/Skill.interface'
+import React from 'react'
 
 export interface ICategoryWithSkillCount extends ICategory {
-  skillCount: number;
+  skillCount: number
 }
 
 export type CategoryTableProps = {
-  categories: ICategoryWithSkillCount[];
-  editCategory: (id: number) => void;
-  deleteCategory: (id: number) => void;
-};
+  categories: ICategoryWithSkillCount[]
+  editCategory: (id: number) => void
+  deleteCategory: (id: number) => void
+}
 
 const CategoryTable: React.FC<CategoryTableProps> = ({
   categories,
@@ -21,8 +21,8 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
 }) => {
   const columns: DataColumn<ICategoryWithSkillCount>[] = [
     {
-      propertyName: "id",
-      headerLabel: "",
+      propertyName: 'id',
+      headerLabel: '',
       isNumeric: false,
       renderer: (data: ICategoryWithSkillCount) => (
         <Button
@@ -36,21 +36,21 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
     },
     {
       // Don't Touch
-      propertyName: "name",
-      headerLabel: "Category Name",
+      propertyName: 'name',
+      headerLabel: 'Category Name',
       isNumeric: false,
       renderer: (data: ICategoryWithSkillCount) => data.name,
     },
     {
-      propertyName: "skillCount",
-      headerLabel: "# of Skills",
+      propertyName: 'skillCount',
+      headerLabel: '# of Skills',
       isNumeric: true,
       // TOOD: FIX THIS WITH REAL SKILL COUNT
       renderer: (data: ICategoryWithSkillCount) => data.skillCount,
     },
     {
-      propertyName: "id",
-      headerLabel: "",
+      propertyName: 'id',
+      headerLabel: '',
       isNumeric: false,
       renderer: (data: ICategoryWithSkillCount) => (
         <Button color="secondary" onClick={() => deleteCategory(data.id)}>
@@ -58,7 +58,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
         </Button>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -68,7 +68,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
         initialSortProperty="name"
       />
     </>
-  );
-};
+  )
+}
 
-export default CategoryTable;
+export default CategoryTable

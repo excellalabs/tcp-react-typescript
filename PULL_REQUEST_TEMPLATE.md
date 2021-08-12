@@ -11,9 +11,9 @@ Resolves: (issue/ticket number)
 ## Type of change
 
 - [ ] Documentation update
-- [ ] New feature (*non-breaking change which adds functionality*)
-- [ ] Bug fix (*non-breaking change which fixes an issue*)
-- [ ] Breaking change (*fix or feature that would cause existing functionality to not work as expected*)
+- [ ] New feature (_non-breaking change which adds functionality_)
+- [ ] Bug fix (_non-breaking change which fixes an issue_)
+- [ ] Breaking change (_fix or feature that would cause existing functionality to not work as expected_)
 
 ## Testing
 
@@ -28,12 +28,13 @@ Resolves: (issue/ticket number)
 - [ ] This requires some manual testing, detailed below
 
 Description of test scenario:
+
 1. First...
 1. Then...
 1. Verify that...
 
 ## Other change related information
 
-- [ ] This change requires a documentation update (*not included here*)
+- [ ] This change requires a documentation update (_not included here_)
 - [ ] This change is part of a larger change, and requires follow-up PR(s)
 - [ ] This change updates `package.json` and will require installation to test locally

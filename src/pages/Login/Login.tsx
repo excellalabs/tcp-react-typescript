@@ -1,54 +1,54 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   useAuthDispatch,
   useAuthState,
-} from "../../context/AuthContext/AuthContext";
+} from '../../context/AuthContext/AuthContext'
 
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import Input from "@material-ui/core/Input";
-import { LoginInfo } from "../../context/UserContext/UserContext";
-import { makeStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import Grid from '@material-ui/core/Grid'
+import Input from '@material-ui/core/Input'
+import { LoginInfo } from '../../context/UserContext/UserContext'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => {
   return {
     root: {
-      textAlign: "left",
-      padding: "16px",
+      textAlign: 'left',
+      padding: '16px',
     },
     error: {
-      color: "red",
+      color: 'red',
     },
-  };
-});
+  }
+})
 
 const Login: React.FC<{}> = () => {
-  const { error: authError, status } = useAuthState();
-  const authActions = useAuthDispatch();
-  const history = useHistory();
+  const { error: authError, status } = useAuthState()
+  const authActions = useAuthDispatch()
+  const history = useHistory()
 
   useEffect(() => {
     // Redirect to home on successful login
-    if (status === "authenticated") {
-      history.push("/");
+    if (status === 'authenticated') {
+      history.push('/')
     }
-  }, [status, history]);
+  }, [status, history])
 
   const [loginInfo, setLoginInfo] = React.useState({
-    username: "",
-    password: "",
-  } as LoginInfo);
+    username: '',
+    password: '',
+  } as LoginInfo)
 
   const handleLogin = () => {
     authActions({
-      type: "login",
+      type: 'login',
       payload: { ...loginInfo },
-    });
-  };
+    })
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Card className={classes.root}>
@@ -92,7 +92,7 @@ const Login: React.FC<{}> = () => {
         </Grid>
       </form>
     </Card>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

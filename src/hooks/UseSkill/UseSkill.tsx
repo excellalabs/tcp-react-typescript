@@ -1,49 +1,49 @@
-import { ISkill, Skill } from "../../models/Skill.interface";
-import { useCallback, useEffect, useState } from "react";
+import { ISkill, Skill } from '../../models/Skill.interface'
+import { useCallback, useEffect, useState } from 'react'
 
-import SkillService from "../../services/Skill/SkillService";
-import { useAuthState } from "../../context/AuthContext/AuthContext";
+import SkillService from '../../services/Skill/SkillService'
+import { useAuthState } from '../../context/AuthContext/AuthContext'
 
 const useSkill = () => {
-  const { status, token } = useAuthState();
+  const { status, token } = useAuthState()
 
   // Cache service, refreshing on token change
   const [skillService, setSkillService] = useState<SkillService>(
     new SkillService(token)
-  );
+  )
 
   // Variable to re-render the screen
-  const [shouldUpdate, setShouldUpdate] = useState(false);
+  const [shouldUpdate, setShouldUpdate] = useState(false)
 
   useEffect(() => {
-    setSkillService(new SkillService(token));
-  }, [token]);
+    setSkillService(new SkillService(token))
+  }, [token])
 
   // Wrapper functions for CRUD operations
   const createSkill = async (skill: ISkill) => {
-    const res = await skillService.create(skill);
-    setShouldUpdate(true);
-    return res;
-  };
+    const res = await skillService.create(skill)
+    setShouldUpdate(true)
+    return res
+  }
 
   const getSkillById = (id: number) => {
-    return skillService.getById(id);
-  };
+    return skillService.getById(id)
+  }
 
   const updateSkill = async (skill: ISkill) => {
-    const res = await skillService.update(skill);
-    setShouldUpdate(true);
-    return res;
-  };
+    const res = await skillService.update(skill)
+    setShouldUpdate(true)
+    return res
+  }
 
   const deleteSkill = async (id: number) => {
-    const res = await skillService.delete(id);
-    setShouldUpdate(true);
-    return res;
-  };
+    const res = await skillService.delete(id)
+    setShouldUpdate(true)
+    return res
+  }
 
   // Cache for skills
-  const [skills, setSkills] = useState([] as ISkill[]);
+  const [skills, setSkills] = useState([] as ISkill[])
 
   const fetchSkills = useCallback(async () => {
     skillService
@@ -52,29 +52,29 @@ const useSkill = () => {
         res.status === 200
           ? setSkills(
               res.data.map((item) => {
-                return new Skill(item);
+                return new Skill(item)
               })
             )
-          : setSkills([]);
+          : setSkills([])
       })
       .catch((error) => {
-        console.log(error);
-      });
-  }, [skillService]);
+        console.log(error)
+      })
+  }, [skillService])
 
   // Re-render upon updates
   useEffect(() => {
     if (shouldUpdate) {
-      setShouldUpdate(false);
-      fetchSkills();
+      setShouldUpdate(false)
+      fetchSkills()
     }
-  }, [fetchSkills, shouldUpdate]);
+  }, [fetchSkills, shouldUpdate])
 
   useEffect(() => {
-    if (status === "authenticated") {
-      fetchSkills();
+    if (status === 'authenticated') {
+      fetchSkills()
     }
-  }, [fetchSkills, status]);
+  }, [fetchSkills, status])
 
   return {
     skills,
@@ -83,7 +83,7 @@ const useSkill = () => {
     getSkillById,
     updateSkill,
     deleteSkill,
-  };
-};
+  }
+}
 
-export default useSkill;
+export default useSkill

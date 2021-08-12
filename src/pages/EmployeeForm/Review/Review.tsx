@@ -1,26 +1,26 @@
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from '@material-ui/core'
 
-import { IEmployeeForm } from "../EmployeeForm.schema";
-import React from "react";
-import { useFormikContext } from "formik";
+import { IEmployeeForm } from '../EmployeeForm.schema'
+import React from 'react'
+import { useFormikContext } from 'formik'
 
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      maxWidth: "600px",
+      maxWidth: '600px',
     },
     item: {
-      width: "200px",
+      width: '200px',
     },
-  };
-});
+  }
+})
 
 const Field: React.FC<{ name: string; value: any; value2?: any }> = ({
   name,
   value,
   value2,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Grid key={name} item className={classes.item}>
@@ -34,21 +34,21 @@ const Field: React.FC<{ name: string; value: any; value2?: any }> = ({
         {value2 && `${value2}`}
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
 const Review: React.FC<{}> = () => {
-  const { values } = useFormikContext<IEmployeeForm>();
+  const { values } = useFormikContext<IEmployeeForm>()
 
   const formData = {
     ...values,
     bio: {
       ...values.bio,
       // Handle the fact the data comes back
-      birthDate: new Date((values.bio.birthDate as unknown) as string),
+      birthDate: new Date(values.bio.birthDate as unknown as string),
     },
-  } as IEmployeeForm;
-  const classes = useStyles();
+  } as IEmployeeForm
+  const classes = useStyles()
   return (
     <div className={classes.root}>
       <h2>Biographical Information</h2>
@@ -62,14 +62,14 @@ const Review: React.FC<{}> = () => {
             name="Date of Birth"
             value={
               (formData.bio.birthDate as Date)?.toLocaleDateString() ??
-              "--/--/----"
+              '--/--/----'
             }
           />
           <Field name="Gender" value={formData.bio.gender} />
           <Field name="Ethnicity" value={formData.bio.ethnicity} />
           <Field
             name="Us Citizen"
-            value={formData.bio.usCitizen ? "Yes" : "No"}
+            value={formData.bio.usCitizen ? 'Yes' : 'No'}
           />
         </Grid>
       </Grid>
@@ -90,18 +90,18 @@ const Review: React.FC<{}> = () => {
         {formData.skills.map((skill) => {
           return (
             <Grid item container direction="row" key={skill.skill}>
-              <Field name={"Skill Name (Skill Category)"} value={skill.skill} />
+              <Field name={'Skill Name (Skill Category)'} value={skill.skill} />
               <Field name="Proficiency" value={skill.proficiency} />
               <Field
                 name="Primary Skill"
-                value={skill.primary ? "Yes" : "No"}
+                value={skill.primary ? 'Yes' : 'No'}
               />
             </Grid>
-          );
+          )
         })}
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default Review;
+export default Review

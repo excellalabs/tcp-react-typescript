@@ -1,39 +1,39 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import { Routes } from "./Routes";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import { SideNav } from "./components/SideNav/SideNav";
-import { useUserState } from "./context/UserContext/UserContext";
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { Routes } from './Routes'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import Drawer from '@material-ui/core/Drawer'
+import Hidden from '@material-ui/core/Hidden'
+import { SideNav } from './components/SideNav/SideNav'
+import { useUserState } from './context/UserContext/UserContext'
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
     marginLeft: drawerWidth,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
   toolbar: theme.mixins.toolbar,
@@ -45,19 +45,19 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   spacer: {
-    flex: "1 1 auto",
+    flex: '1 1 auto',
   },
-}));
+}))
 
 function Layout(props: any) {
-  const { container } = props;
-  const classes = useStyles();
-  const theme = useTheme();
-  const { employeeInfo } = useUserState();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { container } = props
+  const classes = useStyles()
+  const theme = useTheme()
+  const { employeeInfo } = useUserState()
+  const [mobileOpen, setMobileOpen] = React.useState(false)
 
   function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen);
+    setMobileOpen(!mobileOpen)
   }
 
   return (
@@ -81,8 +81,8 @@ function Layout(props: any) {
             <span className={classes.spacer}></span>
             {employeeInfo && (
               <Typography variant="h6">
-                Welcome, {employeeInfo?.bio.firstName ?? ""}{" "}
-                {employeeInfo?.bio.lastName ?? ""}
+                Welcome, {employeeInfo?.bio.firstName ?? ''}{' '}
+                {employeeInfo?.bio.lastName ?? ''}
               </Typography>
             )}
           </Toolbar>
@@ -92,7 +92,7 @@ function Layout(props: any) {
             <Drawer
               container={container}
               variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
               open={mobileOpen}
               onClose={handleDrawerToggle}
               classes={{
@@ -123,6 +123,6 @@ function Layout(props: any) {
         </main>
       </BrowserRouter>
     </div>
-  );
+  )
 }
-export default Layout;
+export default Layout

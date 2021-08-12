@@ -1,15 +1,13 @@
-import { render, screen } from "@testing-library/react";
-import React from "react";
-import NotFound from "./NotFound";
+import { render, screen } from '@testing-library/react'
+import React from 'react'
+import NotFound from './NotFound'
 
-describe("NotFound page", () => {
+describe('NotFound page', () => {
   beforeEach(() => {
-    render(
-        <NotFound />
-    );
-  });
+    render(<NotFound />)
+  })
 
-  it("renders the NotFound page", () => {
-    expect(screen.getByText(/404/)).toBeInTheDocument();
-  });
-});
+  it('renders the NotFound page', () => {
+    expect(screen.getByText(/404/)).toBeInTheDocument()
+  })
+})

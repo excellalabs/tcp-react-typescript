@@ -1,21 +1,21 @@
-import { Box, Card, Grid, Button } from "@material-ui/core";
+import { Box, Card, Grid, Button } from '@material-ui/core'
 
-import InputField from "../Components/InputField";
-import React, { useState } from "react";
-import { addFormGroup } from "../../../helpers/FormGroup";
-import { contactFormModel } from "./ContactForm.schema";
-import SelectField from "../Components/SelectField";
-import { STATES } from "../../../models/Address.interface";
+import InputField from '../Components/InputField'
+import React, { useState } from 'react'
+import { addFormGroup } from '../../../helpers/FormGroup'
+import { contactFormModel } from './ContactForm.schema'
+import SelectField from '../Components/SelectField'
+import { STATES } from '../../../models/Address.interface'
 
 export const ContactForm: React.FC<{
-  formGroup: string;
+  formGroup: string
 }> = ({ formGroup }) => {
-  const { address, phoneNumber, email } = contactFormModel;
-  const withFormGroup = addFormGroup(formGroup);
-  const [isLineTwoVisible, setIsLineTwoVisible] = useState(false);
+  const { address, phoneNumber, email } = contactFormModel
+  const withFormGroup = addFormGroup(formGroup)
+  const [isLineTwoVisible, setIsLineTwoVisible] = useState(false)
 
   function makeLineTwoVisible() {
-    setIsLineTwoVisible(true);
+    setIsLineTwoVisible(true)
   }
 
   return (
@@ -33,7 +33,7 @@ export const ContactForm: React.FC<{
             <Grid item xs={12} sm={12}>
               <Button
                 onClick={makeLineTwoVisible}
-                style={{ fontWeight: "bold" }}
+                style={{ fontWeight: 'bold' }}
               >
                 + Add C/O, Apt, Suite, Unit
               </Button>
@@ -89,7 +89,7 @@ export const ContactForm: React.FC<{
         </Grid>
       </Box>
     </Card>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm

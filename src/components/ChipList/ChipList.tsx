@@ -1,8 +1,8 @@
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
 
-import Chip from '@material-ui/core/Chip';
-import { IEmployeeSkill } from '../../models/Skill.interface';
-import React from 'react';
+import Chip from '@material-ui/core/Chip'
+import { IEmployeeSkill } from '../../models/Skill.interface'
+import React from 'react'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,15 +17,17 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(0.5),
     },
     primarySkill: {
-        border: 'solid',
-        borderColor: 'black',
-        borderWidth: '2px',
-    }
-  }),
-);
+      border: 'solid',
+      borderColor: 'black',
+      borderWidth: '2px',
+    },
+  })
+)
 
-export const ChipList: React.FC<{skills: IEmployeeSkill[]}> = ({skills}) => {
-  const classes = useStyles();
+export const ChipList: React.FC<{ skills: IEmployeeSkill[] }> = ({
+  skills,
+}) => {
+  const classes = useStyles()
 
   return (
     <ul className={classes.root}>
@@ -37,10 +39,10 @@ export const ChipList: React.FC<{skills: IEmployeeSkill[]}> = ({skills}) => {
               className={s.primary ? classes.primarySkill : ''}
             />
           </li>
-        );
+        )
       })}
     </ul>
-  );
-};
+  )
+}
 
-export default ChipList;
+export default ChipList

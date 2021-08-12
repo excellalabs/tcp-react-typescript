@@ -1,23 +1,23 @@
-import React from "react";
-import { at } from "lodash";
-import { useField } from "formik";
+import React from 'react'
+import { at } from 'lodash'
+import { useField } from 'formik'
 import {
   FormControl,
   FormHelperText,
   RadioGroup,
   FormControlLabel,
   Radio,
-} from "@material-ui/core";
+} from '@material-ui/core'
 
 function RadioButtonField(props: any) {
-  const { label, data, ...rest } = props;
-  const [field, meta] = useField(props);
-  const [touched, error] = at(meta, "touched", "error");
-  const isError = touched && error && true;
+  const { label, data, ...rest } = props
+  const [field, meta] = useField(props)
+  const [touched, error] = at(meta, 'touched', 'error')
+  const isError = touched && error && true
 
   function renderHelperText() {
     if (isError) {
-      return <FormHelperText>{error}</FormHelperText>;
+      return <FormHelperText>{error}</FormHelperText>
     }
   }
 
@@ -35,7 +35,7 @@ function RadioButtonField(props: any) {
       </RadioGroup>
       {renderHelperText()}
     </FormControl>
-  );
+  )
 }
 
-export default RadioButtonField;
+export default RadioButtonField

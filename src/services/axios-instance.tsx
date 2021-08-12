@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { interceptorInfos} from './axios-interceptors'
+import { interceptorInfos } from './axios-interceptors'
 
 export const axiosInstance = axios.create()
 
@@ -7,8 +7,8 @@ let intercept = false
 
 axiosInstance.interceptors.request.use((config: any) => {
   if (intercept === true) {
-    for(let interceptorInfo of interceptorInfos) {
-      if(config.url.includes(interceptorInfo.pathMatch)){
+    for (let interceptorInfo of interceptorInfos) {
+      if (config.url.includes(interceptorInfo.pathMatch)) {
         config.adapter = interceptorInfo.responseFunction
         break
       }
@@ -19,6 +19,6 @@ axiosInstance.interceptors.request.use((config: any) => {
     ...config,
     headers: {
       ...config.headers,
-    }
-  };
-});
+    },
+  }
+})

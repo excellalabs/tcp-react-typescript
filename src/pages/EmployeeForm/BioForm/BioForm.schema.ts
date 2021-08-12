@@ -1,47 +1,47 @@
-import * as Yup from "yup";
+import * as Yup from 'yup'
 import differenceInYears from 'date-fns/differenceInYears'
 
 export const bioFormModel = {
   firstName: {
-    name: "firstName",
-    label: "First name*",
-    requiredErrorMsg: "First name is required",
-    default: "",
+    name: 'firstName',
+    label: 'First name*',
+    requiredErrorMsg: 'First name is required',
+    default: '',
   },
   middleInitial: {
-    name: "middleInitial",
-    label: "Middle Initial",
-    default: "",
+    name: 'middleInitial',
+    label: 'Middle Initial',
+    default: '',
   },
   lastName: {
-    name: "lastName",
-    label: "Last name*",
-    requiredErrorMsg: "Last name is required",
-    default: "",
+    name: 'lastName',
+    label: 'Last name*',
+    requiredErrorMsg: 'Last name is required',
+    default: '',
   },
   birthDate: {
-    name: "birthDate",
-    label: "Date of Birth*",
-    requiredErrorMsg: "Date of birth is required",
-    ageErrorMsg: "Employee must be 18 years old",
+    name: 'birthDate',
+    label: 'Date of Birth*',
+    requiredErrorMsg: 'Date of birth is required',
+    ageErrorMsg: 'Employee must be 18 years old',
   },
   gender: {
-    name: "gender",
-    requiredErrorMsg: "Gender is required",
-    default: "",
+    name: 'gender',
+    requiredErrorMsg: 'Gender is required',
+    default: '',
   },
   ethnicity: {
-    name: "ethnicity",
-    label: "Ethnicity*",
-    requiredErrorMsg: "Ethnicity is required",
-    default: "",
+    name: 'ethnicity',
+    label: 'Ethnicity*',
+    requiredErrorMsg: 'Ethnicity is required',
+    default: '',
   },
   usCitizen: {
-    name: "usCitizen",
-    label: "US Citizen",
+    name: 'usCitizen',
+    label: 'US Citizen',
     default: false,
   },
-};
+}
 
 const {
   firstName,
@@ -51,7 +51,7 @@ const {
   gender,
   ethnicity,
   usCitizen,
-} = bioFormModel;
+} = bioFormModel
 
 export const bioFormSchema = Yup.object({
   firstName: Yup.string()
@@ -64,8 +64,8 @@ export const bioFormSchema = Yup.object({
   birthDate: Yup.date()
     .nullable()
     .required(`${birthDate.requiredErrorMsg}`)
-    .test("birthDate", `${birthDate.ageErrorMsg}`, (value) => {
-      return value ? differenceInYears(new Date(), value) >= 18 : false;
+    .test('birthDate', `${birthDate.ageErrorMsg}`, (value) => {
+      return value ? differenceInYears(new Date(), value) >= 18 : false
     }),
   gender: Yup.string()
     .required(`${gender.requiredErrorMsg}`)
@@ -74,8 +74,8 @@ export const bioFormSchema = Yup.object({
     .required(`${ethnicity.requiredErrorMsg}`)
     .default(ethnicity.default),
   usCitizen: Yup.boolean().default(usCitizen.default),
-}).required();
+}).required()
 
-export type IEmployeeBioForm = Yup.InferType<typeof bioFormSchema>;
+export type IEmployeeBioForm = Yup.InferType<typeof bioFormSchema>
 
-export const bioFormInitialValues: IEmployeeBioForm = bioFormSchema.cast();
+export const bioFormInitialValues: IEmployeeBioForm = bioFormSchema.cast()

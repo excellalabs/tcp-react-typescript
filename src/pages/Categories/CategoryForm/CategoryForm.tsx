@@ -5,15 +5,15 @@ import {
   CardContent,
   TextField,
   Typography,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+} from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 
-import { ICategory } from "../../../models/Skill.interface";
+import { ICategory } from '../../../models/Skill.interface'
 
 export type CategoryFormProps = {
-  categoryToEdit?: ICategory | undefined; // Input
-  submitCategory: (category: ICategory) => void; // Output
-};
+  categoryToEdit?: ICategory | undefined // Input
+  submitCategory: (category: ICategory) => void // Output
+}
 
 const CategoryForm: React.FC<CategoryFormProps> = ({
   categoryToEdit,
@@ -21,23 +21,23 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 }) => {
   // Store the category being worked on
   const [category, setCategory] = useState<ICategory>({
-    name: "",
-  } as ICategory);
+    name: '',
+  } as ICategory)
 
   // When a new category to edit is passed in, let's set the form accordingly
   useEffect(() => {
-    setCategory(categoryToEdit ?? ({ id: 0, name: "" } as ICategory));
-  }, [categoryToEdit]);
+    setCategory(categoryToEdit ?? ({ id: 0, name: '' } as ICategory))
+  }, [categoryToEdit])
 
   // Store changes as the user edits the name
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory({ ...category, name: event.target.value } as ICategory); // preserve ID if it's there
-  };
+    setCategory({ ...category, name: event.target.value } as ICategory) // preserve ID if it's there
+  }
 
   // When submitting, pass category to parent and clear the form.
   function saveCategory(category: ICategory) {
-    submitCategory(category);
-    setCategory({id: 0, name: ""});
+    submitCategory(category)
+    setCategory({ id: 0, name: '' })
   }
 
   // Render the form
@@ -62,12 +62,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             color="primary"
             onClick={() => saveCategory(category)}
           >
-            {category?.id ? "Update" : "Add"} Category
+            {category?.id ? 'Update' : 'Add'} Category
           </Button>
         </CardActions>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default CategoryForm;
+export default CategoryForm

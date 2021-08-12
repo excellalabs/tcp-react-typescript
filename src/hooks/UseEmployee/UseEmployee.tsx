@@ -1,52 +1,52 @@
-import { Employee, IEmployee } from "../../models/Employee.interface";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Employee, IEmployee } from '../../models/Employee.interface'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import EmployeeService from "../../services/Employee/EmployeeService";
-import { IEmployeeForm } from "../../pages/EmployeeForm/EmployeeForm.schema";
-import { useAuthState } from "../../context/AuthContext/AuthContext";
+import EmployeeService from '../../services/Employee/EmployeeService'
+import { IEmployeeForm } from '../../pages/EmployeeForm/EmployeeForm.schema'
+import { useAuthState } from '../../context/AuthContext/AuthContext'
 
 const useEmployee = () => {
   // Initialize API service
-  const { status, token } = useAuthState();
+  const { status, token } = useAuthState()
   const employeeService = useMemo(() => {
-    return new EmployeeService(token);
-  }, [token]);
+    return new EmployeeService(token)
+  }, [token])
 
   // Local state
-  const [employees, setEmployees] = useState([] as Employee[]);
-  const [listUpdated, setListUpdated] = useState(false);
+  const [employees, setEmployees] = useState([] as Employee[])
+  const [listUpdated, setListUpdated] = useState(false)
 
   // Functions to be passed out from hook
   const createEmployee = (employee: IEmployee) => {
-    setListUpdated(true);
-    return employeeService.create(employee);
-  };
+    setListUpdated(true)
+    return employeeService.create(employee)
+  }
 
   const updateEmployee = (employee: IEmployee) => {
-    setListUpdated(true);
-    return employeeService.update(employee);
-  };
+    setListUpdated(true)
+    return employeeService.update(employee)
+  }
 
   const deleteEmployee = (id: number) => {
-    setListUpdated(true);
-    return employeeService.delete(id);
-  };
+    setListUpdated(true)
+    return employeeService.delete(id)
+  }
 
   const getEmployeeById = useCallback(
     (id: number) => {
-      return employeeService.getById(id);
+      return employeeService.getById(id)
     },
     [employeeService]
-  );
+  )
 
   const getEmployeeFormDataById = useCallback(
     (id: number): Promise<IEmployeeForm> => {
       return employeeService
         .getById(id)
-        .then((response) => employeeToFormSchema(response.data));
+        .then((response) => employeeToFormSchema(response.data))
     },
     [employeeService]
-  );
+  )
 
   function employeeToFormSchema(employee: IEmployee): IEmployeeForm {
     return {
@@ -55,7 +55,7 @@ const useEmployee = () => {
         email: employee.contact.email,
         phoneNumber: employee.contact.phoneNumber,
         address1: employee.contact.address.line1,
-        address2: employee.contact.address.line2 ?? "",
+        address2: employee.contact.address.line2 ?? '',
         city: employee.contact.address.city,
         state: employee.contact.address.stateCode,
         zipCode: employee.contact.address.zipCode,
@@ -65,7 +65,7 @@ const useEmployee = () => {
         proficiency: s.proficiency,
         primary: s.primary,
       })),
-    };
+    }
   }
 
   const fetchEmployees = useCallback(
@@ -76,28 +76,28 @@ const useEmployee = () => {
           res.status === 200
             ? setEmployees(
                 res.data.map((item) => {
-                  return new Employee(item);
+                  return new Employee(item)
                 })
               )
-            : setEmployees([]);
+            : setEmployees([])
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     /* eslint-disable react-hooks/exhaustive-deps */
     [employeeService, listUpdated]
-  );
+  )
 
   useEffect(
     () => {
-      if (status === "authenticated") {
-        fetchEmployees();
+      if (status === 'authenticated') {
+        fetchEmployees()
       }
     },
     /* eslint-disable react-hooks/exhaustive-deps */
     [fetchEmployees, status, listUpdated]
-  );
+  )
 
   return {
     employees,
@@ -107,7 +107,7 @@ const useEmployee = () => {
     getEmployeeFormDataById,
     updateEmployee,
     deleteEmployee,
-  };
-};
+  }
+}
 
-export default useEmployee;
+export default useEmployee

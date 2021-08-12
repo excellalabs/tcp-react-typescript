@@ -1,16 +1,16 @@
-import React from "react";
-import { TextField } from "@material-ui/core";
-import { at } from "lodash";
-import { useField } from "formik";
+import React from 'react'
+import { TextField } from '@material-ui/core'
+import { at } from 'lodash'
+import { useField } from 'formik'
 
 const InputField: React.FC<any> = (props) => {
-  const { errorText, ...rest } = props;
-  const [field, meta] = useField(props);
+  const { errorText, ...rest } = props
+  const [field, meta] = useField(props)
 
   function renderHelperText() {
-    const [touched, error] = at(meta, "touched", "error");
+    const [touched, error] = at(meta, 'touched', 'error')
     if (touched && error) {
-      return error;
+      return error
     }
   }
 
@@ -23,7 +23,7 @@ const InputField: React.FC<any> = (props) => {
       {...field}
       {...rest}
     />
-  );
-};
+  )
+}
 
-export default InputField;
+export default InputField
