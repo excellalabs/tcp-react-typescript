@@ -68,6 +68,16 @@ pipeline {
       }
     }
 
+    stage('Lint') {
+      steps {
+        container('node') {
+          sh """
+          npm run lint
+          """
+        }
+      }
+    }
+
     stage('Test') {
       steps {
         container('node') {
