@@ -3,11 +3,25 @@ import { fakeAxiosData } from "mocks/data/fakeAxiosData";
 import fakeEmployee from 'mocks/data/employee';
 import { agileSkillCategory } from "./data/category";
 import { reactSkill } from "./data/skill";
+
+interface LoginBody {
+  user: {
+    username: string,
+    password: string
+  }
+}
+
+
 export const handlers = [
       
-    rest.post("/oauth/token", async (req, res, ctx) => {
-      const status = req.url.searchParams.get('password') === 'pass' ? 200 : 401 
-      return res(ctx.status(status))
+    rest.post<LoginBody>("/api/v1/users/signin", async (req, res, ctx) => {
+      const { password } = req.body.user
+      const status = (password === 'pass') ? 200 : 401
+      let data = {}
+      if (status === 200) {
+        data = { user: { username: 'user', token: '12345678'} }
+      } 
+      return res(ctx.status(status), ctx.json(data))
     }),
   
     // TODO: these undefined need to be fixed for tests

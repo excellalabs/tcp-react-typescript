@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import AuthService from "../../services/Auth/AuthService";
 
 type LoginInfo = { username: string; password: string };
+
 type AuthAction = {
   type: "loginSuccess" | "login" | "loginFailure" | "logout" | "loadUser";
   payload?: LoginInfo;
@@ -51,8 +52,8 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
             ...state,
             status: "loading",
             payload: {
-              username: action.payload.username,
-              password: action.payload.password,
+                username: action.payload.username,
+                password: action.payload.password,
             },
           };
     }
@@ -85,12 +86,12 @@ const AuthProvider: React.FC<{}> = (props) => {
     authReducer,
     defaultState
   );
-
   const loginNeeded = useCallback(async () => {
     if (state.payload === undefined) return;
     API.login(state.payload?.username, state.payload?.password)
       .then((res) => {
-        API.saveToken(res.data?.access_token ?? "");
+        const t = res.data?.user.token ?? ""
+        API.saveToken(t);
         res.status === 200
           ? dispatch({ type: "loginSuccess" })
           : dispatch({ type: "loginFailure" });
