@@ -145,7 +145,6 @@ pipeline {
             }
           }
 
-          withVault([vaultSecrets: secrets]) {
             container('helm') {
               dir('infrastructure/helm') {
                 sh """set +x
@@ -153,7 +152,6 @@ pipeline {
                 """
               }
             }
-          } // withVault
         } // script
       } // steps
     } // stage
@@ -173,7 +171,6 @@ pipeline {
             }
           }
 
-          withVault([vaultSecrets: secrets]) {
             container('helm') {
               dir('infrastructure/helm') {
                 sh """set +x
@@ -181,7 +178,6 @@ pipeline {
                 """
               }
             }
-          } // withVault
         } // script
       } // steps
     } // stage
