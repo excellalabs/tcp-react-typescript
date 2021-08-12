@@ -5,9 +5,9 @@ import { axiosInstance } from '../axios-instance'
 const jwtDecode = require('jwt-decode')
 
 export default class AuthService implements ApiService {
-  static key = 'tcp-react'
-  tokenEndpoint = '/oauth/token'
-  authorizationEndpoint = '/oauth/authorization'
+  static key = "tcp-react";
+  loginEndpoint = "/api/v1/users/signin";
+  authorizationEndpoint = "/oauth/authorization";
 
   config: AxiosRequestConfig
 
@@ -15,18 +15,15 @@ export default class AuthService implements ApiService {
     this.config = {
       baseURL: process.env.REACT_APP_API,
       headers: {
-        Authorization: `Basic ${btoa(
-          'app:$2a$04$hqawBldLsWkFJ5CVsvtL7ed1z9yeoknfuszPOEHWzxfLBoViK6OVi'
-        )}`,
-        Accept: '*/*',
-      },
-    }
+        Accept: "application/json"
+      }
+    };
   }
 
   login(username: string, password: string): Promise<AxiosResponse> {
     return axiosInstance.post(
-      `/oauth/token?grant_type=password&username=${username}&password=${password}&scope=read%20write`,
-      {},
+      this.loginEndpoint,
+      { user: { username: username, password: password }},
       this.config
     )
   }
@@ -68,9 +65,10 @@ export default class AuthService implements ApiService {
   }
 
   static tokenHasLifeLeft() {
-    const token = localStorage.getItem(AuthService.key)
-    const decodedToken = jwtDecode(token) as DecodedJWT
-    const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000
-    return tokenLifeLeft > 0
+    return true;
+    // const token = localStorage.getItem(AuthService.key);
+    // const decodedToken = jwtDecode(token) as DecodedJWT;
+    // const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000;
+    // return tokenLifeLeft > 0;
   }
 }

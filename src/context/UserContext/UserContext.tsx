@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react'
-import { useAuthState } from '../AuthContext/AuthContext'
-import AuthService from '../../services/Auth/AuthService'
-import EmployeeService from '../../services/Employee/EmployeeService'
-import { IEmployee } from '../../models/Employee.interface'
+import React, { useCallback } from "react";
+import { useAuthState } from "../AuthContext/AuthContext";
+// import AuthService from "../../services/Auth/AuthService";
+import { IEmployee } from "../../models/Employee.interface";
 
 export type LoginInfo = { username: string; password: string }
 type UserAction = { type: 'populate' | 'clear'; payload?: IEmployee }
@@ -23,7 +22,7 @@ const defaultState: UserState = {
   employeeInfo: undefined,
 }
 
-const API = new AuthService()
+// const API = new AuthService();
 
 function userReducer(state: UserState, action: UserAction) {
   switch (action.type) {
@@ -31,8 +30,8 @@ function userReducer(state: UserState, action: UserAction) {
       return {
         ...state,
         employeeInfo: action.payload,
-        isAdmin: API.isAdmin(),
-      }
+        isAdmin: true,
+      };
     }
     case 'clear': {
       return defaultState
@@ -49,12 +48,12 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   )
 
   const populateUser = useCallback(async () => {
-    const employeeService = new EmployeeService(token)
-    const employee: IEmployee = await employeeService
-      .getByEmail(API.getEmail())
-      .then((res) => res)
-    dispatch({ type: 'populate', payload: employee })
-  }, [token])
+    // const employeeService = new EmployeeService(token);
+    // const employee: IEmployee = await employeeService
+    //   .getByEmail(API.getEmail())
+    //   .then((res) => res);
+    dispatch({ type: "populate", payload: undefined });
+  }, []);
 
   React.useEffect(() => {
     if (status === 'authenticated' && token !== '') populateUser()
@@ -75,8 +74,7 @@ function useUserState(): UserState {
   if (context === undefined) {
     throw new Error('useUserState must be used within a UserProvider')
   }
-
-  return context
+  return context;
 }
 
 function useUserDispatch(): UserDispatch {
