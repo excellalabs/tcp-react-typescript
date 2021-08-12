@@ -1,14 +1,12 @@
 import React, { useCallback } from 'react'
 import { useAuthState } from '../AuthContext/AuthContext'
 // import AuthService from "../../services/Auth/AuthService";
-import { IEmployee } from '../../models/Employee.interface'
 
 export type LoginInfo = { username: string; password: string }
-type UserAction = { type: 'populate' | 'clear'; payload?: IEmployee }
+type UserAction = { type: 'populate' | 'clear'; payload?: {} }
 type UserDispatch = (action: UserAction) => void
 type UserState = {
   isAdmin: boolean
-  employeeInfo: IEmployee | undefined
 }
 type UserProviderProps = { children: React.ReactNode }
 
@@ -19,7 +17,6 @@ const UserDispatchContext = React.createContext<UserDispatch | undefined>(
 
 const defaultState: UserState = {
   isAdmin: false,
-  employeeInfo: undefined,
 }
 
 // const API = new AuthService();
