@@ -29,7 +29,7 @@
     "test:cypress": "cypress run",
     "test:cypress:open": "cypress open",
     "format": "prettier --write .",
-    "format:check": "prettier --list-different"
+    "format:check": "prettier --list-different ."
   },
   "eslintConfig": {
     "extends": "react-app"
