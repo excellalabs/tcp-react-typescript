@@ -22,7 +22,7 @@ const defaultState: UserState = {
   employeeInfo: undefined,
 };
 
-const API = new AuthService();
+// const API = new AuthService();
 
 function userReducer(state: UserState, action: UserAction) {
   switch (action.type) {
