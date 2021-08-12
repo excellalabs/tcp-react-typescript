@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography'
 import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
 import { SideNav } from './components/SideNav/SideNav'
-import { useUserState } from './context/UserContext/UserContext'
 
 const drawerWidth = 240
 
@@ -53,7 +52,6 @@ function Layout(props: any) {
   const { container } = props
   const classes = useStyles()
   const theme = useTheme()
-  const { employeeInfo } = useUserState()
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
   function handleDrawerToggle() {
@@ -78,13 +76,6 @@ function Layout(props: any) {
             <Typography variant="h6" noWrap id="header-text">
               Employee Listing
             </Typography>
-            <span className={classes.spacer}></span>
-            {employeeInfo && (
-              <Typography variant="h6">
-                Welcome, {employeeInfo?.bio.firstName ?? ''}{' '}
-                {employeeInfo?.bio.lastName ?? ''}
-              </Typography>
-            )}
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
