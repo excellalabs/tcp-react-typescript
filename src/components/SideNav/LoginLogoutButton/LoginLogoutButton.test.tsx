@@ -1,11 +1,11 @@
+import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import {
   AuthProvider,
   useAuthDispatch,
 } from '../../../context/AuthContext/AuthContext'
-import React from 'react'
 import LoginLogoutButton from './LoginLogoutButton'
-import { BrowserRouter, useHistory } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 const TestComponent = () => {
   const action = useAuthDispatch()
