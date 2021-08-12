@@ -1,8 +1,5 @@
 import { rest } from 'msw'
 import { fakeAxiosData } from 'mocks/data/fakeAxiosData'
-import fakeEmployee from 'mocks/data/employee'
-import { agileSkillCategory } from './data/category'
-import { reactSkill } from './data/skill'
 
 interface LoginBody {
   user: {
@@ -50,17 +47,6 @@ export const handlers = [
   }),
   rest.delete('/undefined/items/:id', async (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(fakeAxiosData[req.params.id]))
-  }),
-
-  rest.get('/undefined/employee', async (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json([fakeEmployee]))
-  }),
-  rest.get('/undefined/skill', async (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json([reactSkill]))
-  }),
-
-  rest.get('/undefined/skill-category', async (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json([agileSkillCategory]))
   }),
 
   ////
