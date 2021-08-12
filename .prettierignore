@@ -13,3 +13,5 @@ build/
 # Markdown files
 README.md
 PULL_REQUEST_TEMPLATE.md
+
+tsconfig.json
