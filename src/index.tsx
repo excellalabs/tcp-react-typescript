@@ -5,6 +5,8 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { AuthProvider } from './context/AuthContext/AuthContext'
 import { UserProvider } from './context/UserContext/UserContext'
+import '@trussworks/react-uswds/lib/uswds.css'
+import '@trussworks/react-uswds/lib/index.css'
 
 if (process.env.REACT_APP_USE_MSW === 'true') {
   const { worker } = require('./mocks/browser')

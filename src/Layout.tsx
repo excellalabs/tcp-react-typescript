@@ -1,119 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { Routes } from './Routes'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import Drawer from '@material-ui/core/Drawer'
-import Hidden from '@material-ui/core/Hidden'
-import { SideNav } from './components/SideNav/SideNav'
+import {
+  GridContainer,
+  Grid,
+  GovBanner,
+  Header,
+  Title,
+  NavMenuButton,
+  PrimaryNav,
+} from '@trussworks/react-uswds'
 
-const drawerWidth = 240
+/* eslint-disable max-lines-per-function */
+const Layout = (): React.ReactElement => {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  spacer: {
-    flex: '1 1 auto',
-  },
-}))
-
-function Layout(props: any) {
-  const { container } = props
-  const classes = useStyles()
-  const theme = useTheme()
-  const [mobileOpen, setMobileOpen] = React.useState(false)
-
-  function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen)
+  const toggleMobileNav = (): void => {
+    setMobileNavOpen((prevOpen) => !prevOpen)
   }
 
+  const primaryNavItems = [
+    <a key="primaryNav_0" className="usa-nav__link" href="/form">
+      <span>Start your form</span>
+    </a>,
+    <a key="primaryNav_1" className="usa-nav__link" href="/login">
+      <span>Login</span>
+    </a>,
+  ]
+
   return (
-    <div className={classes.root}>
-      <BrowserRouter>
-        <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
+    <BrowserRouter>
+      <a className="usa-skipnav" href="#main-content">
+        Skip to main content
+      </a>
+      <GovBanner />
+      <div className={`usa-overlay ${mobileNavOpen ? 'is-visible' : ''}`}></div>
+      <Header basic>
+        <div className="usa-nav-container">
+          <div className="usa-navbar">
+            <Title id="basic-logo">
+              <a href="/" title="Home" aria-label="Home">
+                Refugee/Asylee Relative Petition
+              </a>
+            </Title>
+            <NavMenuButton
+              label="Menu"
+              onClick={toggleMobileNav}
+              className="usa-menu-btn"
+            />
+          </div>
+          <PrimaryNav
+            aria-label="Primary navigation"
+            items={primaryNavItems}
+            onToggleMobileNav={toggleMobileNav}
+            mobileExpanded={mobileNavOpen}
+          />
+        </div>
+      </Header>
+
+      <div className="usa-section">
+        <GridContainer>
+          <Grid row gap>
+            <main
+              className="usa-layout-docs__main desktop:grid-col-12 usa-prose usa-layout-docs"
+              id="main-content"
             >
-              {/* <MenuIcon /> */}
-            </IconButton>
-            <Typography variant="h6" noWrap id="header-text">
-              Employee Listing
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true,
-              }}
-            >
-              <SideNav></SideNav>
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              <SideNav></SideNav>
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Routes />
-        </main>
-      </BrowserRouter>
-    </div>
+              <Routes />
+            </main>
+          </Grid>
+        </GridContainer>
+      </div>
+    </BrowserRouter>
   )
 }
+/* eslint-enable max-lines-per-function */
+
 export default Layout
