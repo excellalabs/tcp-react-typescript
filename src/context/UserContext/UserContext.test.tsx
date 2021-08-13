@@ -7,7 +7,6 @@ const UserContextExample: React.FC<{}> = () => {
   const employee = useUserState()
   const callUserAction = useUserDispatch()
 
-
   const login = () => {
     callUserAction({
       type: 'populate',
