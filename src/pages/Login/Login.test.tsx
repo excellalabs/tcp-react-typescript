@@ -16,6 +16,7 @@ describe('Login page', () => {
   })
 
   it('renders the login page', () => {
-    expect(screen.getByText(/Login/)).toBeInTheDocument()
+    expect(screen.getByText(/username/)).toBeInTheDocument()
+    expect(screen.getByText(/password/)).toBeInTheDocument()
   })
 })
